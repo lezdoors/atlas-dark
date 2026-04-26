@@ -246,35 +246,66 @@ Object.assign(window, { Reveal, WordReveal, M, useInView, I18N, LangCtx, LangPro
 // ============ NAV ============
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   const t = useT();
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
   }, []);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+  const links = [
+    ["/collection", "nav.collection"],
+    ["/poufs",      "nav.poufs"],
+    ["/lights",     "nav.lights"],
+    ["/editions",   "nav.editions"],
+    ["/matter",     "nav.matter"],
+    ["/atelier",    "nav.atelier"],
+    ["/journal",    "nav.journal"],
+    ["/commissions","nav.commissions"],
+  ];
   return (
+    <>
     <nav className={`top ${scrolled ? "scrolled" : ""}`}>
       <a className="brand" href="/">
         <span className="pin"/>
         <span className="name">Atlas <em>Perle</em></span>
       </a>
       <div className="links">
-        <a href="/collection">{t("nav.collection")}</a>
-        <a href="/poufs">{t("nav.poufs")}</a>
-        <a href="/lights">{t("nav.lights")}</a>
-        <a href="/editions">{t("nav.editions")}</a>
-        <a href="/matter">{t("nav.matter")}</a>
-        <a href="/atelier">{t("nav.atelier")}</a>
-        <a href="/journal">{t("nav.journal")}</a>
-        <a href="/commissions">{t("nav.commissions")}</a>
+        {links.map(([href, key]) => <a href={href} key={href}>{t(key)}</a>)}
       </div>
       <div className="right">
         <LangSwitch/>
         <a href="/search">{t("nav.search")}</a>
         <a href="/account">{t("nav.account")}</a>
         <a className="cart" href="/cart">{t("nav.cart")} <span className="n">2</span></a>
+        <button className="nav-burger" aria-expanded={open} aria-label="Menu" onClick={()=>setOpen(o=>!o)}>
+          <span/>
+        </button>
       </div>
     </nav>
+    <div className={`nav-drawer ${open?"open":""}`}>
+      <div className="links">
+        {links.map(([href, key]) => (
+          <a href={href} key={href} onClick={()=>setOpen(false)}>
+            <span>{t(key)}</span>
+            <em>→</em>
+          </a>
+        ))}
+      </div>
+      <div className="right">
+        <LangSwitch/>
+        <div className="actions">
+          <a href="/search">{t("nav.search")}</a>
+          <a href="/account">{t("nav.account")}</a>
+          <a href="/cart">{t("nav.cart")}</a>
+        </div>
+      </div>
+    </div>
+    </>
   );
 }
 

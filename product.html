@@ -39,10 +39,20 @@
 .pdp .info .specs .row .v em{font-style:italic;color:var(--brass-hi)}
 .pdp .info .specs .row .x{font-family:var(--f-mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--oyster)}
 .pdp .info .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.pdp .info .actions .btn{flex:1;justify-content:center;min-width:140px}
 .pdp .info .promise{font-family:var(--f-serif);font-style:italic;font-size:14px;color:var(--dim);margin-top:8px}
+@media(max-width:600px){
+  .pdp .info .specs .row{grid-template-columns:1fr;gap:4px;padding:14px 0}
+  .pdp .info .specs .row .v{font-size:17px}
+  .pdp .info .specs .row .x{opacity:.75}
+  .pdp .info .price{padding:14px 0}
+  .pdp .info .price .v{font-size:28px}
+  .pdp .info h1{font-size:clamp(36px,9vw,52px)}
+  .gallery .thumbs{grid-template-columns:repeat(4,1fr);gap:6px}
+}
 .related{padding:60px 48px 120px;background:var(--night);border-top:1px solid var(--line)}
 .related .inner{max-width:1440px;margin:0 auto}
-.related .head{display:flex;justify-content:space-between;align-items:end;margin-bottom:32px}
+.related .head{display:flex;justify-content:space-between;align-items:end;margin-bottom:32px;gap:18px}
 .related h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(28px,3.5vw,44px);color:var(--bone);letter-spacing:-.01em}
 .related h3 em{font-style:italic;color:var(--brass)}
 .related .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
@@ -113,10 +123,10 @@ function Info({p}) {
         <small>{t("feat.priceL")}</small>
       </div>
       <div className="specs">
-        <div className="row"><span className="k">{t("feat.spec.matter") || "Matter"}</span><span className="v">{CAT_MATTER[p.category]?.[0] || "—"}</span><span className="x">{CAT_MATTER[p.category]?.[1] || ""}</span></div>
+        <div className="row"><span className="k">Matter</span><span className="v">{CAT_MATTER[p.category]?.[0] || "—"}</span><span className="x">{CAT_MATTER[p.category]?.[1] || ""}</span></div>
         <div className="row"><span className="k">Edition</span><span className="v"><em>12</em> of 24</span><span className="x">Open</span></div>
         <div className="row"><span className="k">Lead time</span><span className="v">9 days at the bench</span><span className="x">Marrakech</span></div>
-        <div className="row"><span className="k">Delivery</span><span className="v">Worldwide, insured</span><span className="x">Cotton & cedar</span></div>
+        <div className="row"><span className="k">Delivery</span><span className="v">Worldwide, insured</span><span className="x">Cotton &amp; cedar</span></div>
         <div className="row"><span className="k">Signature</span><span className="v">Initialled · dated</span><span className="x">Stamp on base</span></div>
       </div>
       <div className="actions">
