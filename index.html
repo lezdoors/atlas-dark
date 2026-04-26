@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Atlas Perle — Objects of Marrakech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:        #0a0807;
+  --night:      #0f0c0a;
+  --espresso:   #171210;
+  --graphite:   #221a16;
+  --coal:       #2e241e;
+  --stone:      #3a2f28;
+
+  --brass:      #c9a24a;
+  --brass-hi:   #e8d49a;
+  --brass-lo:   #8a6c2d;
+  --gold-ink:   #4a3918;
+
+  --bone:       #ede4cf;
+  --parchment:  #d9ceb2;
+  --oyster:     #b7a988;
+  --dim:        #877a63;
+  --mute:       #5a4f40;
+
+  --lacquer:    #7a1b15;
+
+  --line:       rgba(237,228,207,.12);
+  --line-soft:  rgba(237,228,207,.06);
+  --line-bone:  rgba(237,228,207,.22);
+  --line-brass: rgba(201,162,74,.5);
+
+  --f-serif: 'Cormorant Garamond','Didot',serif;
+  --f-sans:  'Inter Tight',system-ui,sans-serif;
+  --f-mono:  'JetBrains Mono',ui-monospace,monospace;
+
+  --ease:        cubic-bezier(.16,1,.3,1);
+  --ease-in-out: cubic-bezier(.65,.05,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--ink);color:var(--bone);font-family:var(--f-sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
+a{color:inherit;text-decoration:none}
+img,video{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--brass);color:var(--ink)}
+
+/* Ink grain — fine, neutral */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.22;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.9  0 0 0 0 0.85  0 0 0 0 0.75  0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+/* Subtle vignette */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:2;background:radial-gradient(120% 80% at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%)}
+
+.wrap{max-width:1440px;margin:0 auto;padding:0 48px}
+@media(max-width:900px){.wrap{padding:0 20px}}
+
+/* Tokens */
+.mono{font-family:var(--f-mono);font-weight:400;letter-spacing:.22em;text-transform:uppercase;font-size:11px}
+.mono-sm{font-family:var(--f-mono);font-weight:400;letter-spacing:.24em;text-transform:uppercase;font-size:10px}
+.eyebrow{font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--brass)}
+.serif-quiet{font-family:var(--f-serif);font-weight:300;font-style:italic;color:var(--oyster)}
+.rule-v{width:1px;background:var(--line)}
+.rule-h{height:1px;background:var(--line);width:100%}
+.rule-brass{height:1px;background:linear-gradient(to right, transparent, var(--brass) 15%, var(--brass) 85%, transparent)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal-slow{transition-duration:1.8s}
+.word-reveal .w{display:inline-block;overflow:hidden;vertical-align:baseline}
+.word-reveal .w>span{display:inline-block;transform:translateY(110%);transition:transform 1.2s var(--ease)}
+.word-reveal.in .w>span{transform:translateY(0)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:14px;font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;padding:14px 20px;border:1px solid var(--line-brass);background:transparent;color:var(--brass-hi);transition:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease)}
+.btn:hover{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+.btn .arrow{width:24px;height:1px;background:currentColor;position:relative;transition:width .4s var(--ease)}
+.btn:hover .arrow{width:36px}
+.btn .arrow::after{content:"";position:absolute;right:0;top:-3px;width:6px;height:6px;border-top:1px solid currentColor;border-right:1px solid currentColor;transform:rotate(45deg)}
+.btn.ghost{border-color:var(--line);color:var(--bone)}
+.btn.ghost:hover{background:var(--bone);color:var(--ink)}
+.btn.solid{background:var(--brass);border-color:var(--brass);color:var(--ink)}
+.btn.solid:hover{background:var(--brass-hi);border-color:var(--brass-hi)}
+
+.link-u{font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);border-bottom:1px solid var(--brass);padding-bottom:4px;display:inline-flex;gap:10px;align-items:center;transition:gap .3s}
+.link-u:hover{gap:18px}
+
+/* ============= NAV ============= */
+nav.top{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:40px;
+  padding:18px 48px;
+  color:var(--bone);
+  transition:padding .4s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
+  border-bottom:1px solid transparent;
+}
+nav.top.scrolled{background:rgba(10,8,7,.78);backdrop-filter:blur(14px) saturate(1.2);border-bottom-color:var(--line);padding:14px 48px}
+nav .brand{display:flex;align-items:baseline;gap:10px}
+nav .brand .name{font-family:var(--f-serif);font-size:24px;letter-spacing:.02em;font-weight:400;white-space:nowrap}
+nav .brand .name em{font-style:italic;color:var(--brass)}
+nav .brand .pin{width:5px;height:5px;border-radius:50%;background:var(--brass);box-shadow:0 0 8px rgba(201,162,74,.6)}
+nav .links{display:flex;justify-content:center;gap:36px;font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase}
+nav .links a{opacity:.7;padding:8px 0;position:relative;transition:opacity .3s,color .3s}
+nav .links a:hover{opacity:1;color:var(--brass-hi)}
+nav .links a.on{opacity:1;color:var(--brass-hi)}
+nav .links a.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--brass)}
+nav .right{display:flex;gap:24px;align-items:center;font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+nav .right a:hover{color:var(--brass-hi)}
+nav .right .cart{display:flex;align-items:center;gap:10px;border:1px solid var(--line-brass);padding:8px 14px;color:var(--brass-hi)}
+nav .right .cart .n{width:18px;height:18px;border-radius:50%;background:var(--brass);color:var(--ink);font-weight:600;font-size:10px;display:grid;place-items:center}
+@media(max-width:1180px){nav .links{gap:22px}nav .right a:not(.cart){display:none}}
+@media(max-width:1000px){nav .links{display:none}nav.top{grid-template-columns:auto auto;padding:14px 20px}}
+
+/* ============= HERO ============= */
+.hero{position:relative;min-height:100vh;overflow:hidden;background:var(--ink);display:grid;grid-template-rows:1fr auto}
+.hero .bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(60% 60% at 75% 30%, rgba(201,162,74,.22), transparent 55%),
+  radial-gradient(80% 80% at 20% 100%, rgba(122,27,21,.16), transparent 50%),
+  linear-gradient(180deg, #0a0807 0%, #120e0b 100%);
+}
+.hero .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(140% 100% at 50% 10%, transparent 50%, rgba(0,0,0,.55) 100%)}
+.hero .top-meta{position:absolute;top:92px;left:48px;right:48px;display:flex;justify-content:space-between;z-index:4;color:var(--dim);font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;padding-bottom:22px;border-bottom:1px solid var(--line-soft)}
+.hero .top-meta .sep{display:inline-block;width:20px;height:1px;background:var(--line-bone);margin:0 10px;vertical-align:middle;opacity:.5}
+
+/* Hero is a split — object on left, content on right */
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;min-height:calc(100vh - 60px)}
+.hero .object{position:relative;margin-top:140px;margin-left:48px;margin-right:24px;margin-bottom:40px;border:1px solid var(--line);overflow:hidden;background:var(--espresso)}
+.hero .object::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(55% 40% at 50% 20%, rgba(232,212,154,.14), transparent 60%),
+    radial-gradient(90% 55% at 50% 102%, rgba(0,0,0,.35), transparent 65%);
+}
+.hero .object::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border:1px solid var(--line-brass);margin:14px}
+.hero .object img,.hero .object video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.03);filter:brightness(1.08) contrast(1.06) saturate(1.06)}
+.hero .object img{animation:kenburns 32s var(--ease-in-out) infinite alternate}
+@keyframes kenburns{0%{transform:scale(1.03) translate(0,0)}100%{transform:scale(1.10) translate(-1%,-1.5%)}}
+.hero .object .corners{position:absolute;inset:14px;z-index:4;pointer-events:none}
+.hero .object .corners i{position:absolute;width:14px;height:14px;border:1px solid var(--brass)}
+.hero .object .corners i.tl{top:0;left:0;border-right:0;border-bottom:0}
+.hero .object .corners i.tr{top:0;right:0;border-left:0;border-bottom:0}
+.hero .object .corners i.bl{bottom:0;left:0;border-right:0;border-top:0}
+.hero .object .corners i.br{bottom:0;right:0;border-left:0;border-top:0}
+.hero .object .lot{position:absolute;top:28px;left:28px;z-index:5;font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass)}
+.hero .object .caption{position:absolute;bottom:28px;left:28px;right:28px;z-index:5;display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+.hero .object .caption .t{font-family:var(--f-serif);font-weight:300;font-style:italic;font-size:22px;color:var(--bone);line-height:1.15}
+.hero .object .caption .seq{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.hero .object .spec-band{position:absolute;top:28px;right:28px;z-index:5;display:flex;flex-direction:column;gap:10px;text-align:right}
+.hero .object .spec-band .row{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--oyster);opacity:.85}
+.hero .object .spec-band .row b{color:var(--brass-hi);font-weight:400}
+
+/* Right side */
+.hero .right-side{display:flex;flex-direction:column;justify-content:flex-end;padding:140px 56px 40px 32px;position:relative}
+.hero h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(48px,7.6vw,168px);line-height:.94;letter-spacing:-.02em;color:var(--bone);max-width:100%;overflow-wrap:break-word;hyphens:auto}
+.hero h1 em{font-style:italic;color:var(--brass)}
+.hero h1 .rule{display:block;width:80px;height:1px;background:var(--brass);margin:24px 0}
+.hero .tag{margin-top:28px;font-family:var(--f-serif);font-weight:300;font-style:italic;font-size:clamp(20px,1.5vw,26px);line-height:1.45;color:var(--parchment);max-width:40ch}
+.hero .tag em{font-style:normal;color:var(--brass-hi)}
+.hero .actions{display:flex;gap:14px;margin-top:44px;flex-wrap:wrap}
+
+.hero .bot-rail{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(10,8,7,.55);backdrop-filter:blur(8px);z-index:3;position:relative}
+.hero .bot-rail .cell{padding:22px 28px;border-right:1px solid var(--line)}
+.hero .bot-rail .cell:last-child{border-right:0}
+.hero .bot-rail .cell h6{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.hero .bot-rail .cell p{font-family:var(--f-serif);font-size:18px;font-weight:300;color:var(--bone);line-height:1.3}
+.hero .bot-rail .cell p em{font-style:italic;color:var(--brass)}
+@media(max-width:1000px){
+  .hero .top-meta{left:20px;right:20px;top:76px;font-size:9px}
+  .hero-grid{grid-template-columns:1fr}
+  .hero .object{margin:130px 20px 20px}
+  .hero .right-side{padding:0 20px 40px}
+  .hero .bot-rail{grid-template-columns:1fr 1fr}
+  .hero .bot-rail .cell:nth-child(2){border-right:0}
+  .hero .bot-rail .cell:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+
+/* ============= MARQUEE (running ticker of disciplines) ============= */
+.ticker{padding:24px 0;border-bottom:1px solid var(--line);background:var(--night);overflow:hidden;position:relative}
+.ticker-track{display:flex;gap:60px;animation:scroll 48s linear infinite;white-space:nowrap}
+.ticker-track .it{font-family:var(--f-serif);font-weight:300;font-style:italic;font-size:32px;color:var(--parchment);display:inline-flex;align-items:center;gap:60px}
+.ticker-track .it::after{content:"✦";font-size:12px;color:var(--brass);font-style:normal}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============= TOOLBAR (dense filter strip above grid) ============= */
+.toolbar{position:sticky;top:0;z-index:40;background:rgba(10,8,7,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.toolbar.floating{top:62px}
+.toolbar .inner{max-width:1440px;margin:0 auto;padding:18px 48px;display:grid;grid-template-columns:auto 1fr auto auto;gap:24px;align-items:center}
+.toolbar .label{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.toolbar .chips{display:flex;gap:6px;flex-wrap:wrap}
+.toolbar .chip{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--line);color:var(--oyster);transition:all .3s var(--ease);cursor:pointer}
+.toolbar .chip:hover{color:var(--brass-hi);border-color:var(--line-brass)}
+.toolbar .chip.on{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+.toolbar .sort{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--oyster);display:flex;align-items:center;gap:10px}
+.toolbar .sort b{color:var(--brass-hi);font-weight:400}
+.toolbar .count{font-family:var(--f-serif);font-style:italic;font-size:18px;color:var(--brass-hi);font-weight:300}
+@media(max-width:1000px){.toolbar .inner{grid-template-columns:1fr;padding:14px 20px;gap:10px}}
+
+/* ============= FEATURED OBJECT (auction-plate) ============= */
+.featured{padding:140px 0;position:relative;background:linear-gradient(180deg, var(--ink) 0%, var(--night) 100%);overflow:hidden}
+.featured::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(60% 50% at 85% 40%, rgba(201,162,74,.08), transparent 60%)}
+.featured .inner{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:stretch}
+.featured .plate{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--espresso);border:1px solid var(--line)}
+.featured .plate::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(55% 38% at 50% 15%, rgba(232,212,154,.18), transparent 60%),
+    radial-gradient(80% 70% at 50% 105%, rgba(0,0,0,.7), transparent 60%)}
+.featured .plate::after{content:"";position:absolute;inset:14px;z-index:3;pointer-events:none;border:1px solid rgba(201,162,74,.35)}
+.featured .plate img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.03);filter:brightness(.92) contrast(1.08) saturate(1.05);animation:kenburns 30s var(--ease-in-out) infinite alternate}
+.featured .plate .lot{position:absolute;top:28px;left:28px;z-index:4;font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass)}
+.featured .plate .seq{position:absolute;bottom:28px;right:28px;z-index:4;font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--oyster)}
+.featured .plate .stamp{position:absolute;bottom:28px;left:28px;z-index:4;font-family:var(--f-serif);font-style:italic;font-weight:300;font-size:22px;color:var(--bone);max-width:20ch;line-height:1.15}
+
+.featured .side{display:flex;flex-direction:column;justify-content:space-between;padding:16px 0}
+.featured .side .top{display:flex;flex-direction:column;gap:24px}
+.featured .side h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(44px,5.5vw,88px);line-height:.96;letter-spacing:-.018em;color:var(--bone)}
+.featured .side h3 em{font-style:italic;color:var(--brass)}
+.featured .side .row-lead{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:20px;border-bottom:1px solid var(--line);gap:20px}
+.featured .side .row-lead .l .who{font-family:var(--f-serif);font-weight:300;font-size:20px;color:var(--bone)}
+.featured .side .row-lead .l .who em{font-style:italic;color:var(--oyster)}
+.featured .side .row-lead .l .sub{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+.featured .side .row-lead .r{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--oyster);text-align:right;line-height:1.8}
+.featured .side .specs{display:grid;grid-template-columns:1fr;margin-top:20px}
+.featured .side .spec{display:grid;grid-template-columns:160px 1fr auto;gap:24px;padding:18px 0;border-top:1px solid var(--line-soft);align-items:baseline}
+.featured .side .spec:first-child{border-top:1px solid var(--line)}
+.featured .side .spec .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.featured .side .spec .v{font-family:var(--f-serif);font-size:20px;font-weight:300;color:var(--bone);letter-spacing:-.005em}
+.featured .side .spec .v em{font-style:italic;color:var(--brass)}
+.featured .side .spec .x{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--oyster)}
+.featured .price-row{margin-top:28px;padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.featured .price{font-family:var(--f-serif);font-weight:300;font-size:40px;color:var(--bone);letter-spacing:-.005em}
+.featured .price small{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px}
+.featured .actions{display:flex;gap:12px;flex-wrap:wrap}
+@media(max-width:900px){.featured .inner{grid-template-columns:1fr;gap:32px}}
+
+/* ============= COLLECTION GRID (dense) ============= */
+.collection{padding:140px 0;background:var(--night);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.collection .inner{max-width:1440px;margin:0 auto;padding:0 48px}
+.collection .head{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;margin-bottom:56px}
+@media(max-width:900px){.collection .head{grid-template-columns:1fr}.collection .head .cta{align-items:flex-start}}
+.collection .head h2{font-family:var(--f-serif);font-weight:300;font-size:clamp(38px,5.4vw,104px);line-height:1;letter-spacing:-.02em;color:var(--bone);max-width:100%;overflow-wrap:break-word}
+.collection .head h2 em{font-style:italic;color:var(--brass)}
+.collection .head .cta{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.collection .head .cta .meta{font-family:var(--f-serif);font-style:italic;font-size:18px;color:var(--oyster);font-weight:300}
+
+.grid-dense{display:grid;grid-template-columns:repeat(4,1fr);gap:32px 24px}
+.grid-dense .card{position:relative;display:flex;flex-direction:column;gap:14px;cursor:pointer}
+.grid-dense .card .media{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--espresso);border:1px solid var(--line)}
+.grid-dense .card .media::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(60% 45% at 50% 20%, rgba(232,212,154,.12), transparent 60%)}
+.grid-dense .card .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.92) contrast(1.05) saturate(1.05);transform:scale(1);transition:transform 1.6s var(--ease-in-out),filter .8s var(--ease),opacity .6s var(--ease)}
+.grid-dense .card .media img.alt{opacity:0}
+.grid-dense .card:hover .media img.primary{opacity:0;transform:scale(1.07)}
+.grid-dense .card:hover .media img.alt{opacity:1;transform:scale(1.07);filter:brightness(1) contrast(1.05) saturate(1.05)}
+.grid-dense .card .lot{position:absolute;top:14px;left:14px;z-index:3;font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);background:rgba(10,8,7,.6);backdrop-filter:blur(6px);padding:5px 10px;border:1px solid var(--line-brass)}
+.grid-dense .card .tag{position:absolute;top:14px;right:14px;z-index:3;font-family:var(--f-mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;padding:4px 8px;border:1px solid var(--line-bone);color:var(--bone);background:rgba(10,8,7,.4);backdrop-filter:blur(4px)}
+.grid-dense .card .tag.ed{color:var(--brass-hi);border-color:var(--line-brass);background:rgba(201,162,74,.08)}
+.grid-dense .card .quickadd{position:absolute;right:14px;bottom:14px;z-index:3;display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;padding:8px 14px;background:rgba(201,162,74,.92);color:var(--ink);opacity:0;transform:translateY(6px);transition:opacity .4s var(--ease),transform .4s var(--ease),background .3s}
+.grid-dense .card:hover .quickadd{opacity:1;transform:translateY(0)}
+.grid-dense .card .quickadd:hover{background:var(--brass-hi)}
+.grid-dense .card .meta{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:baseline;padding-top:4px;border-top:1px solid var(--line-soft)}
+.grid-dense .card .meta .name{font-family:var(--f-serif);font-weight:300;font-size:22px;color:var(--bone);letter-spacing:-.005em;line-height:1.15}
+.grid-dense .card .meta .name em{font-style:italic;color:var(--brass)}
+.grid-dense .card .meta .price{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;color:var(--brass-hi)}
+.grid-dense .card .meta .sub{grid-column:1 / -1;font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:2px}
+@media(max-width:1200px){.grid-dense{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.grid-dense{grid-template-columns:repeat(2,1fr);gap:28px 16px}}
+@media(max-width:500px){.grid-dense{grid-template-columns:1fr}}
+
+/* ============= MATERIAL DETAIL (split, high contrast) ============= */
+.material{position:relative;padding:0;background:var(--ink);border-bottom:1px solid var(--line);overflow:hidden}
+.material .split{display:grid;grid-template-columns:1fr 1fr;min-height:88vh}
+.material .visual{position:relative;background:#0c0907;overflow:hidden}
+.material .visual::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(60% 45% at 55% 25%, rgba(232,212,154,.25), transparent 60%),
+    radial-gradient(80% 80% at 50% 100%, rgba(0,0,0,.7), transparent 60%)}
+.material .visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04);filter:brightness(.88) contrast(1.12) saturate(1.1);animation:kenburns 38s var(--ease-in-out) infinite alternate}
+.material .visual .lbl{position:absolute;top:40px;left:40px;z-index:3;font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:12px}
+.material .visual .lbl::before{content:"";width:28px;height:1px;background:var(--brass)}
+.material .visual .mag{position:absolute;top:40px;right:40px;z-index:3;font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--oyster)}
+.material .visual .stamp{position:absolute;bottom:40px;left:40px;z-index:3;font-family:var(--f-serif);font-style:italic;font-weight:300;font-size:clamp(26px,3vw,42px);color:var(--bone);line-height:1.1;max-width:14ch}
+.material .visual .stamp em{font-style:normal;color:var(--brass)}
+
+.material .copy{padding:120px 72px;display:flex;flex-direction:column;justify-content:center;gap:36px;background:linear-gradient(180deg, #0f0c0a 0%, #171210 100%);position:relative}
+.material .copy h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(40px,5vw,76px);line-height:1;letter-spacing:-.015em;color:var(--bone);max-width:18ch}
+.material .copy h3 em{font-style:italic;color:var(--brass)}
+.material .copy p{font-size:15px;line-height:1.75;color:var(--parchment);max-width:48ch;font-weight:300}
+.material .copy .closeups{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}
+.material .copy .closeups .c{aspect-ratio:1/1;position:relative;overflow:hidden;background:var(--graphite);border:1px solid var(--line)}
+.material .copy .closeups .c img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.85) contrast(1.1);transform:scale(1.05);transition:transform 1.8s var(--ease-in-out),filter .6s}
+.material .copy .closeups .c:hover img{transform:scale(1.15);filter:brightness(1) contrast(1.1)}
+.material .copy .closeups .c::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 55%, rgba(0,0,0,.55) 100%)}
+.material .copy .closeups .c .n{position:absolute;bottom:12px;left:12px;z-index:2;font-family:var(--f-mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass-hi)}
+.material .copy .closeups .c .t{position:absolute;bottom:12px;right:12px;z-index:2;font-family:var(--f-serif);font-style:italic;font-size:14px;color:var(--bone)}
+.material .copy .foot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--line);margin-top:12px;font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);flex-wrap:wrap;gap:14px}
+.material .copy .foot b{color:var(--brass-hi);font-weight:400}
+@media(max-width:1000px){.material .split{grid-template-columns:1fr}.material .visual{aspect-ratio:4/5}.material .copy{padding:80px 24px}}
+
+/* ============= EDITION STRIP (numbered horizontal band) ============= */
+.editions{padding:120px 0;background:var(--ink);border-bottom:1px solid var(--line)}
+.editions .inner{max-width:1440px;margin:0 auto;padding:0 48px}
+.editions .head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;margin-bottom:60px}
+.editions .head h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(36px,4.5vw,64px);line-height:1;letter-spacing:-.015em;color:var(--bone);max-width:16ch}
+.editions .head h3 em{font-style:italic;color:var(--brass)}
+.editions .head p{font-family:var(--f-serif);font-weight:300;font-style:italic;font-size:17px;color:var(--oyster);max-width:40ch}
+.editions .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.editions .tile{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--espresso);border:1px solid var(--line)}
+.editions .tile::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(55% 40% at 50% 15%, rgba(232,212,154,.14), transparent 60%),
+    linear-gradient(180deg, transparent 50%, rgba(0,0,0,.7) 100%)}
+.editions .tile .big-no{position:absolute;left:24px;bottom:24px;z-index:3;font-family:var(--f-serif);font-weight:300;font-style:italic;color:var(--brass);font-size:clamp(60px,8vw,120px);line-height:.85}
+.editions .tile .lot{position:absolute;top:24px;left:24px;z-index:3;font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
+.editions .tile .name{position:absolute;right:24px;top:24px;z-index:3;text-align:right;font-family:var(--f-serif);font-weight:300;font-size:22px;line-height:1.1;color:var(--bone);max-width:14ch}
+.editions .tile .name em{font-style:italic;color:var(--brass-hi)}
+.editions .tile .remain{position:absolute;right:24px;bottom:24px;z-index:3;font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--oyster);text-align:right;line-height:1.6}
+.editions .tile .remain b{color:var(--brass-hi);font-weight:400}
+@media(max-width:900px){.editions .grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.editions .grid{grid-template-columns:1fr}}
+
+/* ============= PROVENANCE / ATELIER ============= */
+.provenance{padding:140px 0;background:var(--night);border-bottom:1px solid var(--line)}
+.provenance .inner{max-width:1440px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:center}
+.provenance .v{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--espresso);border:1px solid var(--line)}
+.provenance .v::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(60% 45% at 50% 20%, rgba(232,212,154,.18), transparent 60%),
+    radial-gradient(80% 60% at 50% 100%, rgba(0,0,0,.6), transparent 60%)}
+.provenance .v video,.provenance .v img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.88) contrast(1.1) saturate(1.05)}
+.provenance .v .lbl{position:absolute;top:28px;left:28px;z-index:3;font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:10px}
+.provenance .v .lbl .rec{width:5px;height:5px;border-radius:50%;background:var(--brass);box-shadow:0 0 10px rgba(201,162,74,.7);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+.provenance .t{padding-left:12px}
+.provenance .t h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(40px,5.5vw,84px);line-height:1;letter-spacing:-.018em;color:var(--bone);max-width:14ch;margin-bottom:32px}
+.provenance .t h3 em{font-style:italic;color:var(--brass)}
+.provenance .t p{font-size:15px;line-height:1.8;color:var(--parchment);max-width:46ch;font-weight:300}
+.provenance .t .certs{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding-top:28px;border-top:1px solid var(--line)}
+.provenance .t .certs .cert{border-left:1px solid var(--line-brass);padding-left:16px}
+.provenance .t .certs .cert .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.provenance .t .certs .cert .v{font-family:var(--f-serif);font-size:18px;color:var(--bone);font-weight:300;margin-top:6px}
+.provenance .t .certs .cert .v em{font-style:italic;color:var(--brass)}
+@media(max-width:900px){.provenance .inner{grid-template-columns:1fr}.provenance .t .certs{grid-template-columns:1fr 1fr}}
+
+/* ============= SERVICE BAR (4 guarantees) ============= */
+.services{background:var(--ink);border-bottom:1px solid var(--line)}
+.services .row{max-width:1440px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:repeat(4,1fr)}
+.services .cell{padding:28px 24px;border-right:1px solid var(--line);display:flex;align-items:center;gap:16px}
+.services .cell:last-child{border-right:0}
+.services .cell .ic{width:32px;height:32px;border:1px solid var(--brass);display:grid;place-items:center;color:var(--brass);font-family:var(--f-serif);font-style:italic;font-size:18px;flex-shrink:0}
+.services .cell .t{font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--bone);line-height:1.5}
+.services .cell .t small{display:block;font-family:var(--f-serif);font-style:italic;letter-spacing:0;text-transform:none;color:var(--oyster);font-size:13px;margin-top:2px;font-weight:300}
+@media(max-width:900px){.services .row{grid-template-columns:1fr 1fr}.services .cell:nth-child(2){border-right:0}.services .cell:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* ============= FOOTER ============= */
+footer.main{background:#05040300;position:relative;padding:120px 0 40px;color:var(--bone);border-top:1px solid var(--line-brass)}
+footer.main::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right, transparent, var(--brass), transparent)}
+footer .inner{max-width:1440px;margin:0 auto;padding:0 48px}
+footer .big{font-family:var(--f-serif);font-weight:300;font-size:clamp(80px,14vw,260px);line-height:.82;letter-spacing:-.03em;color:var(--bone);position:relative}
+footer .big em{font-style:italic;color:var(--brass)}
+footer .big .mk{position:absolute;top:8px;right:0;font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);writing-mode:vertical-rl;transform:rotate(180deg)}
+footer .sub{margin-top:20px;font-family:var(--f-serif);font-style:italic;font-size:22px;color:var(--oyster);font-weight:300;max-width:40ch}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1.2fr;gap:48px;padding:72px 0 40px;border-top:1px solid var(--line);margin-top:72px}
+footer .cols h5{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);margin-bottom:22px}
+footer .cols .list{display:flex;flex-direction:column;gap:10px;font-family:var(--f-serif);font-size:18px;font-weight:300}
+footer .cols .list a{opacity:.78;transition:opacity .3s,color .3s,transform .3s;display:inline-block}
+footer .cols .list a:hover{opacity:1;color:var(--brass);transform:translateX(4px)}
+footer .cols .sub-box label{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:10px}
+footer .cols .sub-box input{width:100%;padding:12px 0;background:transparent;border:0;border-bottom:1px solid var(--line-bone);color:var(--bone);font-family:var(--f-serif);font-size:20px;font-weight:300;outline:none}
+footer .cols .sub-box input::placeholder{color:var(--dim);font-style:italic}
+footer .cols .sub-box .go{margin-top:16px;font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);border-bottom:1px solid var(--brass);padding-bottom:6px;display:inline-flex;align-items:center;gap:10px;transition:gap .3s}
+footer .cols .sub-box .go:hover{gap:18px}
+footer .bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--line-soft);font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);flex-wrap:wrap;gap:14px}
+footer .bot .pay{display:flex;gap:10px;align-items:center}
+footer .bot .pay span{border:1px solid var(--line);padding:5px 10px;color:var(--oyster)}
+@media(max-width:1000px){footer .cols{grid-template-columns:1fr 1fr 1fr}footer .cols .sub-box{grid-column:span 3}}
+@media(max-width:600px){footer .cols{grid-template-columns:1fr 1fr}footer .cols .sub-box{grid-column:span 2}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" data-presets="react">
+const { useEffect, useRef, useState } = React;
+const TOK = location.search || "";
+const M = (p) => p + TOK;
+
+function useInView(options = {}) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } },
+      { threshold: options.threshold ?? 0.14, rootMargin: options.rootMargin ?? "0px 0px -8% 0px" }
+    );
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+  return [ref, inView];
+}
+function Reveal({ children, className = "", delay = 0, speed = "", as: As = "div", ...props }) {
+  const [ref, inView] = useInView();
+  return (
+    <As ref={ref} className={`reveal ${speed} ${inView ? "in" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms`, ...(props.style || {}) }} {...props}>
+      {children}
+    </As>
+  );
+}
+function WordReveal({ text, className = "", as: As = "h2", delay = 0, perWord = 60 }) {
+  const [ref, inView] = useInView();
+  const words = text.split(/(\s+)/);
+  return (
+    <As ref={ref} className={`word-reveal ${inView ? "in" : ""} ${className}`}>
+      {words.map((w, i) =>
+        /^\s+$/.test(w) ? <span key={i}>{w}</span> : (
+          <span className="w" key={i}>
+            <span style={{ transitionDelay: `${delay + i * perWord}ms` }}
+              dangerouslySetInnerHTML={{ __html: w }} />
+          </span>
+        )
+      )}
+    </As>
+  );
+}
+Object.assign(window, { Reveal, WordReveal, M, useInView });
+</script>
+
+<script type="text/babel" data-presets="react">
+// ============ NAV ============
+function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  return (
+    <nav className={`top ${scrolled ? "scrolled" : ""}`}>
+      <div className="brand">
+        <span className="pin"/>
+        <span className="name">Atlas <em>Perle</em></span>
+      </div>
+      <div className="links">
+        <a className="on" href="#collection">Collection</a>
+        <a href="#editions">Editions</a>
+        <a href="#material">Matter</a>
+        <a href="#provenance">Atelier</a>
+        <a href="#">Journal</a>
+        <a href="#">Commissions</a>
+      </div>
+      <div className="right">
+        <a href="#">Search</a>
+        <a href="#">Account</a>
+        <a className="cart" href="#">Cart <span className="n">2</span></a>
+      </div>
+    </nav>
+  );
+}
+
+// ============ HERO ============
+function Hero() {
+  return (
+    <section className="hero" data-screen-label="00 Hero">
+      <div className="bg"/>
+      <div className="top-meta">
+        <span>Atlas Perle — House of objects <span className="sep"/> Est. Marrakech, 1974</span>
+        <span>Catalogue IX <span className="sep"/> Spring 2026 · Release in 4 plates</span>
+      </div>
+
+      <div className="hero-grid">
+        <Reveal className="object" speed="reveal-slow">
+          <video autoPlay muted loop playsInline poster={M("media/hero-poster.jpg")}>
+            <source src={M("media/hero-loop.mp4")} type="video/mp4"/>
+          </video>
+          <div className="corners"><i className="tl"/><i className="tr"/><i className="bl"/><i className="br"/></div>
+          <div className="lot">Catalogue IX · Plate 01</div>
+          <div className="spec-band">
+            <div className="row">Ed. <b>24 / 24</b></div>
+            <div className="row">Hand <b>H. Idrissi</b></div>
+            <div className="row">9 days <b>at the bench</b></div>
+          </div>
+          <div className="caption">
+            <div className="t">Throne, oxblood &amp; bone — Atelier nº 7.</div>
+            <div className="seq">Plate 01 / 04</div>
+          </div>
+        </Reveal>
+
+        <div className="right-side">
+          <WordReveal as="h1" text="Objects of <em>rare</em> precision." perWord={120}/>
+          <span className="rule" style={{display:"block",width:80,height:1,background:"var(--brass)",margin:"24px 0"}}/>
+          <Reveal className="tag" delay={300} speed="reveal-slow">
+            A controlled catalogue of nine disciplines — <em>brass, bone, leather, cedar, plaster, lacquer.</em>{" "}
+            Each piece signed, numbered, and released by hand from Derb el Ferran.
+          </Reveal>
+          <Reveal className="actions" delay={500}>
+            <a className="btn solid" href="#collection">Enter the collection <span className="arrow"/></a>
+            <a className="btn ghost" href="#provenance">The atelier</a>
+          </Reveal>
+        </div>
+
+        <Reveal className="bot-rail" delay={600}>
+          <div className="cell">
+            <h6>— Provenance</h6>
+            <p>Derb el Ferran, <em>Marrakech medina.</em></p>
+          </div>
+          <div className="cell">
+            <h6>— Circulation</h6>
+            <p>Numbered editions of <em>12 or 24.</em></p>
+          </div>
+          <div className="cell">
+            <h6>— Lead time</h6>
+            <p>Nine days at the bench, <em>one pair of hands.</em></p>
+          </div>
+          <div className="cell">
+            <h6>— Delivery</h6>
+            <p>Worldwide, in <em>cotton &amp; cedar.</em></p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ============ TICKER ============
+function Ticker() {
+  const items = ["Brass", "Bone", "Camel leather", "Atlas cedar", "Hand-pressed plaster", "Lacquer on wood", "Waxed linen", "Bronze casting", "Tannery Chouara", "Marrakech medina"];
+  const stream = [...items, ...items, ...items];
+  return (
+    <div className="ticker">
+      <div className="ticker-track">
+        {stream.map((s, i) => <span className="it" key={i}>{s}</span>)}
+      </div>
+    </div>
+  );
+}
+
+// ============ TOOLBAR ============
+function Toolbar() {
+  const [active, setActive] = useState("All");
+  const chips = ["All", "Seating", "Light", "Vessels", "Textiles", "Lacquer", "Commissions"];
+  return (
+    <div className="toolbar floating">
+      <div className="inner">
+        <div className="label">Filter —</div>
+        <div className="chips">
+          {chips.map(c => (
+            <button key={c} className={`chip ${active === c ? "on" : ""}`} onClick={() => setActive(c)}>{c}</button>
+          ))}
+        </div>
+        <div className="count"><em>28</em> pieces · <em>9</em> editions open</div>
+        <div className="sort">Sort — <b>Edition ↓</b></div>
+      </div>
+    </div>
+  );
+}
+
+// ============ FEATURED OBJECT ============
+function Featured() {
+  return (
+    <section className="featured" data-screen-label="02 Featured">
+      <div className="inner">
+        <Reveal className="plate" speed="reveal-slow">
+          <img src={M("media/leather-pouf-white-grey-09.webp")} alt="Ivoire nº 042"/>
+          <div className="lot">Lot nº 042 · Edition of the Season</div>
+          <div className="stamp"><em>Ivoire</em> — chalk-white<br/>hide, bone seam.</div>
+          <div className="seq">Plate 01 / 04</div>
+        </Reveal>
+
+        <div className="side">
+          <Reveal className="top">
+            <div>
+              <div className="eyebrow">I · Featured object</div>
+              <WordReveal as="h3" text="Ivoire, <em>nº 042.</em>" perWord={120}/>
+            </div>
+            <div className="row-lead">
+              <div className="l">
+                <div className="who">By the hand of <em>Hassan Idrissi</em></div>
+                <div className="sub">Tanner · 31 years at the bench</div>
+              </div>
+              <div className="r">12 of 24<br/>remaining</div>
+            </div>
+            <div className="specs">
+              <div className="spec"><span className="k">Matter</span><span className="v">Veg-tanned hide · <em>camel bone</em></span><span className="x">Tannery Chouara</span></div>
+              <div className="spec"><span className="k">Measure</span><span className="v">Ø 55 · h 35 cm</span><span className="x">± 4 mm</span></div>
+              <div className="spec"><span className="k">Seams</span><span className="v">48 · hand-stitched</span><span className="x">Waxed linen</span></div>
+              <div className="spec"><span className="k">Released</span><span className="v">March 2026</span><span className="x">Marrakech</span></div>
+              <div className="spec"><span className="k">Signature</span><span className="v">Initialled · dated</span><span className="x">Stamp on base</span></div>
+            </div>
+          </Reveal>
+          <Reveal className="price-row" delay={200}>
+            <div className="price"><small>Price — fixed edition</small>€ 1,240</div>
+            <div className="actions">
+              <a className="btn solid" href="#">Add to cart <span className="arrow"/></a>
+              <a className="btn ghost" href="#">Write to atelier</a>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============ COLLECTION ============
+function Collection() {
+  const cards = [
+    { lot:"Nº 038", name:"Ghita", italic:"Fauve",      sub:"Seating · Hide, linen",       price:"€ 1,180",  tag:"Ed. 24",   ed:true,  img:"media/leather-pouf-brown-06.webp",         alt:"media/leather-pouf-white-grey-09.webp" },
+    { lot:"Nº 042", name:"Ivoire",italic:"nº 042",     sub:"Seating · Hide, bone",        price:"€ 1,240",  tag:"12 / 24",  ed:true,  img:"media/leather-pouf-white-grey-09.webp",    alt:"media/leather-pouf-white-grey-06.webp" },
+    { lot:"Nº 051", name:"Craie", italic:"Chalk",      sub:"Seating · Linen, bone",       price:"€ 980",    tag:"6 / 12",   ed:true,  img:"media/leather-pouf-white-grey-08.webp",    alt:"media/leather-pouf-white-grey-06.webp" },
+    { lot:"Nº 061", name:"Nubia", italic:"Low seat",   sub:"Seating · Hide",              price:"€ 860",    tag:"11 / 12",  ed:true,  img:"media/leather-pouf-white-grey-06.webp",    alt:"media/leather-pouf-white-grey-09.webp" },
+    { lot:"Nº 012", name:"Djebel",italic:"Lantern",    sub:"Light · Brass, cedar",        price:"€ 1,640",  tag:"Commission", ed:false, place:{tone:"brass",  label:"Djebel Lantern"} },
+    { lot:"Nº 017", name:"Oud",   italic:"Sconce",     sub:"Light · Brass",               price:"€ 820",    tag:"Ed. 24",   ed:true,  place:{tone:"brass",  label:"Oud Sconce"} },
+    { lot:"Nº 024", name:"Kasbah",italic:"Pendant",    sub:"Light · Brass, bone",         price:"€ 2,180",  tag:"8 / 12",   ed:true,  place:{tone:"bone",   label:"Kasbah Pendant"} },
+    { lot:"Nº 031", name:"Zellige",italic:"Low table", sub:"Table · Cedar, lacquer",      price:"€ 2,640",  tag:"Archive",  ed:false, place:{tone:"lacquer", label:"Zellige Low Table"} },
+  ];
+  return (
+    <section className="collection" id="collection" data-screen-label="01 Collection">
+      <div className="inner">
+        <div className="head">
+          <Reveal>
+            <div className="eyebrow">II · The collection</div>
+            <WordReveal as="h2" text="Twenty-eight <em>objects,</em> nine disciplines." perWord={90}/>
+          </Reveal>
+          <Reveal className="cta" delay={200}>
+            <span className="meta">Catalogue IX · Spring 2026</span>
+            <a className="link-u" href="#">View the full catalogue →</a>
+          </Reveal>
+        </div>
+
+        <div className="grid-dense">
+          {cards.map((c, i) => (
+            <Reveal className="card" key={c.lot} delay={i * 60}>
+              <div className="media">
+                {c.img ? (
+                  <>
+                    <img className="primary" src={M(c.img)} alt={c.name}/>
+                    <img className="alt"     src={M(c.alt)} alt=""/>
+                  </>
+                ) : (
+                  <Placeholder tone={c.place.tone} label={c.place.label}/>
+                )}
+                <div className="lot">{c.lot}</div>
+                <div className={`tag ${c.ed ? "ed" : ""}`}>{c.tag}</div>
+                <button className="quickadd">Add to cart · {c.price}</button>
+              </div>
+              <div className="meta">
+                <div className="name">{c.name} <em>— {c.italic}</em></div>
+                <div className="price">{c.price}</div>
+                <div className="sub">{c.sub}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Placeholder({ tone, label }) {
+  const tones = {
+    brass:   { bg:"radial-gradient(70% 55% at 50% 40%, #3a2a12 0%, #1a130b 75%)", glow:"radial-gradient(55% 38% at 50% 30%, rgba(232,212,154,.45), transparent 60%)", obj:"radial-gradient(60% 50% at 50% 50%, #c9a24a 0%, #8a6c2d 55%, #3a2a12 100%)" },
+    bone:    { bg:"radial-gradient(70% 55% at 50% 40%, #2a2018 0%, #120d09 75%)", glow:"radial-gradient(55% 38% at 50% 30%, rgba(237,228,207,.2), transparent 60%)",  obj:"radial-gradient(60% 50% at 50% 50%, #ede4cf 0%, #b7a988 55%, #5a4f40 100%)" },
+    lacquer: { bg:"radial-gradient(70% 55% at 50% 40%, #1a0a08 0%, #0a0404 75%)", glow:"radial-gradient(55% 38% at 50% 30%, rgba(201,162,74,.1), transparent 60%)",  obj:"radial-gradient(60% 50% at 50% 50%, #7a1b15 0%, #3a0e0b 55%, #170706 100%)" },
+  };
+  const t = tones[tone] || tones.brass;
+  return (
+    <div style={{position:"absolute",inset:0,background:t.bg}}>
+      <div style={{position:"absolute",inset:0,background:t.glow}}/>
+      <div style={{position:"absolute",left:"30%",top:"40%",width:"40%",aspectRatio:"1.4/1",background:t.obj,borderRadius:"50% 50% 42% 42% / 65% 65% 38% 38%",boxShadow:"0 40px 50px -20px rgba(0,0,0,.6)"}}/>
+      <div style={{position:"absolute",left:20,bottom:16,right:20,color:"var(--oyster)",fontFamily:"var(--f-mono)",fontSize:10,letterSpacing:".22em",textTransform:"uppercase",display:"flex",justifyContent:"space-between",opacity:.75}}>
+        <span>{label}</span><span>[plate forthcoming]</span>
+      </div>
+    </div>
+  );
+}
+
+// ============ MATERIAL ============
+function Material() {
+  return (
+    <section className="material" id="material" data-screen-label="03 Material">
+      <div className="split">
+        <Reveal className="visual" speed="reveal-slow">
+          <img src={M("media/leather-pouf-white-grey-09.webp")} alt="Close-up of bone seam"/>
+          <div className="lbl">III · Matter · close inspection</div>
+          <div className="mag">× 3.2 · f/2.8 · 1/60s</div>
+          <div className="stamp">Light falls; <em>the seam holds.</em></div>
+        </Reveal>
+        <div className="copy">
+          <Reveal>
+            <div className="eyebrow">&nbsp;At the edge · 3.2× magnification</div>
+            <WordReveal as="h3" text="Forty-eight <em>seams.</em> One pair of hands." perWord={80}/>
+          </Reveal>
+          <Reveal delay={150}>
+            <p>
+              Each seam is drawn in chalk, pierced with an awl, then pulled through
+              waxed linen thread by hand. The bone is cut at Souk el Khemis and shaped
+              against the grain so the catch of light runs with the seat. No glue;
+              no fastener; nothing that cannot be repaired at the bench that made it.
+            </p>
+          </Reveal>
+          <Reveal className="closeups" delay={300}>
+            <div className="c">
+              <img src={M("media/leather-pouf-white-grey-06.webp")} alt=""/>
+              <div className="n">i — Grain</div>
+              <div className="t"><em>chalk on hide</em></div>
+            </div>
+            <div className="c">
+              <img src={M("media/leather-pouf-white-grey-08.webp")} alt=""/>
+              <div className="n">ii — Seam</div>
+              <div className="t"><em>waxed linen</em></div>
+            </div>
+          </Reveal>
+          <Reveal className="foot" delay={400}>
+            <span>— Hassan Idrissi · atelier nº 7</span>
+            <span><b>9 days</b> · one pair of hands</span>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============ EDITIONS STRIP ============
+function Editions() {
+  const tiles = [
+    { lot:"Nº 042", name:"Ivoire",    italic:"Chalk hide",    remaining:12, total:24, tone:"bone",    img:"media/leather-pouf-white-grey-09.webp" },
+    { lot:"Nº 038", name:"Ghita",     italic:"Fauve",         remaining:9,  total:24, tone:"brass",   img:"media/leather-pouf-brown-06.webp" },
+    { lot:"Nº 051", name:"Craie",     italic:"Bone seam",     remaining:6,  total:12, tone:"lacquer", img:"media/leather-pouf-white-grey-08.webp" },
+  ];
+  return (
+    <section className="editions" id="editions" data-screen-label="04 Editions">
+      <div className="inner">
+        <div className="head">
+          <Reveal>
+            <div className="eyebrow">IV · Open editions</div>
+            <WordReveal as="h3" text="Three pieces <em>still circulating.</em>" perWord={90}/>
+          </Reveal>
+          <Reveal delay={200}>
+            <p>Each edition is fixed at release and never extended. When numbered, it closes; what remains remains.</p>
+          </Reveal>
+        </div>
+        <div className="grid">
+          {tiles.map((t, i) => (
+            <Reveal className="tile" key={t.lot} delay={i * 100}>
+              <img src={M(t.img)} alt={t.name} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",filter:"brightness(.78) contrast(1.12) saturate(1.05)",transform:"scale(1.03)",animation:"kenburns 30s var(--ease-in-out) infinite alternate"}}/>
+              <div className="lot">{t.lot}</div>
+              <div className="name">{t.name} <em>— {t.italic}</em></div>
+              <div className="big-no">{String(t.remaining).padStart(2,"0")}</div>
+              <div className="remain"><b>{t.remaining}</b> of {t.total}<br/>remaining</div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============ PROVENANCE ============
+function Provenance() {
+  return (
+    <section className="provenance" id="provenance" data-screen-label="05 Provenance">
+      <div className="inner">
+        <Reveal className="v" speed="reveal-slow">
+          <video autoPlay muted loop playsInline>
+            <source src={M("media/ryad-entrance.mp4")} type="video/mp4"/>
+          </video>
+          <div className="lbl"><span className="rec"/>Live · atelier nº 7</div>
+        </Reveal>
+        <div className="t">
+          <Reveal>
+            <div className="eyebrow">V · Provenance</div>
+            <WordReveal as="h3" text="A house since <em>1974.</em>" perWord={100}/>
+          </Reveal>
+          <Reveal delay={150}>
+            <p>
+              Atlas Perle is the catalogue of Atelier nº 7 — nine craftsmen off
+              a narrow street in the old medina of Marrakech. Cedar from Azrou.
+              Bone from Souk el Khemis. Hides from Tannery Chouara, a house we
+              have kept since the first piece was signed. Nothing arrives that
+              we have not touched first; nothing leaves that has not been signed.
+            </p>
+          </Reveal>
+          <Reveal className="certs" delay={300}>
+            <div className="cert"><div className="k">Est.</div><div className="v"><em>1974</em> · Marrakech</div></div>
+            <div className="cert"><div className="k">Craftsmen</div><div className="v"><em>Nine</em> hands</div></div>
+            <div className="cert"><div className="k">Releases</div><div className="v"><em>4</em> / year</div></div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============ SERVICES ============
+function Services() {
+  const rows = [
+    { ic:"i",   t:"Insured worldwide delivery",  s:"Cotton & cedar crate" },
+    { ic:"ii",  t:"Certificate of edition",      s:"Signed, dated, numbered" },
+    { ic:"iii", t:"Lifetime repair at bench",    s:"By the hand that made it" },
+    { ic:"iv",  t:"30-day considered return",    s:"No questions asked" },
+  ];
+  return (
+    <section className="services">
+      <div className="row">
+        {rows.map((r, i) => (
+          <div className="cell" key={i}>
+            <div className="ic">{r.ic}</div>
+            <div className="t">{r.t}<small>{r.s}</small></div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ============ FOOTER ============
+function Footer() {
+  return (
+    <footer className="main" data-screen-label="06 Footer">
+      <div className="inner">
+        <Reveal speed="reveal-slow" style={{position:"relative"}}>
+          <div className="big">Atlas <em>Perle.</em><span className="mk">Catalogue IX · Spring 2026</span></div>
+          <div className="sub">A catalogue of rare objects, released from a courtyard in the old medina — one plate at a time.</div>
+        </Reveal>
+        <div className="cols">
+          <Reveal className="sub-box">
+            <label>Subscribe — four letters a year</label>
+            <input type="email" placeholder="name@house.com"/>
+            <a className="go" href="#">Add me to the carnet <span>→</span></a>
+          </Reveal>
+          <Reveal delay={100}>
+            <h5>— Catalogue</h5>
+            <div className="list">
+              <a href="#">Seating</a><a href="#">Light</a><a href="#">Vessels</a><a href="#">Textiles</a><a href="#">Commissions</a>
+            </div>
+          </Reveal>
+          <Reveal delay={200}>
+            <h5>— Atelier</h5>
+            <div className="list">
+              <a href="#">The nine hands</a><a href="#">Matter</a><a href="#">Lead times</a><a href="#">Care & repair</a>
+            </div>
+          </Reveal>
+          <Reveal delay={300}>
+            <h5>— House</h5>
+            <div className="list">
+              <a href="#">About</a><a href="#">Journal</a><a href="#">Visit Marrakech</a><a href="mailto:atelier@atlasperle.ma">Write to atelier</a>
+            </div>
+          </Reveal>
+          <Reveal delay={400}>
+            <h5>— Assistance</h5>
+            <div className="list">
+              <a href="#">Shipping</a><a href="#">Returns</a><a href="#">Editions</a><a href="#">Terms</a>
+            </div>
+          </Reveal>
+        </div>
+        <div className="bot">
+          <div>© 1974–2026 · Atlas Perle · Derb el Ferran, Marrakech · All pieces numbered, signed, released by hand.</div>
+          <div className="pay"><span>VISA</span><span>AMEX</span><span>Wire</span><span>Bitcoin</span></div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+Object.assign(window, { Nav, Hero, Ticker, Toolbar, Featured, Collection, Placeholder, Material, Editions, Provenance, Services, Footer });
+</script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  return (
+    <>
+      <Nav />
+      <Hero />
+      <Ticker />
+      <Toolbar />
+      <Collection />
+      <Featured />
+      <Material />
+      <Editions />
+      <Provenance />
+      <Services />
+      <Footer />
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
