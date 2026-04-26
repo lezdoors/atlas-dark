@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Atelier — Atlas Perle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.atelier-hero{position:relative;min-height:80vh;overflow:hidden;background:var(--ink);display:flex;align-items:flex-end;padding:140px 48px 60px}
+.atelier-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;filter:saturate(.85) brightness(.7)}
+.atelier-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,8,7,.4) 0%, rgba(10,8,7,.95) 100%)}
+.atelier-hero .inner{position:relative;z-index:2;max-width:1440px;margin:0 auto;width:100%}
+.atelier-hero h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(56px,9vw,160px);line-height:.92;letter-spacing:-.02em;color:var(--bone);max-width:18ch}
+.atelier-hero h1 em{font-style:italic;color:var(--brass)}
+.atelier-hero .sub{margin-top:28px;font-family:var(--f-serif);font-style:italic;font-size:22px;color:var(--parchment);max-width:48ch}
+@media(max-width:900px){.atelier-hero{padding:120px 20px 40px}}
+.story{padding:120px 48px;background:var(--night);border-bottom:1px solid var(--line)}
+.story .inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:60px}
+.story .l{font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
+.story .r p{font-family:var(--f-serif);font-weight:300;font-size:21px;line-height:1.6;color:var(--bone);margin-bottom:24px}
+.story .r p em{font-style:italic;color:var(--brass-hi)}
+@media(max-width:900px){.story{padding:60px 20px}.story .inner{grid-template-columns:1fr;gap:24px}}
+.hands{padding:100px 48px;background:var(--ink);border-bottom:1px solid var(--line)}
+.hands .inner{max-width:1440px;margin:0 auto}
+.hands .head{margin-bottom:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end}
+.hands h2{font-family:var(--f-serif);font-weight:300;font-size:clamp(40px,5vw,72px);line-height:1;color:var(--bone);letter-spacing:-.018em}
+.hands h2 em{font-style:italic;color:var(--brass)}
+.hands .lede{font-family:var(--f-serif);font-style:italic;font-size:18px;color:var(--parchment);line-height:1.6}
+.hands .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.hands .card{position:relative;border:1px solid var(--line);overflow:hidden;background:var(--espresso);aspect-ratio:3/4;padding:24px;display:flex;flex-direction:column;justify-content:flex-end;color:var(--bone)}
+.hands .card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;filter:saturate(.7) brightness(.8)}
+.hands .card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(15,12,10,.2) 0%, rgba(15,12,10,.92) 100%)}
+.hands .card .body{position:relative;z-index:2}
+.hands .card .role{font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);margin-bottom:8px}
+.hands .card .name{font-family:var(--f-serif);font-style:italic;font-size:32px;color:var(--bone);font-weight:300;line-height:1}
+.hands .card .yrs{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;color:var(--oyster);margin-top:10px}
+@media(max-width:900px){.hands{padding:60px 20px}.hands .head{grid-template-columns:1fr;gap:18px}.hands .grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.hands .grid{grid-template-columns:1fr}}
+.timeline{padding:100px 48px;background:var(--night)}
+.timeline .inner{max-width:1100px;margin:0 auto}
+.timeline h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(32px,4vw,52px);color:var(--bone);margin-bottom:48px}
+.timeline h3 em{font-style:italic;color:var(--brass)}
+.timeline .row{display:grid;grid-template-columns:120px 1fr;gap:36px;padding:24px 0;border-top:1px solid var(--line-soft)}
+.timeline .row:last-child{border-bottom:1px solid var(--line-soft)}
+.timeline .y{font-family:var(--f-serif);font-style:italic;font-size:36px;color:var(--brass);font-weight:300}
+.timeline .t{font-family:var(--f-serif);font-size:19px;color:var(--bone);line-height:1.5;font-weight:300;padding-top:6px}
+.timeline .t em{font-style:italic;color:var(--brass-hi)}
+@media(max-width:600px){.timeline{padding:60px 20px}.timeline .row{grid-template-columns:1fr;gap:6px}.timeline .y{font-size:28px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="react" src="/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  const t = useT();
+  const hands = [
+    {role:"Tanner",     name:"Hassan Idrissi", yrs:"31 years at the bench", img:"/media/products/leather-pouf-brown-01.webp"},
+    {role:"Cabinet-maker",name:"Mehdi El Fassi", yrs:"28 years at the bench", img:"/media/products/moroccan-throne-chair-01.webp"},
+    {role:"Brassmith",  name:"Karim Senhaji",  yrs:"22 years at the bench", img:"/media/products/kamar-pendant-01.webp"},
+    {role:"Bone cutter",name:"Rachid Khalfi",  yrs:"19 years at the bench", img:"/media/products/moroccan-bone-inlay-side-tables-01.webp"},
+    {role:"Potter",     name:"Aïcha Belkadi",  yrs:"35 years at the wheel",  img:"/media/products/safi-bowl-black-white-floral-01.webp"},
+    {role:"Painter",    name:"Younes Tazi",    yrs:"14 years at the brush",  img:"/media/products/fez-bowl-blue-green-01.webp"},
+  ];
+  const events = [
+    {y:"1974", pre:"Atelier nº 7 opens on Derb el Ferran. ", em:"One bench, one tanner.", post:""},
+    {y:"1991", pre:"The bone-inlay programme begins, in collaboration with cutters at Souk el Khemis.", em:"", post:""},
+    {y:"2003", pre:"First catalogue printed — ", em:"twelve objects, four disciplines.", post:""},
+    {y:"2014", pre:"Cooperative agreement with the Safi potters, formalising a relationship dating back to 1979.", em:"", post:""},
+    {y:"2026", pre:"Catalogue IX. ", em:"Twenty-eight objects, nine disciplines.", post:""},
+  ];
+  return (
+    <LangProvider>
+      <Nav />
+      <section className="atelier-hero">
+        <video autoPlay muted loop playsInline>
+          <source src="/media/ryad-entrance.mp4" type="video/mp4"/>
+        </video>
+        <div className="inner">
+          <Reveal speed="reveal-slow">
+            <div className="eyebrow" style={{marginBottom:24}}>{t("prov.eyebrow")}</div>
+            <WordReveal as="h1" text="A house since <em>1974,</em> in the medina of Marrakech." perWord={100}/>
+          </Reveal>
+          <Reveal className="sub" delay={300}>
+            Nine craftsmen. One narrow street. Four releases a year — and not a single piece that has not been touched by the hand that made it.
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="story">
+        <div className="inner">
+          <Reveal className="l">— Provenance</Reveal>
+          <Reveal className="r" delay={150}>
+            <p>{t("prov.body")}</p>
+            <p>The catalogue is fixed at release and never extended. When a piece is numbered, it is signed and dated; the edition closes when the last is delivered. <em>What remains, remains.</em></p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="hands">
+        <div className="inner">
+          <div className="head">
+            <Reveal>
+              <div className="eyebrow" style={{marginBottom:18}}>VI · The hands</div>
+              <WordReveal as="h2" text="Nine craftsmen, <em>one street.</em>" perWord={100}/>
+            </Reveal>
+            <Reveal className="lede" delay={200}>
+              Each piece in the catalogue carries the initials of the hand that made it, stamped or pressed on the base. Below, six of the nine.
+            </Reveal>
+          </div>
+          <div className="grid">
+            {hands.map((h, i) => (
+              <Reveal className="card" key={h.name} delay={i*80}>
+                <img src={h.img} alt=""/>
+                <div className="body">
+                  <div className="role">{h.role}</div>
+                  <div className="name">{h.name}</div>
+                  <div className="yrs">{h.yrs}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="timeline">
+        <div className="inner">
+          <Reveal>
+            <h3>A <em>chronology.</em></h3>
+          </Reveal>
+          {events.map((e, i) => (
+            <Reveal className="row" key={e.y} delay={i*80}>
+              <div className="y">{e.y}</div>
+              <div className="t">{e.pre}{e.em && <em>{e.em}</em>}{e.post}</div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <Footer />
+    </LangProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Commissions — Atlas Perle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.c-hero{padding:160px 48px 60px;background:var(--night);border-bottom:1px solid var(--line)}
+.c-hero .inner{max-width:1100px;margin:0 auto}
+.c-hero h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(56px,9vw,140px);line-height:.92;letter-spacing:-.02em;color:var(--bone)}
+.c-hero h1 em{font-style:italic;color:var(--brass)}
+.c-hero .sub{margin-top:24px;font-family:var(--f-serif);font-style:italic;font-size:21px;color:var(--parchment);max-width:48ch;line-height:1.55}
+@media(max-width:900px){.c-hero{padding:130px 20px 40px}}
+.process{padding:80px 48px;background:var(--ink);border-bottom:1px solid var(--line)}
+.process .inner{max-width:1440px;margin:0 auto}
+.process h2{font-family:var(--f-serif);font-weight:300;font-size:clamp(32px,4vw,48px);color:var(--bone);margin-bottom:48px;letter-spacing:-.012em}
+.process h2 em{font-style:italic;color:var(--brass)}
+.process .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.step{padding:28px 22px 24px;border:1px solid var(--line);background:var(--espresso);position:relative;min-height:240px;display:flex;flex-direction:column}
+.step .n{position:absolute;top:18px;right:22px;font-family:var(--f-serif);font-style:italic;font-size:48px;color:var(--brass);font-weight:300;line-height:1;opacity:.7}
+.step .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);margin-bottom:14px}
+.step .t{font-family:var(--f-serif);font-weight:300;font-size:22px;color:var(--bone);line-height:1.2;margin-bottom:14px}
+.step .t em{font-style:italic;color:var(--brass-hi)}
+.step .d{font-family:var(--f-serif);font-size:14px;line-height:1.55;color:var(--parchment);font-weight:300;margin-top:auto}
+@media(max-width:1000px){.process .steps{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.process{padding:50px 20px}.process .steps{grid-template-columns:1fr}}
+.formsec{padding:100px 48px;background:var(--night)}
+.formsec .inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:start}
+.formsec .l h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(32px,4vw,52px);line-height:1;color:var(--bone);letter-spacing:-.012em;margin-bottom:24px}
+.formsec .l h3 em{font-style:italic;color:var(--brass)}
+.formsec .l p{font-family:var(--f-serif);font-size:17px;line-height:1.7;color:var(--parchment);font-weight:300;margin-bottom:18px}
+.formsec .l p em{font-style:italic;color:var(--brass-hi)}
+.formsec .l .meta{margin-top:32px;display:flex;flex-direction:column;gap:14px;padding-top:24px;border-top:1px solid var(--line-soft)}
+.formsec .l .meta .row{display:grid;grid-template-columns:140px 1fr;gap:18px;font-family:var(--f-serif);font-size:16px;color:var(--bone)}
+.formsec .l .meta .row .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);align-self:center}
+.cform{display:flex;flex-direction:column;gap:22px}
+.cform .field{display:flex;flex-direction:column;gap:8px}
+.cform label{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
+.cform input,.cform textarea,.cform select{background:transparent;border:0;border-bottom:1px solid var(--line-bone);color:var(--bone);font-family:var(--f-serif);font-size:18px;padding:10px 0;outline:none;font-weight:300}
+.cform input:focus,.cform textarea:focus,.cform select:focus{border-bottom-color:var(--brass)}
+.cform input::placeholder,.cform textarea::placeholder{color:var(--dim);font-style:italic}
+.cform textarea{resize:vertical;min-height:120px;font-family:var(--f-serif);font-size:17px;line-height:1.5}
+.cform .row2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.cform .submit{margin-top:14px;display:flex;align-items:center;gap:18px}
+.cform .promise{font-family:var(--f-serif);font-style:italic;font-size:14px;color:var(--dim)}
+@media(max-width:900px){.formsec{padding:60px 20px}.formsec .inner{grid-template-columns:1fr;gap:36px}.cform .row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="react" src="/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  const t = useT();
+  const [sent, setSent] = useState(false);
+  const onSubmit = (e) => { e.preventDefault(); setSent(true); };
+  const steps = [
+    {n:"i",   k:"01 · Letter",     t:"Write to the atelier",       d:"A short note describing the piece you have in mind — discipline, room, intention. We reply within five working days."},
+    {n:"ii",  k:"02 · Drawing",    t:"A drawing returns",          d:"From the bench, a hand-inked drawing with measures, materials, and an indication of price. Two revisions included."},
+    {n:"iii", k:"03 · Bench",      t:"At the bench",               d:"Once approved and paid 50%, the work begins. Lead times run 8 to 16 weeks, depending on the discipline. Photographs sent at midpoint."},
+    {n:"iv",  k:"04 · Delivery",   t:"Cotton & cedar, by hand",    d:"The piece is signed, dated, numbered (commission, not edition), and dispatched in a cotton & cedar crate. Lifetime repair at the bench that made it."},
+  ];
+  return (
+    <LangProvider>
+      <Nav />
+      <section className="c-hero">
+        <div className="inner">
+          <Reveal>
+            <div className="eyebrow" style={{marginBottom:24}}>VIII · Commissions</div>
+            <WordReveal as="h1" text="A piece, drawn by <em>your hand.</em>" perWord={100}/>
+          </Reveal>
+          <Reveal className="sub" delay={250}>
+            Beyond the catalogue, the atelier accepts a small number of commissions each season. A piece imagined together, made at Derb el Ferran, signed and dated like all that leaves the bench.
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="process">
+        <div className="inner">
+          <Reveal>
+            <h2>The <em>process,</em> in four parts.</h2>
+          </Reveal>
+          <div className="steps">
+            {steps.map((s, i) => (
+              <Reveal className="step" key={s.n} delay={i*80}>
+                <div className="n">{s.n}</div>
+                <div className="k">{s.k}</div>
+                <div className="t">{s.t}</div>
+                <div className="d">{s.d}</div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="formsec">
+        <div className="inner">
+          <Reveal className="l">
+            <h3>Write to <em>the atelier.</em></h3>
+            <p>Tell us what you would like — a low table for a long room, a pendant for a stairwell, a coffer for a hallway. We read every letter ourselves.</p>
+            <p>If you are unsure, write anyway. <em>The drawing returns within five working days.</em></p>
+            <div className="meta">
+              <div className="row"><span className="k">Address</span><span>Derb el Ferran, Marrakech</span></div>
+              <div className="row"><span className="k">Email</span><a href="mailto:atelier@atlasperle.ma" style={{color:"var(--brass-hi)"}}>atelier@atlasperle.ma</a></div>
+              <div className="row"><span className="k">Lead time</span><span>8–16 weeks</span></div>
+              <div className="row"><span className="k">Payment</span><span>50% on approval, balance on delivery</span></div>
+            </div>
+          </Reveal>
+
+          {sent ? (
+            <Reveal>
+              <div style={{padding:"60px 0",fontFamily:"var(--f-serif)",fontStyle:"italic",fontSize:24,color:"var(--brass-hi)",lineHeight:1.5}}>
+                Thank you. The atelier has your letter — a reply will arrive within five working days, by hand.
+              </div>
+            </Reveal>
+          ) : (
+            <Reveal as="form" className="cform" onSubmit={onSubmit} delay={150}>
+              <div className="row2">
+                <div className="field"><label>Name</label><input required type="text" placeholder="Your name"/></div>
+                <div className="field"><label>Email</label><input required type="email" placeholder="name@house.com"/></div>
+              </div>
+              <div className="row2">
+                <div className="field">
+                  <label>Discipline</label>
+                  <select defaultValue="">
+                    <option value="" disabled>Select a discipline</option>
+                    <option>Seating</option>
+                    <option>Light</option>
+                    <option>Wood &amp; cabinetry</option>
+                    <option>Vessels &amp; tableware</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div className="field"><label>City</label><input type="text" placeholder="Where the piece will live"/></div>
+              </div>
+              <div className="field">
+                <label>The piece</label>
+                <textarea required placeholder="A few lines — what you have in mind, room, measures if known, intention…"/>
+              </div>
+              <div className="submit">
+                <button type="submit" className="btn solid">Send the letter <span className="arrow"/></button>
+                <span className="promise">— A reply within five working days.</span>
+              </div>
+            </Reveal>
+          )}
+        </div>
+      </section>
+
+      <Footer />
+    </LangProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

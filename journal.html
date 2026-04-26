@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Journal — Atlas Perle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.j-hero{padding:160px 48px 60px;background:var(--night);border-bottom:1px solid var(--line)}
+.j-hero .inner{max-width:1100px;margin:0 auto}
+.j-hero h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(56px,9vw,140px);line-height:.92;letter-spacing:-.02em;color:var(--bone)}
+.j-hero h1 em{font-style:italic;color:var(--brass)}
+.j-hero .sub{margin-top:24px;font-family:var(--f-serif);font-style:italic;font-size:21px;color:var(--parchment);max-width:48ch;line-height:1.55}
+@media(max-width:900px){.j-hero{padding:130px 20px 40px}}
+.entries{padding:80px 48px 120px;background:var(--ink)}
+.entries .inner{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:0}
+.entry{display:grid;grid-template-columns:140px 1fr 1fr;gap:36px;padding:36px 0;border-top:1px solid var(--line);align-items:start}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.entry .date{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
+.entry .date b{display:block;font-family:var(--f-serif);font-style:italic;font-size:32px;color:var(--bone);font-weight:300;margin-top:6px;letter-spacing:0;text-transform:none}
+.entry .body h3{font-family:var(--f-serif);font-weight:300;font-size:30px;color:var(--bone);line-height:1.15;letter-spacing:-.012em;margin-bottom:12px}
+.entry .body h3 em{font-style:italic;color:var(--brass)}
+.entry .body p{font-family:var(--f-serif);font-size:17px;color:var(--parchment);line-height:1.6;font-weight:300}
+.entry .visual{position:relative;aspect-ratio:4/5;background:var(--espresso);border:1px solid var(--line);overflow:hidden}
+.entry .visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.92)}
+.entry .more{font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);border-bottom:1px solid var(--brass);padding-bottom:4px;display:inline-flex;align-items:center;gap:10px;margin-top:18px;transition:gap .3s}
+.entry .more:hover{gap:18px}
+@media(max-width:900px){.entries{padding:50px 20px 80px}.entry{grid-template-columns:1fr;gap:18px}}
+.note{padding:60px 48px 100px;background:var(--night);border-top:1px solid var(--line);text-align:center}
+.note p{max-width:46ch;margin:0 auto;font-family:var(--f-serif);font-style:italic;font-size:20px;color:var(--parchment);line-height:1.6}
+.note p em{color:var(--brass)}
+.note .cta{margin-top:24px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="react" src="/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  const entries = [
+    {
+      d:"April · 2026", n:"Letter Nº 04",
+      title:"On bone, and the cutters at <em>Souk el Khemis.</em>",
+      excerpt:"A morning at the bone-cutters' alley, where camel bone is sawn to half a millimetre by hand. We talk about tolerance, the smell of cedar dust, and why a single inlay panel can take a master a fortnight to set.",
+      img:"/media/products/moroccan-bone-inlay-side-tables-01.webp",
+    },
+    {
+      d:"February · 2026", n:"Letter Nº 03",
+      title:"Catalogue IX: <em>twenty-eight objects.</em>",
+      excerpt:"A note on the spring release. What we kept, what we set aside, and why a coffee table named Tahar took eleven months to leave the bench.",
+      img:"/media/products/moroccan-octagonal-coffee-table-01.webp",
+    },
+    {
+      d:"December · 2025", n:"Letter Nº 02",
+      title:"The brass of <em>Souk Haddadine.</em>",
+      excerpt:"Nine craftsmen still hammer brass against a wooden stencil at the foot of the medina wall. We follow a single sheet from raw plate to patinated pendant — eleven days, four hands.",
+      img:"/media/products/kamar-pendant-01.webp",
+    },
+    {
+      d:"October · 2025", n:"Letter Nº 01",
+      title:"Why a house keeps a <em>tannery.</em>",
+      excerpt:"On Tannery Chouara — the stone pits that have run for nine centuries — and what it means to specify a hide rather than buy one. With a few lines on mimosa bark, pomegranate, and the sixty-day dark.",
+      img:"/media/products/leather-pouf-brown-01.webp",
+    },
+  ];
+  return (
+    <LangProvider>
+      <Nav />
+      <section className="j-hero">
+        <div className="inner">
+          <Reveal>
+            <div className="eyebrow" style={{marginBottom:24}}>VII · The journal</div>
+            <WordReveal as="h1" text="Letters from <em>the medina.</em>" perWord={100}/>
+          </Reveal>
+          <Reveal className="sub" delay={250}>
+            Four letters a year, written from Derb el Ferran. Notes on matter, on the hands behind the catalogue, and on the craftspeople who keep the medina alive.
+          </Reveal>
+        </div>
+      </section>
+      <section className="entries">
+        <div className="inner">
+          {entries.map((e, i) => (
+            <Reveal className="entry" key={e.n} delay={i*60}>
+              <div className="date">{e.d}<b>{e.n}</b></div>
+              <div className="body">
+                <WordReveal as="h3" text={e.title} perWord={80}/>
+                <p>{e.excerpt}</p>
+                <a className="more" href="#">Read the letter <span>→</span></a>
+              </div>
+              <div className="visual">
+                <img src={e.img} alt=""/>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+      <section className="note">
+        <Reveal>
+          <p>The journal arrives by post — <em>four letters a year,</em> printed on cotton paper. To receive it, write a single line to the atelier.</p>
+          <div className="cta">
+            <a className="btn solid" href="mailto:atelier@atlasperle.ma?subject=Carnet">Add me to the carnet <span className="arrow"/></a>
+          </div>
+        </Reveal>
+      </section>
+      <Footer />
+    </LangProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

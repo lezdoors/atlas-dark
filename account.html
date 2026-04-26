@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Account — Atlas Perle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.acc{padding:160px 48px 120px;background:var(--ink);min-height:60vh}
+.acc .inner{max-width:560px;margin:0 auto}
+.acc h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(40px,5vw,72px);line-height:1;color:var(--bone);margin-bottom:14px;letter-spacing:-.014em}
+.acc h1 em{font-style:italic;color:var(--brass)}
+.acc .sub{font-family:var(--f-serif);font-style:italic;font-size:18px;color:var(--parchment);margin-bottom:36px;line-height:1.6}
+.acc form{display:flex;flex-direction:column;gap:22px}
+.acc label{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
+.acc input{background:transparent;border:0;border-bottom:1px solid var(--line-bone);color:var(--bone);font-family:var(--f-serif);font-size:18px;padding:10px 0;outline:none;font-weight:300;width:100%}
+.acc input:focus{border-bottom-color:var(--brass)}
+.acc input::placeholder{color:var(--dim);font-style:italic}
+.acc .field{display:flex;flex-direction:column;gap:8px}
+.acc .actions{margin-top:14px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.acc .alt{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--oyster)}
+.acc .alt a{color:var(--brass);border-bottom:1px solid var(--brass);padding-bottom:2px}
+@media(max-width:600px){.acc{padding:130px 20px 80px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="react" src="/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  return (
+    <LangProvider>
+      <Nav />
+      <section className="acc">
+        <div className="inner">
+          <div className="eyebrow" style={{marginBottom:18}}>— Account</div>
+          <h1>The <em>carnet.</em></h1>
+          <p className="sub">Sign in to follow your editions, your commissions, and the four letters a year sent from the atelier.</p>
+          <form onSubmit={(e)=>{e.preventDefault();}}>
+            <div className="field"><label>Email</label><input type="email" required placeholder="name@house.com"/></div>
+            <div className="field"><label>Password</label><input type="password" required placeholder="••••••••"/></div>
+            <div className="actions">
+              <button className="btn solid" type="submit">Sign in <span className="arrow"/></button>
+              <span className="alt">No account? <a href="mailto:atelier@atlasperle.ma">Write to the atelier</a></span>
+            </div>
+          </form>
+        </div>
+      </section>
+      <Footer />
+    </LangProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
