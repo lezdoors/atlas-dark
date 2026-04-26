@@ -44,7 +44,7 @@ function WordReveal({ text, className = "", as: As = "h2", delay = 0, perWord = 
 // ============ I18N ============
 const I18N = {
   en: {
-    "nav.collection":"Collection","nav.editions":"Editions","nav.matter":"Matter",
+    "nav.collection":"Collection","nav.poufs":"Poufs","nav.lights":"Lights","nav.editions":"Editions","nav.matter":"Matter",
     "nav.atelier":"Atelier","nav.journal":"Journal","nav.commissions":"Commissions",
     "nav.search":"Search","nav.account":"Account","nav.cart":"Cart",
     "hero.meta1L":"Atlas Perle — House of objects","hero.meta1R":"Est. Marrakech, 1974",
@@ -100,7 +100,7 @@ const I18N = {
     "ft.bot":"© 1974–2026 · Atlas Perle · Derb el Ferran, Marrakech · All pieces numbered, signed, released by hand."
   },
   fr: {
-    "nav.collection":"Collection","nav.editions":"Éditions","nav.matter":"Matière",
+    "nav.collection":"Collection","nav.poufs":"Poufs","nav.lights":"Lumière","nav.editions":"Éditions","nav.matter":"Matière",
     "nav.atelier":"Atelier","nav.journal":"Journal","nav.commissions":"Sur-mesure",
     "nav.search":"Rechercher","nav.account":"Compte","nav.cart":"Panier",
     "hero.meta1L":"Atlas Perle — Maison d'objets","hero.meta1R":"Fondée à Marrakech, 1974",
@@ -156,7 +156,7 @@ const I18N = {
     "ft.bot":"© 1974–2026 · Atlas Perle · Derb el Ferran, Marrakech · Toutes les pièces numérotées, signées, libérées à la main."
   },
   ar: {
-    "nav.collection":"المجموعة","nav.editions":"الإصدارات","nav.matter":"المواد",
+    "nav.collection":"المجموعة","nav.poufs":"بوف","nav.lights":"إضاءة","nav.editions":"الإصدارات","nav.matter":"المواد",
     "nav.atelier":"الورشة","nav.journal":"المجلة","nav.commissions":"طلبات خاصة",
     "nav.search":"بحث","nav.account":"الحساب","nav.cart":"السلة",
     "hero.meta1L":"أطلس بيرل — دار الأشياء","hero.meta1R":"تأسست في مراكش، ١٩٧٤",
@@ -260,6 +260,8 @@ function Nav() {
       </a>
       <div className="links">
         <a href="/collection">{t("nav.collection")}</a>
+        <a href="/poufs">{t("nav.poufs")}</a>
+        <a href="/lights">{t("nav.lights")}</a>
         <a href="/editions">{t("nav.editions")}</a>
         <a href="/matter">{t("nav.matter")}</a>
         <a href="/atelier">{t("nav.atelier")}</a>
@@ -298,15 +300,24 @@ function Footer() {
           </Reveal>
           <Reveal delay={100}>
             <h5>{t("ft.h.cat")}</h5>
-            <div className="list">{cat.map((x,i)=><a href="#" key={i}>{x}</a>)}</div>
+            <div className="list">{cat.map((x,i)=>{
+              const links = ["/poufs","/lights","/collection","/collection","/commissions"];
+              return <a href={links[i] || "/collection"} key={i}>{x}</a>;
+            })}</div>
           </Reveal>
           <Reveal delay={200}>
             <h5>{t("ft.h.atelier")}</h5>
-            <div className="list">{at.map((x,i)=><a href="#" key={i}>{x}</a>)}</div>
+            <div className="list">{at.map((x,i)=>{
+              const links = ["/atelier","/matter","/commissions","/atelier"];
+              return <a href={links[i] || "/atelier"} key={i}>{x}</a>;
+            })}</div>
           </Reveal>
           <Reveal delay={300}>
             <h5>{t("ft.h.house")}</h5>
-            <div className="list">{ho.map((x,i)=><a href={i===ho.length-1?"mailto:atelier@atlasperle.ma":"#"} key={i}>{x}</a>)}</div>
+            <div className="list">{ho.map((x,i)=>{
+              const links = ["/atelier","/journal","/atelier","mailto:atelier@atlasperle.ma"];
+              return <a href={links[i] || "/atelier"} key={i}>{x}</a>;
+            })}</div>
           </Reveal>
           <Reveal delay={400}>
             <h5>{t("ft.h.help")}</h5>
@@ -322,5 +333,4 @@ function Footer() {
   );
 }
 
-Object.assign(window, { Nav, Hero, Ticker, Toolbar, Featured, Collection, Placeholder, Material, Editions, Provenance, Services, Footer });
 Object.assign(window, { Nav, Footer });
