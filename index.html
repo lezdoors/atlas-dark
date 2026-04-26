@@ -340,12 +340,13 @@ nav .right .cart .n{width:18px;height:18px;border-radius:50%;background:var(--br
 .provenance .t h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(40px,5.5vw,84px);line-height:1;letter-spacing:-.018em;color:var(--bone);max-width:14ch;margin-bottom:32px}
 .provenance .t h3 em{font-style:italic;color:var(--brass)}
 .provenance .t p{font-size:15px;line-height:1.8;color:var(--parchment);max-width:46ch;font-weight:300}
-.provenance .t .certs{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding-top:28px;border-top:1px solid var(--line)}
-.provenance .t .certs .cert{border-left:1px solid var(--line-brass);padding-left:16px}
-.provenance .t .certs .cert .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
-.provenance .t .certs .cert .v{font-family:var(--f-serif);font-size:18px;color:var(--bone);font-weight:300;margin-top:6px}
+.provenance .t .certs{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding-top:24px;border-top:1px solid var(--line-brass);align-items:start}
+.provenance .t .certs .cert{padding:6px 20px;border-left:1px solid var(--line-soft);display:flex;flex-direction:column;gap:6px;min-height:0}
+.provenance .t .certs .cert:first-child{border-left:0;padding-left:0}
+.provenance .t .certs .cert .k{font-family:var(--f-mono);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);opacity:.85}
+.provenance .t .certs .cert .v{font-family:var(--f-serif);font-style:italic;font-size:17px;color:var(--bone);font-weight:300;line-height:1.3}
 .provenance .t .certs .cert .v em{font-style:italic;color:var(--brass)}
-@media(max-width:900px){.provenance .inner{grid-template-columns:1fr}.provenance .t .certs{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.provenance .inner{grid-template-columns:1fr}.provenance .t .certs{grid-template-columns:1fr 1fr}.provenance .t .certs .cert:nth-child(odd):not(:first-child){border-left:0;padding-left:0}}
 
 /* ============= SERVICE BAR (4 guarantees) ============= */
 .services{background:var(--ink);border-bottom:1px solid var(--line)}
@@ -856,13 +857,13 @@ function Collection() {
   const t = useT();
   const cards = [
     { lot:"Nº 038", name:"Ghita",  italic:"Throne",      sub:"Seating · Cedar, hide",       price:"€ 2,180",  tag:"8 / 12",   ed:true,  img:"media/moroccan-throne-chair-01.webp",       alt:"media/moroccan-painted-dresser-01.webp" },
-    { lot:"Nº 042", name:"Tahar",  italic:"Octagonal",   sub:"Table · Cedar, bone inlay",   price:"€ 2,640",  tag:"12 / 24",  ed:true,  img:"media/moroccan-octagonal-coffee-table-01.webp", alt:"media/moroccan-octagonal-coffee-table-close.png" },
+    { lot:"Nº 042", name:"Tahar",  italic:"Octagonal",   sub:"Table · Cedar, bone inlay",   price:"€ 2,640",  tag:"12 / 24",  ed:true,  img:"media/moroccan-octagonal-coffee-table-01.webp", alt:"media/moroccan-octagonal-coffee-table-02.webp" },
     { lot:"Nº 051", name:"Hannan", italic:"Coffer",      sub:"Storage · Cedar, lacquer",    price:"€ 1,840", tag:"6 / 12",   ed:true,  img:"media/moroccan-painted-chest-01.webp",      alt:"media/moroccan-painted-dresser-01.webp" },
     { lot:"Nº 061", name:"Aziza",  italic:"Cabinet",     sub:"Storage · Cedar, gilt",       price:"€ 2,420", tag:"11 / 12",  ed:true,  img:"media/moroccan-painted-dresser-01.webp",    alt:"media/moroccan-painted-chest-01.webp" },
-    { lot:"Nº 012", name:"Djebel",italic:"Lantern",    sub:"Light · Brass, cedar",        price:"€ 1,640",  tag:"Commission", ed:false, place:{tone:"brass",  label:"Djebel Lantern"} },
-    { lot:"Nº 017", name:"Oud",   italic:"Sconce",     sub:"Light · Brass",               price:"€ 820",    tag:"Ed. 24",   ed:true,  place:{tone:"brass",  label:"Oud Sconce"} },
-    { lot:"Nº 024", name:"Kasbah",italic:"Pendant",    sub:"Light · Brass, bone",         price:"€ 2,180",  tag:"8 / 12",   ed:true,  place:{tone:"bone",   label:"Kasbah Pendant"} },
-    { lot:"Nº 031", name:"Zellige",italic:"Low table", sub:"Table · Cedar, lacquer",      price:"€ 2,640",  tag:"Archive",  ed:false, place:{tone:"lacquer", label:"Zellige Low Table"} },
+    { lot:"Nº 012", name:"Djebel", italic:"Pendant",     sub:"Light · Brass, glass",        price:"€ 1,640",  tag:"Commission", ed:false, img:"media/kamar-pendant-01.webp",    alt:"media/manar-pendant-01.webp" },
+    { lot:"Nº 017", name:"Oud",    italic:"Suspension",  sub:"Light · Brass, hand-hammered",price:"€ 820",    tag:"Ed. 24",     ed:true,  img:"media/chamss-pendant-01.webp",   alt:"media/diyae-pendant-01.webp" },
+    { lot:"Nº 024", name:"Kasbah", italic:"Pendant",     sub:"Light · Brass, bone",         price:"€ 2,180",  tag:"8 / 12",     ed:true,  img:"media/diyae-pendant-01.webp",    alt:"media/omniya-pendant-01.webp" },
+    { lot:"Nº 031", name:"Zellige",italic:"Side tables", sub:"Table · Cedar, bone inlay",   price:"€ 2,640",  tag:"Archive",    ed:false, img:"media/moroccan-bone-inlay-side-tables-01.webp", alt:"media/moroccan-octagonal-coffee-table-03.webp" },
   ];
   return (
     <section className="collection" id="collection" data-screen-label="01 Collection">
@@ -932,7 +933,7 @@ function Material() {
     <section className="material" id="material" data-screen-label="03 Material">
       <div className="split">
         <Reveal className="visual" speed="reveal-slow">
-          <img src={M("media/moroccan-octagonal-coffee-table-close.png")} alt="Close-up of bone inlay"/>
+          <img src={M("media/moroccan-octagonal-coffee-table-02.webp")} alt="Close-up of bone inlay"/>
           <div className="lbl">{t("mat.eyebrow")}</div>
           <div className="mag">× 3.2 · f/2.8 · 1/60s</div>
           <div className="stamp">Light falls; <em>the inlay holds.</em></div>
