@@ -129,7 +129,7 @@ nav .right .cart .n{width:18px;height:18px;border-radius:50%;background:var(--br
 .hero .top-meta .sep{display:inline-block;width:20px;height:1px;background:var(--line-bone);margin:0 10px;vertical-align:middle;opacity:.5}
 
 /* Hero is a split — object on left, content on right */
-.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;min-height:calc(100vh - 60px)}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;gap:0;align-items:stretch;min-height:calc(100vh - 60px)}
 .hero .object{position:relative;margin-top:140px;margin-left:48px;margin-right:24px;margin-bottom:40px;border:1px solid var(--line);overflow:hidden;background:var(--espresso)}
 .hero .object::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
   background:
@@ -164,11 +164,13 @@ nav .right .cart .n{width:18px;height:18px;border-radius:50%;background:var(--br
 .hero .actions{display:flex;gap:14px;margin-top:44px;flex-wrap:wrap}
 
 .hero .bot-rail{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(10,8,7,.55);backdrop-filter:blur(8px);z-index:3;position:relative}
-.hero .bot-rail .cell{padding:22px 28px;border-right:1px solid var(--line)}
+.hero .bot-rail .cell{padding:22px 28px;border-right:1px solid var(--line);position:relative;overflow:hidden;isolation:isolate}
 .hero .bot-rail .cell:last-child{border-right:0}
-.hero .bot-rail .cell h6{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.hero .bot-rail .cell::before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--bg);background-size:cover;background-position:center;opacity:.22;filter:saturate(.55) brightness(.7)}
+.hero .bot-rail .cell::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg, rgba(10,8,7,.55) 0%, rgba(10,8,7,.85) 100%)}
+.hero .bot-rail .cell h6{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);opacity:.9;margin-bottom:8px}
 .hero .bot-rail .cell p{font-family:var(--f-serif);font-size:18px;font-weight:300;color:var(--bone);line-height:1.3}
-.hero .bot-rail .cell p em{font-style:italic;color:var(--brass)}
+.hero .bot-rail .cell p em{font-style:italic;color:var(--brass-hi)}
 @media(max-width:1000px){
   .hero .top-meta{left:20px;right:20px;top:76px;font-size:9px}
   .hero-grid{grid-template-columns:1fr}
@@ -340,13 +342,14 @@ nav .right .cart .n{width:18px;height:18px;border-radius:50%;background:var(--br
 .provenance .t h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(40px,5.5vw,84px);line-height:1;letter-spacing:-.018em;color:var(--bone);max-width:14ch;margin-bottom:32px}
 .provenance .t h3 em{font-style:italic;color:var(--brass)}
 .provenance .t p{font-size:15px;line-height:1.8;color:var(--parchment);max-width:46ch;font-weight:300}
-.provenance .t .certs{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding-top:24px;border-top:1px solid var(--line-brass);align-items:start}
-.provenance .t .certs .cert{padding:6px 20px;border-left:1px solid var(--line-soft);display:flex;flex-direction:column;gap:6px;min-height:0}
-.provenance .t .certs .cert:first-child{border-left:0;padding-left:0}
-.provenance .t .certs .cert .k{font-family:var(--f-mono);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);opacity:.85}
-.provenance .t .certs .cert .v{font-family:var(--f-serif);font-style:italic;font-size:17px;color:var(--bone);font-weight:300;line-height:1.3}
-.provenance .t .certs .cert .v em{font-style:italic;color:var(--brass)}
-@media(max-width:900px){.provenance .inner{grid-template-columns:1fr}.provenance .t .certs{grid-template-columns:1fr 1fr}.provenance .t .certs .cert:nth-child(odd):not(:first-child){border-left:0;padding-left:0}}
+.provenance .t .certs{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-top:0;border-top:0;align-items:stretch}
+.provenance .t .certs .cert{position:relative;overflow:hidden;border:1px solid var(--line);padding:18px 18px 22px;display:flex;flex-direction:column;justify-content:flex-end;min-height:160px;isolation:isolate;background:var(--espresso)}
+.provenance .t .certs .cert::before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--bg);background-size:cover;background-position:center;opacity:.42;filter:saturate(.7) brightness(.8)}
+.provenance .t .certs .cert::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg, rgba(15,12,10,.35) 0%, rgba(15,12,10,.92) 100%)}
+.provenance .t .certs .cert .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);opacity:.95}
+.provenance .t .certs .cert .v{font-family:var(--f-serif);font-style:italic;font-size:20px;color:var(--bone);font-weight:300;line-height:1.25;margin-top:6px}
+.provenance .t .certs .cert .v em{font-style:italic;color:var(--brass-hi)}
+@media(max-width:900px){.provenance .inner{grid-template-columns:1fr}.provenance .t .certs{grid-template-columns:1fr 1fr}}
 
 /* ============= SERVICE BAR (4 guarantees) ============= */
 .services{background:var(--ink);border-bottom:1px solid var(--line)}
@@ -746,19 +749,19 @@ function Hero() {
         </div>
 
         <Reveal className="bot-rail" delay={600}>
-          <div className="cell">
+          <div className="cell" style={{"--bg":`url(${M("media/moroccan-living-room-01.webp")})`}}>
             <h6>{t("hero.rail.prov.l")}</h6>
             <p>{t("hero.rail.prov.t")}</p>
           </div>
-          <div className="cell">
+          <div className="cell" style={{"--bg":`url(${M("media/moroccan-bone-inlay-side-tables-01.webp")})`}}>
             <h6>{t("hero.rail.circ.l")}</h6>
             <p>{t("hero.rail.circ.t")}</p>
           </div>
-          <div className="cell">
+          <div className="cell" style={{"--bg":`url(${M("media/moroccan-throne-chair-01.webp")})`}}>
             <h6>{t("hero.rail.lead.l")}</h6>
             <p>{t("hero.rail.lead.t")}</p>
           </div>
-          <div className="cell">
+          <div className="cell" style={{"--bg":`url(${M("media/moroccan-painted-chest-01.webp")})`}}>
             <h6>{t("hero.rail.del.l")}</h6>
             <p>{t("hero.rail.del.t")}</p>
           </div>
@@ -1025,9 +1028,18 @@ function Provenance() {
             <p>{t("prov.body")}</p>
           </Reveal>
           <Reveal className="certs" delay={300}>
-            <div className="cert"><div className="k">{t("prov.cert.estK")}</div><div className="v">{t("prov.cert.estV")}</div></div>
-            <div className="cert"><div className="k">{t("prov.cert.craftK")}</div><div className="v">{t("prov.cert.craftV")}</div></div>
-            <div className="cert"><div className="k">{t("prov.cert.relK")}</div><div className="v">{t("prov.cert.relV")}</div></div>
+            <div className="cert" style={{"--bg":`url(${M("media/moroccan-living-room-01.webp")})`}}>
+              <div className="k">{t("prov.cert.estK")}</div>
+              <div className="v">{t("prov.cert.estV")}</div>
+            </div>
+            <div className="cert" style={{"--bg":`url(${M("media/moroccan-hammam-fountain-01.webp")})`}}>
+              <div className="k">{t("prov.cert.craftK")}</div>
+              <div className="v">{t("prov.cert.craftV")}</div>
+            </div>
+            <div className="cert" style={{"--bg":`url(${M("media/moroccan-octagonal-coffee-table-03.webp")})`}}>
+              <div className="k">{t("prov.cert.relK")}</div>
+              <div className="v">{t("prov.cert.relV")}</div>
+            </div>
           </Reveal>
         </div>
       </div>
