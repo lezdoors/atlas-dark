@@ -6,7 +6,7 @@
 <title>Atlas Perle — Objects of Marrakech</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:        #0a0807;
@@ -380,6 +380,38 @@ footer .bot .pay{display:flex;gap:10px;align-items:center}
 footer .bot .pay span{border:1px solid var(--line);padding:5px 10px;color:var(--oyster)}
 @media(max-width:1000px){footer .cols{grid-template-columns:1fr 1fr 1fr}footer .cols .sub-box{grid-column:span 3}}
 @media(max-width:600px){footer .cols{grid-template-columns:1fr 1fr}footer .cols .sub-box{grid-column:span 2}}
+
+/* ============= LANGUAGE SWITCHER ============= */
+.lang-switch{display:inline-flex;gap:0;align-items:center;font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+.lang-switch button{padding:6px 8px;color:var(--dim);transition:color .3s var(--ease);position:relative}
+.lang-switch button:hover{color:var(--bone)}
+.lang-switch button.on{color:var(--brass)}
+.lang-switch .sep{color:var(--mute);opacity:.6}
+nav.top .right .lang-switch{margin-right:6px;border-right:1px solid var(--line);padding-right:14px}
+
+/* ============= ARABIC / RTL ============= */
+html[lang="ar"] body{font-family:'Noto Naskh Arabic',var(--f-sans);line-height:1.7}
+html[lang="ar"] .serif-quiet,
+html[lang="ar"] .word-reveal,
+html[lang="ar"] h1,html[lang="ar"] h2,html[lang="ar"] h3,html[lang="ar"] h4,html[lang="ar"] h5,
+html[lang="ar"] footer .big,html[lang="ar"] footer .sub,html[lang="ar"] footer .cols .list,
+html[lang="ar"] .featured .stamp,html[lang="ar"] .featured .stamp em,
+html[lang="ar"] .hero .caption .t,html[lang="ar"] .editions .name em,
+html[lang="ar"] .collection .meta .name em,html[lang="ar"] .services .cell .t small{
+  font-family:'Noto Naskh Arabic','Noto Serif',var(--f-serif);
+}
+html[lang="ar"] .mono,html[lang="ar"] .mono-sm,html[lang="ar"] .eyebrow,
+html[lang="ar"] .btn,html[lang="ar"] .link-u,html[lang="ar"] .lang-switch,
+html[lang="ar"] nav.top .links a,html[lang="ar"] nav.top .right a{
+  font-family:'Noto Naskh Arabic',var(--f-mono);letter-spacing:.06em;
+}
+html[dir="rtl"] .eyebrow::before{margin-left:12px;margin-right:0}
+html[dir="rtl"] .btn .arrow{transform:scaleX(-1)}
+html[dir="rtl"] .link-u span,html[dir="rtl"] footer .cols .sub-box .go span{display:inline-block;transform:scaleX(-1)}
+html[dir="rtl"] .rail{right:auto;left:24px}
+html[dir="rtl"] footer .big .mk{right:auto;left:0;transform:rotate(0)}
+html[dir="rtl"] .ticker-track{animation-direction:reverse}
+html[dir="rtl"] .featured .seq,html[dir="rtl"] .hero .caption .seq,html[dir="rtl"] .hero .lot{font-family:var(--f-mono)}
 </style>
 </head>
 <body>
@@ -433,13 +465,215 @@ function WordReveal({ text, className = "", as: As = "h2", delay = 0, perWord = 
     </As>
   );
 }
-Object.assign(window, { Reveal, WordReveal, M, useInView });
+// ============ I18N ============
+const I18N = {
+  en: {
+    "nav.collection":"Collection","nav.editions":"Editions","nav.matter":"Matter",
+    "nav.atelier":"Atelier","nav.journal":"Journal","nav.commissions":"Commissions",
+    "nav.search":"Search","nav.account":"Account","nav.cart":"Cart",
+    "hero.meta1L":"Atlas Perle — House of objects","hero.meta1R":"Est. Marrakech, 1974",
+    "hero.meta2L":"Catalogue IX","hero.meta2R":"Spring 2026 · Release in 4 plates",
+    "hero.lot":"Catalogue IX · Plate 01",
+    "hero.spec.ed":"Ed.","hero.spec.hand":"Hand","hero.spec.days":"9 days","hero.spec.bench":"at the bench",
+    "hero.caption":"Throne, oxblood & bone — Atelier nº 7.","hero.plate":"Plate 01 / 04",
+    "hero.headline":"Objects of <em>rare</em> precision.",
+    "hero.tag":"A controlled catalogue of nine disciplines — brass, bone, leather, cedar, plaster, lacquer. Each piece signed, numbered, and released by hand from Derb el Ferran.",
+    "hero.cta1":"Enter the collection","hero.cta2":"The atelier",
+    "hero.rail.prov.l":"— Provenance","hero.rail.prov.t":"Derb el Ferran, Marrakech medina.",
+    "hero.rail.circ.l":"— Circulation","hero.rail.circ.t":"Numbered editions of 12 or 24.",
+    "hero.rail.lead.l":"— Lead time","hero.rail.lead.t":"Nine days at the bench, one pair of hands.",
+    "hero.rail.del.l":"— Delivery","hero.rail.del.t":"Worldwide, in cotton & cedar.",
+    "tb.filter":"Filter —","tb.all":"All","tb.seat":"Seating","tb.light":"Light","tb.vess":"Vessels",
+    "tb.text":"Textiles","tb.lac":"Lacquer","tb.com":"Commissions",
+    "tb.pieces":"pieces","tb.editionsOpen":"editions open","tb.sort":"Sort —","tb.sortV":"Edition",
+    "col.eyebrow":"II · The collection","col.headline":"Twenty-eight <em>objects,</em> nine disciplines.",
+    "col.meta":"Catalogue IX · Spring 2026","col.cta":"View the full catalogue →",
+    "card.add":"Add to cart",
+    "feat.eyebrow":"I · Featured object","feat.headline":"Tahar, <em>nº 042.</em>",
+    "feat.lot":"Lot nº 042 · Edition of the Season",
+    "feat.byhandPre":"By the hand of","feat.byhandName":"Mehdi El Fassi",
+    "feat.craft":"Cabinet-maker · 28 years at the bench",
+    "feat.remainNum":"12 of 24","feat.remaining":"remaining",
+    "feat.priceL":"Price — fixed edition",
+    "btn.addCart":"Add to cart","btn.writeAtelier":"Write to atelier",
+    "mat.eyebrow":"III · Matter · close inspection",
+    "mat.eyebrow2":"At the edge · 3.2× magnification",
+    "mat.headline":"Four hundred <em>fragments.</em> One pair of hands.",
+    "mat.body":"Each piece of bone is cut at Souk el Khemis, sized against the cedar grain, then inlaid one fragment at a time. Mother-of-pearl from the coast, cedar from Azrou, lacquer mixed in the courtyard. No veneer; no machine; nothing that cannot be repaired at the bench that made it.",
+    "mat.foot.who":"— Mehdi El Fassi · atelier nº 7","mat.foot.daysNum":"26 days","mat.foot.daysSuf":"one pair of hands",
+    "ed.eyebrow":"IV · Open editions","ed.headline":"Three pieces <em>still circulating.</em>",
+    "ed.body":"Each edition is fixed at release and never extended. When numbered, it closes; what remains remains.",
+    "ed.remain":"remaining","ed.of":"of",
+    "prov.eyebrow":"V · Provenance","prov.headline":"A house since <em>1974.</em>",
+    "prov.body":"Atlas Perle is the catalogue of Atelier nº 7 — nine craftsmen off a narrow street in the old medina of Marrakech. Cedar from Azrou. Bone from Souk el Khemis. Hides from Tannery Chouara, a house we have kept since the first piece was signed. Nothing arrives that we have not touched first; nothing leaves that has not been signed.",
+    "prov.live":"Live · atelier nº 7",
+    "prov.cert.estK":"Est.","prov.cert.estV":"1974 · Marrakech",
+    "prov.cert.craftK":"Craftsmen","prov.cert.craftV":"Nine hands",
+    "prov.cert.relK":"Releases","prov.cert.relV":"4 / year",
+    "svc.1.t":"Insured worldwide delivery","svc.1.s":"Cotton & cedar crate",
+    "svc.2.t":"Certificate of edition","svc.2.s":"Signed, dated, numbered",
+    "svc.3.t":"Lifetime repair at bench","svc.3.s":"By the hand that made it",
+    "svc.4.t":"30-day considered return","svc.4.s":"No questions asked",
+    "ft.sub":"A catalogue of rare objects, released from a courtyard in the old medina — one plate at a time.",
+    "ft.subscribe":"Subscribe — four letters a year","ft.subPh":"name@house.com","ft.subCta":"Add me to the carnet",
+    "ft.h.cat":"— Catalogue","ft.h.atelier":"— Atelier","ft.h.house":"— House","ft.h.help":"— Assistance",
+    "ft.cat":"Seating·Light·Vessels·Textiles·Commissions",
+    "ft.at":"The nine hands·Matter·Lead times·Care & repair",
+    "ft.ho":"About·Journal·Visit Marrakech·Write to atelier",
+    "ft.he":"Shipping·Returns·Editions·Terms",
+    "ft.bot":"© 1974–2026 · Atlas Perle · Derb el Ferran, Marrakech · All pieces numbered, signed, released by hand."
+  },
+  fr: {
+    "nav.collection":"Collection","nav.editions":"Éditions","nav.matter":"Matière",
+    "nav.atelier":"Atelier","nav.journal":"Journal","nav.commissions":"Sur-mesure",
+    "nav.search":"Rechercher","nav.account":"Compte","nav.cart":"Panier",
+    "hero.meta1L":"Atlas Perle — Maison d'objets","hero.meta1R":"Fondée à Marrakech, 1974",
+    "hero.meta2L":"Catalogue IX","hero.meta2R":"Printemps 2026 · Parution en 4 planches",
+    "hero.lot":"Catalogue IX · Planche 01",
+    "hero.spec.ed":"Éd.","hero.spec.hand":"Main","hero.spec.days":"9 jours","hero.spec.bench":"à l'atelier",
+    "hero.caption":"Trône, sang de bœuf & os — Atelier nº 7.","hero.plate":"Planche 01 / 04",
+    "hero.headline":"Des objets d'une <em>rare</em> précision.",
+    "hero.tag":"Un catalogue maîtrisé de neuf disciplines — laiton, os, cuir, cèdre, plâtre, laque. Chaque pièce signée, numérotée et libérée à la main depuis Derb el Ferran.",
+    "hero.cta1":"Entrer dans la collection","hero.cta2":"L'atelier",
+    "hero.rail.prov.l":"— Provenance","hero.rail.prov.t":"Derb el Ferran, médina de Marrakech.",
+    "hero.rail.circ.l":"— Diffusion","hero.rail.circ.t":"Éditions numérotées de 12 ou 24.",
+    "hero.rail.lead.l":"— Délai","hero.rail.lead.t":"Neuf jours à l'atelier, deux mains.",
+    "hero.rail.del.l":"— Livraison","hero.rail.del.t":"Mondiale, en coton & cèdre.",
+    "tb.filter":"Filtrer —","tb.all":"Tout","tb.seat":"Sièges","tb.light":"Lumière","tb.vess":"Récipients",
+    "tb.text":"Textiles","tb.lac":"Laque","tb.com":"Sur-mesure",
+    "tb.pieces":"pièces","tb.editionsOpen":"éditions ouvertes","tb.sort":"Tri —","tb.sortV":"Édition",
+    "col.eyebrow":"II · La collection","col.headline":"Vingt-huit <em>objets,</em> neuf disciplines.",
+    "col.meta":"Catalogue IX · Printemps 2026","col.cta":"Voir le catalogue complet →",
+    "card.add":"Ajouter au panier",
+    "feat.eyebrow":"I · Objet en vedette","feat.headline":"Tahar, <em>nº 042.</em>",
+    "feat.lot":"Lot nº 042 · Édition de la saison",
+    "feat.byhandPre":"De la main de","feat.byhandName":"Mehdi El Fassi",
+    "feat.craft":"Ébéniste · 28 ans à l'atelier",
+    "feat.remainNum":"12 sur 24","feat.remaining":"restantes",
+    "feat.priceL":"Prix — édition fermée",
+    "btn.addCart":"Ajouter au panier","btn.writeAtelier":"Écrire à l'atelier",
+    "mat.eyebrow":"III · Matière · examen rapproché",
+    "mat.eyebrow2":"Au plus près · grossissement 3,2×",
+    "mat.headline":"Quatre cents <em>fragments.</em> Deux mains.",
+    "mat.body":"Chaque pièce d'os est taillée au Souk el Khemis, ajustée au grain du cèdre, puis incrustée fragment par fragment. Nacre de la côte, cèdre d'Azrou, laque préparée dans la cour. Aucun placage ; aucune machine ; rien qui ne puisse être réparé à l'établi qui l'a fait.",
+    "mat.foot.who":"— Mehdi El Fassi · atelier nº 7","mat.foot.daysNum":"26 jours","mat.foot.daysSuf":"deux mains",
+    "ed.eyebrow":"IV · Éditions ouvertes","ed.headline":"Trois pièces <em>encore en circulation.</em>",
+    "ed.body":"Chaque édition est fixée à la sortie et n'est jamais prolongée. Une fois numérotée, elle se ferme ; ce qui reste reste.",
+    "ed.remain":"restantes","ed.of":"sur",
+    "prov.eyebrow":"V · Provenance","prov.headline":"Une maison depuis <em>1974.</em>",
+    "prov.body":"Atlas Perle est le catalogue de l'Atelier nº 7 — neuf artisans sur une ruelle de la vieille médina de Marrakech. Cèdre d'Azrou. Os du Souk el Khemis. Cuirs de la Tannerie Chouara, une maison que nous fréquentons depuis la première pièce signée. Rien n'arrive sans que nous l'ayons d'abord touché ; rien ne part sans avoir été signé.",
+    "prov.live":"En direct · atelier nº 7",
+    "prov.cert.estK":"Fondée","prov.cert.estV":"1974 · Marrakech",
+    "prov.cert.craftK":"Artisans","prov.cert.craftV":"Neuf mains",
+    "prov.cert.relK":"Éditions","prov.cert.relV":"4 / an",
+    "svc.1.t":"Livraison mondiale assurée","svc.1.s":"Caisse coton & cèdre",
+    "svc.2.t":"Certificat d'édition","svc.2.s":"Signé, daté, numéroté",
+    "svc.3.t":"Réparation à vie à l'atelier","svc.3.s":"Par la main qui l'a fait",
+    "svc.4.t":"Retour réfléchi sous 30 jours","svc.4.s":"Sans question",
+    "ft.sub":"Un catalogue d'objets rares, libéré depuis une cour de la vieille médina — une planche à la fois.",
+    "ft.subscribe":"S'abonner — quatre lettres par an","ft.subPh":"nom@maison.com","ft.subCta":"M'inscrire au carnet",
+    "ft.h.cat":"— Catalogue","ft.h.atelier":"— Atelier","ft.h.house":"— Maison","ft.h.help":"— Assistance",
+    "ft.cat":"Sièges·Lumière·Récipients·Textiles·Sur-mesure",
+    "ft.at":"Les neuf mains·Matière·Délais·Soin & réparation",
+    "ft.ho":"À propos·Journal·Visiter Marrakech·Écrire à l'atelier",
+    "ft.he":"Expédition·Retours·Éditions·CGV",
+    "ft.bot":"© 1974–2026 · Atlas Perle · Derb el Ferran, Marrakech · Toutes les pièces numérotées, signées, libérées à la main."
+  },
+  ar: {
+    "nav.collection":"المجموعة","nav.editions":"الإصدارات","nav.matter":"المواد",
+    "nav.atelier":"الورشة","nav.journal":"المجلة","nav.commissions":"طلبات خاصة",
+    "nav.search":"بحث","nav.account":"الحساب","nav.cart":"السلة",
+    "hero.meta1L":"أطلس بيرل — دار الأشياء","hero.meta1R":"تأسست في مراكش، ١٩٧٤",
+    "hero.meta2L":"كتالوج التاسع","hero.meta2R":"ربيع ٢٠٢٦ · إصدار في ٤ لوحات",
+    "hero.lot":"كتالوج التاسع · لوحة ٠١",
+    "hero.spec.ed":"إصدار","hero.spec.hand":"اليد","hero.spec.days":"٩ أيام","hero.spec.bench":"على الطاولة",
+    "hero.caption":"عرش، أحمر داكن وعظم — ورشة رقم ٧.","hero.plate":"لوحة ٠١ / ٠٤",
+    "hero.headline":"أشياء بدقة <em>نادرة.</em>",
+    "hero.tag":"كتالوج محكوم في تسعة تخصصات — نحاس، عظم، جلد، أرز، جص، لاكر. كل قطعة موقعة، مرقمة، ومُصدرة باليد من درب الفران.",
+    "hero.cta1":"ادخل المجموعة","hero.cta2":"الورشة",
+    "hero.rail.prov.l":"— المنشأ","hero.rail.prov.t":"درب الفران، المدينة القديمة بمراكش.",
+    "hero.rail.circ.l":"— التداول","hero.rail.circ.t":"إصدارات مرقمة من ١٢ أو ٢٤.",
+    "hero.rail.lead.l":"— مدة التنفيذ","hero.rail.lead.t":"تسعة أيام على الطاولة، زوج واحد من الأيدي.",
+    "hero.rail.del.l":"— التوصيل","hero.rail.del.t":"حول العالم، في قطن وأرز.",
+    "tb.filter":"تصفية —","tb.all":"الكل","tb.seat":"المقاعد","tb.light":"الإضاءة","tb.vess":"الأواني",
+    "tb.text":"المنسوجات","tb.lac":"اللاكر","tb.com":"طلبات خاصة",
+    "tb.pieces":"قطعة","tb.editionsOpen":"إصدارات مفتوحة","tb.sort":"ترتيب —","tb.sortV":"الإصدار",
+    "col.eyebrow":"II · المجموعة","col.headline":"ثمانية وعشرون <em>قطعة،</em> تسعة تخصصات.",
+    "col.meta":"كتالوج التاسع · ربيع ٢٠٢٦","col.cta":"عرض الكتالوج الكامل ←",
+    "card.add":"أضف إلى السلة",
+    "feat.eyebrow":"I · القطعة المميزة","feat.headline":"طاهر، <em>رقم ٠٤٢.</em>",
+    "feat.lot":"لوت رقم ٠٤٢ · إصدار الموسم",
+    "feat.byhandPre":"من يد","feat.byhandName":"مهدي الفاسي",
+    "feat.craft":"نجار · ٢٨ سنة على الطاولة",
+    "feat.remainNum":"١٢ من ٢٤","feat.remaining":"متبقية",
+    "feat.priceL":"السعر — إصدار محدود",
+    "btn.addCart":"أضف إلى السلة","btn.writeAtelier":"اكتب إلى الورشة",
+    "mat.eyebrow":"III · المادة · فحص قريب",
+    "mat.eyebrow2":"عند الحافة · تكبير ٣٫٢×",
+    "mat.headline":"أربعمائة <em>قطعة.</em> زوج واحد من الأيدي.",
+    "mat.body":"كل قطعة عظم تُقطع في سوق الخميس، تُقاس على حبيبات الأرز، ثم تُطعَّم قطعة بقطعة. صدف اللؤلؤ من الساحل، أرز من أزرو، لاكر يُمزج في الفناء. لا قشرة؛ لا آلة؛ لا شيء لا يمكن إصلاحه على الطاولة التي صنعته.",
+    "mat.foot.who":"— مهدي الفاسي · ورشة رقم ٧","mat.foot.daysNum":"٢٦ يومًا","mat.foot.daysSuf":"زوج من الأيدي",
+    "ed.eyebrow":"IV · إصدارات مفتوحة","ed.headline":"ثلاث قطع <em>لا تزال متداولة.</em>",
+    "ed.body":"كل إصدار يُحدد عند الإطلاق ولا يُمدد أبدًا. عند ترقيمها، تُغلق؛ ما تبقى يبقى.",
+    "ed.remain":"متبقية","ed.of":"من",
+    "prov.eyebrow":"V · المنشأ","prov.headline":"دار منذ <em>١٩٧٤.</em>",
+    "prov.body":"أطلس بيرل هو كتالوج ورشة رقم ٧ — تسعة حرفيين على زقاق ضيق في مدينة مراكش القديمة. أرز من أزرو. عظم من سوق الخميس. جلود من دبغة الشوارة، دار حافظنا عليها منذ توقيع أول قطعة. لا شيء يصل دون أن نلمسه أولاً؛ لا شيء يغادر دون أن يُوقَّع.",
+    "prov.live":"مباشر · ورشة رقم ٧",
+    "prov.cert.estK":"تأسست","prov.cert.estV":"١٩٧٤ · مراكش",
+    "prov.cert.craftK":"حرفيون","prov.cert.craftV":"تسع أيدٍ",
+    "prov.cert.relK":"إصدارات","prov.cert.relV":"٤ / سنة",
+    "svc.1.t":"شحن دولي مؤمن","svc.1.s":"صندوق قطن وأرز",
+    "svc.2.t":"شهادة الإصدار","svc.2.s":"موقعة، مؤرخة، مرقمة",
+    "svc.3.t":"إصلاح مدى الحياة في الورشة","svc.3.s":"باليد التي صنعتها",
+    "svc.4.t":"إرجاع مدروس خلال ٣٠ يومًا","svc.4.s":"بدون أسئلة",
+    "ft.sub":"كتالوج للأشياء النادرة، يُطلق من فناء في المدينة القديمة — لوحة واحدة في كل مرة.",
+    "ft.subscribe":"اشترك — أربع رسائل في السنة","ft.subPh":"الاسم@الدار.com","ft.subCta":"أضفني إلى السجل",
+    "ft.h.cat":"— الكتالوج","ft.h.atelier":"— الورشة","ft.h.house":"— الدار","ft.h.help":"— المساعدة",
+    "ft.cat":"المقاعد·الإضاءة·الأواني·المنسوجات·طلبات خاصة",
+    "ft.at":"الأيدي التسع·المادة·المهل·العناية والإصلاح",
+    "ft.ho":"عن الدار·المجلة·زيارة مراكش·اكتب إلى الورشة",
+    "ft.he":"الشحن·الإرجاع·الإصدارات·الشروط",
+    "ft.bot":"© ١٩٧٤–٢٠٢٦ · أطلس بيرل · درب الفران، مراكش · جميع القطع مرقمة، موقعة، ومُصدرة باليد."
+  }
+};
+const LangCtx = React.createContext({lang:"en", setLang:()=>{}});
+function LangProvider({children}){
+  const [lang, setLang] = useState(() => {
+    try { return localStorage.getItem("ap_lang") || "en"; } catch(e) { return "en"; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem("ap_lang", lang); } catch(e) {}
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  }, [lang]);
+  return <LangCtx.Provider value={{lang, setLang}}>{children}</LangCtx.Provider>;
+}
+function useT(){
+  const {lang} = React.useContext(LangCtx);
+  return (key, fb) => (I18N[lang] && I18N[lang][key]) || I18N.en[key] || fb || key;
+}
+function LangSwitch(){
+  const {lang, setLang} = React.useContext(LangCtx);
+  const opts = [["en","EN"],["fr","FR"],["ar","AR"]];
+  return (
+    <div className="lang-switch" role="group" aria-label="Language">
+      {opts.map(([code,label], i) => (
+        <React.Fragment key={code}>
+          {i > 0 && <span className="sep">·</span>}
+          <button className={lang===code?"on":""} onClick={()=>setLang(code)} aria-pressed={lang===code}>{label}</button>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+Object.assign(window, { Reveal, WordReveal, M, useInView, I18N, LangCtx, LangProvider, useT, LangSwitch });
 </script>
 
 <script type="text/babel" data-presets="react">
 // ============ NAV ============
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const t = useT();
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", on, { passive: true });
@@ -452,17 +686,18 @@ function Nav() {
         <span className="name">Atlas <em>Perle</em></span>
       </div>
       <div className="links">
-        <a className="on" href="#collection">Collection</a>
-        <a href="#editions">Editions</a>
-        <a href="#material">Matter</a>
-        <a href="#provenance">Atelier</a>
-        <a href="#">Journal</a>
-        <a href="#">Commissions</a>
+        <a className="on" href="#collection">{t("nav.collection")}</a>
+        <a href="#editions">{t("nav.editions")}</a>
+        <a href="#material">{t("nav.matter")}</a>
+        <a href="#provenance">{t("nav.atelier")}</a>
+        <a href="#">{t("nav.journal")}</a>
+        <a href="#">{t("nav.commissions")}</a>
       </div>
       <div className="right">
-        <a href="#">Search</a>
-        <a href="#">Account</a>
-        <a className="cart" href="#">Cart <span className="n">2</span></a>
+        <LangSwitch/>
+        <a href="#">{t("nav.search")}</a>
+        <a href="#">{t("nav.account")}</a>
+        <a className="cart" href="#">{t("nav.cart")} <span className="n">2</span></a>
       </div>
     </nav>
   );
@@ -470,12 +705,13 @@ function Nav() {
 
 // ============ HERO ============
 function Hero() {
+  const t = useT();
   return (
     <section className="hero" data-screen-label="00 Hero">
       <div className="bg"/>
       <div className="top-meta">
-        <span>Atlas Perle — House of objects <span className="sep"/> Est. Marrakech, 1974</span>
-        <span>Catalogue IX <span className="sep"/> Spring 2026 · Release in 4 plates</span>
+        <span>{t("hero.meta1L")} <span className="sep"/> {t("hero.meta1R")}</span>
+        <span>{t("hero.meta2L")} <span className="sep"/> {t("hero.meta2R")}</span>
       </div>
 
       <div className="hero-grid">
@@ -484,47 +720,46 @@ function Hero() {
             <source src={M("media/hero-loop.mp4")} type="video/mp4"/>
           </video>
           <div className="corners"><i className="tl"/><i className="tr"/><i className="bl"/><i className="br"/></div>
-          <div className="lot">Catalogue IX · Plate 01</div>
+          <div className="lot">{t("hero.lot")}</div>
           <div className="spec-band">
-            <div className="row">Ed. <b>24 / 24</b></div>
-            <div className="row">Hand <b>H. Idrissi</b></div>
-            <div className="row">9 days <b>at the bench</b></div>
+            <div className="row">{t("hero.spec.ed")} <b>24 / 24</b></div>
+            <div className="row">{t("hero.spec.hand")} <b>H. Idrissi</b></div>
+            <div className="row">{t("hero.spec.days")} <b>{t("hero.spec.bench")}</b></div>
           </div>
           <div className="caption">
-            <div className="t">Throne, oxblood &amp; bone — Atelier nº 7.</div>
-            <div className="seq">Plate 01 / 04</div>
+            <div className="t">{t("hero.caption")}</div>
+            <div className="seq">{t("hero.plate")}</div>
           </div>
         </Reveal>
 
         <div className="right-side">
-          <WordReveal as="h1" text="Objects of <em>rare</em> precision." perWord={120}/>
+          <WordReveal as="h1" text={t("hero.headline")} perWord={120}/>
           <span className="rule" style={{display:"block",width:80,height:1,background:"var(--brass)",margin:"24px 0"}}/>
           <Reveal className="tag" delay={300} speed="reveal-slow">
-            A controlled catalogue of nine disciplines — <em>brass, bone, leather, cedar, plaster, lacquer.</em>{" "}
-            Each piece signed, numbered, and released by hand from Derb el Ferran.
+            {t("hero.tag")}
           </Reveal>
           <Reveal className="actions" delay={500}>
-            <a className="btn solid" href="#collection">Enter the collection <span className="arrow"/></a>
-            <a className="btn ghost" href="#provenance">The atelier</a>
+            <a className="btn solid" href="#collection">{t("hero.cta1")} <span className="arrow"/></a>
+            <a className="btn ghost" href="#provenance">{t("hero.cta2")}</a>
           </Reveal>
         </div>
 
         <Reveal className="bot-rail" delay={600}>
           <div className="cell">
-            <h6>— Provenance</h6>
-            <p>Derb el Ferran, <em>Marrakech medina.</em></p>
+            <h6>{t("hero.rail.prov.l")}</h6>
+            <p>{t("hero.rail.prov.t")}</p>
           </div>
           <div className="cell">
-            <h6>— Circulation</h6>
-            <p>Numbered editions of <em>12 or 24.</em></p>
+            <h6>{t("hero.rail.circ.l")}</h6>
+            <p>{t("hero.rail.circ.t")}</p>
           </div>
           <div className="cell">
-            <h6>— Lead time</h6>
-            <p>Nine days at the bench, <em>one pair of hands.</em></p>
+            <h6>{t("hero.rail.lead.l")}</h6>
+            <p>{t("hero.rail.lead.t")}</p>
           </div>
           <div className="cell">
-            <h6>— Delivery</h6>
-            <p>Worldwide, in <em>cotton &amp; cedar.</em></p>
+            <h6>{t("hero.rail.del.l")}</h6>
+            <p>{t("hero.rail.del.t")}</p>
           </div>
         </Reveal>
       </div>
@@ -547,19 +782,23 @@ function Ticker() {
 
 // ============ TOOLBAR ============
 function Toolbar() {
-  const [active, setActive] = useState("All");
-  const chips = ["All", "Seating", "Light", "Vessels", "Textiles", "Lacquer", "Commissions"];
+  const t = useT();
+  const chips = [
+    ["all","tb.all"],["seat","tb.seat"],["light","tb.light"],["vess","tb.vess"],
+    ["text","tb.text"],["lac","tb.lac"],["com","tb.com"]
+  ];
+  const [active, setActive] = useState("all");
   return (
     <div className="toolbar floating">
       <div className="inner">
-        <div className="label">Filter —</div>
+        <div className="label">{t("tb.filter")}</div>
         <div className="chips">
-          {chips.map(c => (
-            <button key={c} className={`chip ${active === c ? "on" : ""}`} onClick={() => setActive(c)}>{c}</button>
+          {chips.map(([id,key]) => (
+            <button key={id} className={`chip ${active === id ? "on" : ""}`} onClick={() => setActive(id)}>{t(key)}</button>
           ))}
         </div>
-        <div className="count"><em>28</em> pieces · <em>9</em> editions open</div>
-        <div className="sort">Sort — <b>Edition ↓</b></div>
+        <div className="count"><em>28</em> {t("tb.pieces")} · <em>9</em> {t("tb.editionsOpen")}</div>
+        <div className="sort">{t("tb.sort")} <b>{t("tb.sortV")} ↓</b></div>
       </div>
     </div>
   );
@@ -567,42 +806,43 @@ function Toolbar() {
 
 // ============ FEATURED OBJECT ============
 function Featured() {
+  const t = useT();
   return (
     <section className="featured" data-screen-label="02 Featured">
       <div className="inner">
         <Reveal className="plate" speed="reveal-slow">
-          <img src={M("media/leather-pouf-white-grey-09.webp")} alt="Ivoire nº 042"/>
-          <div className="lot">Lot nº 042 · Edition of the Season</div>
-          <div className="stamp"><em>Ivoire</em> — chalk-white<br/>hide, bone seam.</div>
-          <div className="seq">Plate 01 / 04</div>
+          <img src={M("media/moroccan-octagonal-coffee-table-01.webp")} alt="Tahar nº 042"/>
+          <div className="lot">{t("feat.lot")}</div>
+          <div className="stamp"><em>Tahar</em> — octagonal<br/>cedar, bone inlay.</div>
+          <div className="seq">{t("hero.plate")}</div>
         </Reveal>
 
         <div className="side">
           <Reveal className="top">
             <div>
-              <div className="eyebrow">I · Featured object</div>
-              <WordReveal as="h3" text="Ivoire, <em>nº 042.</em>" perWord={120}/>
+              <div className="eyebrow">{t("feat.eyebrow")}</div>
+              <WordReveal as="h3" text={t("feat.headline")} perWord={120}/>
             </div>
             <div className="row-lead">
               <div className="l">
-                <div className="who">By the hand of <em>Hassan Idrissi</em></div>
-                <div className="sub">Tanner · 31 years at the bench</div>
+                <div className="who">{t("feat.byhandPre")} <em>{t("feat.byhandName")}</em></div>
+                <div className="sub">{t("feat.craft")}</div>
               </div>
-              <div className="r">12 of 24<br/>remaining</div>
+              <div className="r">{t("feat.remainNum")}<br/>{t("feat.remaining")}</div>
             </div>
             <div className="specs">
-              <div className="spec"><span className="k">Matter</span><span className="v">Veg-tanned hide · <em>camel bone</em></span><span className="x">Tannery Chouara</span></div>
-              <div className="spec"><span className="k">Measure</span><span className="v">Ø 55 · h 35 cm</span><span className="x">± 4 mm</span></div>
-              <div className="spec"><span className="k">Seams</span><span className="v">48 · hand-stitched</span><span className="x">Waxed linen</span></div>
+              <div className="spec"><span className="k">Matter</span><span className="v">Cedar of Azrou · <em>camel bone</em></span><span className="x">Souk el Khemis</span></div>
+              <div className="spec"><span className="k">Measure</span><span className="v">Ø 88 · h 42 cm</span><span className="x">± 4 mm</span></div>
+              <div className="spec"><span className="k">Inlay</span><span className="v">412 · hand-cut</span><span className="x">Bone & MOP</span></div>
               <div className="spec"><span className="k">Released</span><span className="v">March 2026</span><span className="x">Marrakech</span></div>
               <div className="spec"><span className="k">Signature</span><span className="v">Initialled · dated</span><span className="x">Stamp on base</span></div>
             </div>
           </Reveal>
           <Reveal className="price-row" delay={200}>
-            <div className="price"><small>Price — fixed edition</small>€ 1,240</div>
+            <div className="price"><small>{t("feat.priceL")}</small>€ 2,640</div>
             <div className="actions">
-              <a className="btn solid" href="#">Add to cart <span className="arrow"/></a>
-              <a className="btn ghost" href="#">Write to atelier</a>
+              <a className="btn solid" href="#">{t("btn.addCart")} <span className="arrow"/></a>
+              <a className="btn ghost" href="#">{t("btn.writeAtelier")}</a>
             </div>
           </Reveal>
         </div>
@@ -613,11 +853,12 @@ function Featured() {
 
 // ============ COLLECTION ============
 function Collection() {
+  const t = useT();
   const cards = [
-    { lot:"Nº 038", name:"Ghita", italic:"Fauve",      sub:"Seating · Hide, linen",       price:"€ 1,180",  tag:"Ed. 24",   ed:true,  img:"media/leather-pouf-brown-06.webp",         alt:"media/leather-pouf-white-grey-09.webp" },
-    { lot:"Nº 042", name:"Ivoire",italic:"nº 042",     sub:"Seating · Hide, bone",        price:"€ 1,240",  tag:"12 / 24",  ed:true,  img:"media/leather-pouf-white-grey-09.webp",    alt:"media/leather-pouf-white-grey-06.webp" },
-    { lot:"Nº 051", name:"Craie", italic:"Chalk",      sub:"Seating · Linen, bone",       price:"€ 980",    tag:"6 / 12",   ed:true,  img:"media/leather-pouf-white-grey-08.webp",    alt:"media/leather-pouf-white-grey-06.webp" },
-    { lot:"Nº 061", name:"Nubia", italic:"Low seat",   sub:"Seating · Hide",              price:"€ 860",    tag:"11 / 12",  ed:true,  img:"media/leather-pouf-white-grey-06.webp",    alt:"media/leather-pouf-white-grey-09.webp" },
+    { lot:"Nº 038", name:"Ghita",  italic:"Throne",      sub:"Seating · Cedar, hide",       price:"€ 2,180",  tag:"8 / 12",   ed:true,  img:"media/moroccan-throne-chair-01.webp",       alt:"media/moroccan-painted-dresser-01.webp" },
+    { lot:"Nº 042", name:"Tahar",  italic:"Octagonal",   sub:"Table · Cedar, bone inlay",   price:"€ 2,640",  tag:"12 / 24",  ed:true,  img:"media/moroccan-octagonal-coffee-table-01.webp", alt:"media/moroccan-octagonal-coffee-table-close.png" },
+    { lot:"Nº 051", name:"Hannan", italic:"Coffer",      sub:"Storage · Cedar, lacquer",    price:"€ 1,840", tag:"6 / 12",   ed:true,  img:"media/moroccan-painted-chest-01.webp",      alt:"media/moroccan-painted-dresser-01.webp" },
+    { lot:"Nº 061", name:"Aziza",  italic:"Cabinet",     sub:"Storage · Cedar, gilt",       price:"€ 2,420", tag:"11 / 12",  ed:true,  img:"media/moroccan-painted-dresser-01.webp",    alt:"media/moroccan-painted-chest-01.webp" },
     { lot:"Nº 012", name:"Djebel",italic:"Lantern",    sub:"Light · Brass, cedar",        price:"€ 1,640",  tag:"Commission", ed:false, place:{tone:"brass",  label:"Djebel Lantern"} },
     { lot:"Nº 017", name:"Oud",   italic:"Sconce",     sub:"Light · Brass",               price:"€ 820",    tag:"Ed. 24",   ed:true,  place:{tone:"brass",  label:"Oud Sconce"} },
     { lot:"Nº 024", name:"Kasbah",italic:"Pendant",    sub:"Light · Brass, bone",         price:"€ 2,180",  tag:"8 / 12",   ed:true,  place:{tone:"bone",   label:"Kasbah Pendant"} },
@@ -628,12 +869,12 @@ function Collection() {
       <div className="inner">
         <div className="head">
           <Reveal>
-            <div className="eyebrow">II · The collection</div>
-            <WordReveal as="h2" text="Twenty-eight <em>objects,</em> nine disciplines." perWord={90}/>
+            <div className="eyebrow">{t("col.eyebrow")}</div>
+            <WordReveal as="h2" text={t("col.headline")} perWord={90}/>
           </Reveal>
           <Reveal className="cta" delay={200}>
-            <span className="meta">Catalogue IX · Spring 2026</span>
-            <a className="link-u" href="#">View the full catalogue →</a>
+            <span className="meta">{t("col.meta")}</span>
+            <a className="link-u" href="#">{t("col.cta")}</a>
           </Reveal>
         </div>
 
@@ -651,7 +892,7 @@ function Collection() {
                 )}
                 <div className="lot">{c.lot}</div>
                 <div className={`tag ${c.ed ? "ed" : ""}`}>{c.tag}</div>
-                <button className="quickadd">Add to cart · {c.price}</button>
+                <button className="quickadd">{t("card.add")} · {c.price}</button>
               </div>
               <div className="meta">
                 <div className="name">{c.name} <em>— {c.italic}</em></div>
@@ -686,43 +927,39 @@ function Placeholder({ tone, label }) {
 
 // ============ MATERIAL ============
 function Material() {
+  const t = useT();
   return (
     <section className="material" id="material" data-screen-label="03 Material">
       <div className="split">
         <Reveal className="visual" speed="reveal-slow">
-          <img src={M("media/leather-pouf-white-grey-09.webp")} alt="Close-up of bone seam"/>
-          <div className="lbl">III · Matter · close inspection</div>
+          <img src={M("media/moroccan-octagonal-coffee-table-close.png")} alt="Close-up of bone inlay"/>
+          <div className="lbl">{t("mat.eyebrow")}</div>
           <div className="mag">× 3.2 · f/2.8 · 1/60s</div>
-          <div className="stamp">Light falls; <em>the seam holds.</em></div>
+          <div className="stamp">Light falls; <em>the inlay holds.</em></div>
         </Reveal>
         <div className="copy">
           <Reveal>
-            <div className="eyebrow">&nbsp;At the edge · 3.2× magnification</div>
-            <WordReveal as="h3" text="Forty-eight <em>seams.</em> One pair of hands." perWord={80}/>
+            <div className="eyebrow">&nbsp;{t("mat.eyebrow2")}</div>
+            <WordReveal as="h3" text={t("mat.headline")} perWord={80}/>
           </Reveal>
           <Reveal delay={150}>
-            <p>
-              Each seam is drawn in chalk, pierced with an awl, then pulled through
-              waxed linen thread by hand. The bone is cut at Souk el Khemis and shaped
-              against the grain so the catch of light runs with the seat. No glue;
-              no fastener; nothing that cannot be repaired at the bench that made it.
-            </p>
+            <p>{t("mat.body")}</p>
           </Reveal>
           <Reveal className="closeups" delay={300}>
             <div className="c">
-              <img src={M("media/leather-pouf-white-grey-06.webp")} alt=""/>
-              <div className="n">i — Grain</div>
-              <div className="t"><em>chalk on hide</em></div>
+              <img src={M("media/moroccan-bone-inlay-bed-set-01.webp")} alt=""/>
+              <div className="n">i — Bone</div>
+              <div className="t"><em>cut against the grain</em></div>
             </div>
             <div className="c">
-              <img src={M("media/leather-pouf-white-grey-08.webp")} alt=""/>
-              <div className="n">ii — Seam</div>
-              <div className="t"><em>waxed linen</em></div>
+              <img src={M("media/moroccan-mother-of-pearl-side-table-01.webp")} alt=""/>
+              <div className="n">ii — Nacre</div>
+              <div className="t"><em>mother-of-pearl</em></div>
             </div>
           </Reveal>
           <Reveal className="foot" delay={400}>
-            <span>— Hassan Idrissi · atelier nº 7</span>
-            <span><b>9 days</b> · one pair of hands</span>
+            <span>{t("mat.foot.who")}</span>
+            <span><b>{t("mat.foot.daysNum")}</b> · {t("mat.foot.daysSuf")}</span>
           </Reveal>
         </div>
       </div>
@@ -732,31 +969,32 @@ function Material() {
 
 // ============ EDITIONS STRIP ============
 function Editions() {
+  const t = useT();
   const tiles = [
-    { lot:"Nº 042", name:"Ivoire",    italic:"Chalk hide",    remaining:12, total:24, tone:"bone",    img:"media/leather-pouf-white-grey-09.webp" },
-    { lot:"Nº 038", name:"Ghita",     italic:"Fauve",         remaining:9,  total:24, tone:"brass",   img:"media/leather-pouf-brown-06.webp" },
-    { lot:"Nº 051", name:"Craie",     italic:"Bone seam",     remaining:6,  total:12, tone:"lacquer", img:"media/leather-pouf-white-grey-08.webp" },
+    { lot:"Nº 042", name:"Tahar",     italic:"Octagonal",     remaining:12, total:24, tone:"bone",    img:"media/moroccan-octagonal-coffee-table-01.webp" },
+    { lot:"Nº 038", name:"Ghita",     italic:"Throne",        remaining:8,  total:12, tone:"brass",   img:"media/moroccan-throne-chair-01.webp" },
+    { lot:"Nº 051", name:"Hannan",    italic:"Coffer",        remaining:6,  total:12, tone:"lacquer", img:"media/moroccan-painted-chest-01.webp" },
   ];
   return (
     <section className="editions" id="editions" data-screen-label="04 Editions">
       <div className="inner">
         <div className="head">
           <Reveal>
-            <div className="eyebrow">IV · Open editions</div>
-            <WordReveal as="h3" text="Three pieces <em>still circulating.</em>" perWord={90}/>
+            <div className="eyebrow">{t("ed.eyebrow")}</div>
+            <WordReveal as="h3" text={t("ed.headline")} perWord={90}/>
           </Reveal>
           <Reveal delay={200}>
-            <p>Each edition is fixed at release and never extended. When numbered, it closes; what remains remains.</p>
+            <p>{t("ed.body")}</p>
           </Reveal>
         </div>
         <div className="grid">
-          {tiles.map((t, i) => (
-            <Reveal className="tile" key={t.lot} delay={i * 100}>
-              <img src={M(t.img)} alt={t.name} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",filter:"brightness(.78) contrast(1.12) saturate(1.05)",transform:"scale(1.03)",animation:"kenburns 30s var(--ease-in-out) infinite alternate"}}/>
-              <div className="lot">{t.lot}</div>
-              <div className="name">{t.name} <em>— {t.italic}</em></div>
-              <div className="big-no">{String(t.remaining).padStart(2,"0")}</div>
-              <div className="remain"><b>{t.remaining}</b> of {t.total}<br/>remaining</div>
+          {tiles.map((tile, i) => (
+            <Reveal className="tile" key={tile.lot} delay={i * 100}>
+              <img src={M(tile.img)} alt={tile.name} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",filter:"brightness(.78) contrast(1.12) saturate(1.05)",transform:"scale(1.03)",animation:"kenburns 30s var(--ease-in-out) infinite alternate"}}/>
+              <div className="lot">{tile.lot}</div>
+              <div className="name">{tile.name} <em>— {tile.italic}</em></div>
+              <div className="big-no">{String(tile.remaining).padStart(2,"0")}</div>
+              <div className="remain"><b>{tile.remaining}</b> {t("ed.of")} {tile.total}<br/>{t("ed.remain")}</div>
             </Reveal>
           ))}
         </div>
@@ -767,6 +1005,7 @@ function Editions() {
 
 // ============ PROVENANCE ============
 function Provenance() {
+  const t = useT();
   return (
     <section className="provenance" id="provenance" data-screen-label="05 Provenance">
       <div className="inner">
@@ -774,26 +1013,20 @@ function Provenance() {
           <video autoPlay muted loop playsInline>
             <source src={M("media/ryad-entrance.mp4")} type="video/mp4"/>
           </video>
-          <div className="lbl"><span className="rec"/>Live · atelier nº 7</div>
+          <div className="lbl"><span className="rec"/>{t("prov.live")}</div>
         </Reveal>
         <div className="t">
           <Reveal>
-            <div className="eyebrow">V · Provenance</div>
-            <WordReveal as="h3" text="A house since <em>1974.</em>" perWord={100}/>
+            <div className="eyebrow">{t("prov.eyebrow")}</div>
+            <WordReveal as="h3" text={t("prov.headline")} perWord={100}/>
           </Reveal>
           <Reveal delay={150}>
-            <p>
-              Atlas Perle is the catalogue of Atelier nº 7 — nine craftsmen off
-              a narrow street in the old medina of Marrakech. Cedar from Azrou.
-              Bone from Souk el Khemis. Hides from Tannery Chouara, a house we
-              have kept since the first piece was signed. Nothing arrives that
-              we have not touched first; nothing leaves that has not been signed.
-            </p>
+            <p>{t("prov.body")}</p>
           </Reveal>
           <Reveal className="certs" delay={300}>
-            <div className="cert"><div className="k">Est.</div><div className="v"><em>1974</em> · Marrakech</div></div>
-            <div className="cert"><div className="k">Craftsmen</div><div className="v"><em>Nine</em> hands</div></div>
-            <div className="cert"><div className="k">Releases</div><div className="v"><em>4</em> / year</div></div>
+            <div className="cert"><div className="k">{t("prov.cert.estK")}</div><div className="v">{t("prov.cert.estV")}</div></div>
+            <div className="cert"><div className="k">{t("prov.cert.craftK")}</div><div className="v">{t("prov.cert.craftV")}</div></div>
+            <div className="cert"><div className="k">{t("prov.cert.relK")}</div><div className="v">{t("prov.cert.relV")}</div></div>
           </Reveal>
         </div>
       </div>
@@ -803,11 +1036,12 @@ function Provenance() {
 
 // ============ SERVICES ============
 function Services() {
+  const t = useT();
   const rows = [
-    { ic:"i",   t:"Insured worldwide delivery",  s:"Cotton & cedar crate" },
-    { ic:"ii",  t:"Certificate of edition",      s:"Signed, dated, numbered" },
-    { ic:"iii", t:"Lifetime repair at bench",    s:"By the hand that made it" },
-    { ic:"iv",  t:"30-day considered return",    s:"No questions asked" },
+    { ic:"i",   tk:"svc.1.t", sk:"svc.1.s" },
+    { ic:"ii",  tk:"svc.2.t", sk:"svc.2.s" },
+    { ic:"iii", tk:"svc.3.t", sk:"svc.3.s" },
+    { ic:"iv",  tk:"svc.4.t", sk:"svc.4.s" },
   ];
   return (
     <section className="services">
@@ -815,7 +1049,7 @@ function Services() {
         {rows.map((r, i) => (
           <div className="cell" key={i}>
             <div className="ic">{r.ic}</div>
-            <div className="t">{r.t}<small>{r.s}</small></div>
+            <div className="t">{t(r.tk)}<small>{t(r.sk)}</small></div>
           </div>
         ))}
       </div>
@@ -825,46 +1059,43 @@ function Services() {
 
 // ============ FOOTER ============
 function Footer() {
+  const t = useT();
+  const cat = t("ft.cat").split("·");
+  const at  = t("ft.at").split("·");
+  const ho  = t("ft.ho").split("·");
+  const he  = t("ft.he").split("·");
   return (
     <footer className="main" data-screen-label="06 Footer">
       <div className="inner">
         <Reveal speed="reveal-slow" style={{position:"relative"}}>
-          <div className="big">Atlas <em>Perle.</em><span className="mk">Catalogue IX · Spring 2026</span></div>
-          <div className="sub">A catalogue of rare objects, released from a courtyard in the old medina — one plate at a time.</div>
+          <div className="big">Atlas <em>Perle.</em><span className="mk">{t("hero.meta2L")} · {t("hero.meta2R").split("·")[0].trim()}</span></div>
+          <div className="sub">{t("ft.sub")}</div>
         </Reveal>
         <div className="cols">
           <Reveal className="sub-box">
-            <label>Subscribe — four letters a year</label>
-            <input type="email" placeholder="name@house.com"/>
-            <a className="go" href="#">Add me to the carnet <span>→</span></a>
+            <label>{t("ft.subscribe")}</label>
+            <input type="email" placeholder={t("ft.subPh")}/>
+            <a className="go" href="#">{t("ft.subCta")} <span>→</span></a>
           </Reveal>
           <Reveal delay={100}>
-            <h5>— Catalogue</h5>
-            <div className="list">
-              <a href="#">Seating</a><a href="#">Light</a><a href="#">Vessels</a><a href="#">Textiles</a><a href="#">Commissions</a>
-            </div>
+            <h5>{t("ft.h.cat")}</h5>
+            <div className="list">{cat.map((x,i)=><a href="#" key={i}>{x}</a>)}</div>
           </Reveal>
           <Reveal delay={200}>
-            <h5>— Atelier</h5>
-            <div className="list">
-              <a href="#">The nine hands</a><a href="#">Matter</a><a href="#">Lead times</a><a href="#">Care & repair</a>
-            </div>
+            <h5>{t("ft.h.atelier")}</h5>
+            <div className="list">{at.map((x,i)=><a href="#" key={i}>{x}</a>)}</div>
           </Reveal>
           <Reveal delay={300}>
-            <h5>— House</h5>
-            <div className="list">
-              <a href="#">About</a><a href="#">Journal</a><a href="#">Visit Marrakech</a><a href="mailto:atelier@atlasperle.ma">Write to atelier</a>
-            </div>
+            <h5>{t("ft.h.house")}</h5>
+            <div className="list">{ho.map((x,i)=><a href={i===ho.length-1?"mailto:atelier@atlasperle.ma":"#"} key={i}>{x}</a>)}</div>
           </Reveal>
           <Reveal delay={400}>
-            <h5>— Assistance</h5>
-            <div className="list">
-              <a href="#">Shipping</a><a href="#">Returns</a><a href="#">Editions</a><a href="#">Terms</a>
-            </div>
+            <h5>{t("ft.h.help")}</h5>
+            <div className="list">{he.map((x,i)=><a href="#" key={i}>{x}</a>)}</div>
           </Reveal>
         </div>
         <div className="bot">
-          <div>© 1974–2026 · Atlas Perle · Derb el Ferran, Marrakech · All pieces numbered, signed, released by hand.</div>
+          <div>{t("ft.bot")}</div>
           <div className="pay"><span>VISA</span><span>AMEX</span><span>Wire</span><span>Bitcoin</span></div>
         </div>
       </div>
@@ -878,7 +1109,7 @@ Object.assign(window, { Nav, Hero, Ticker, Toolbar, Featured, Collection, Placeh
 <script type="text/babel" data-presets="react">
 function App() {
   return (
-    <>
+    <LangProvider>
       <Nav />
       <Hero />
       <Ticker />
@@ -890,7 +1121,7 @@ function App() {
       <Provenance />
       <Services />
       <Footer />
-    </>
+    </LangProvider>
   );
 }
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
