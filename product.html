@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Object — Atlas Perle</title>
+<title>Object — Perle de l'Atlas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
@@ -18,35 +18,31 @@
 .gallery{display:flex;flex-direction:column;gap:14px}
 .gallery .main{position:relative;aspect-ratio:4/5;background:var(--espresso);border:1px solid var(--line);overflow:hidden}
 .gallery .main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .4s var(--ease)}
-.gallery .main .lot{position:absolute;top:24px;left:24px;z-index:2;font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);background:rgba(10,8,7,.55);padding:6px 10px;backdrop-filter:blur(4px)}
 .gallery .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .gallery .thumbs button{position:relative;aspect-ratio:1/1;background:var(--espresso);border:1px solid var(--line);overflow:hidden;cursor:pointer;padding:0;transition:border-color .3s var(--ease)}
 .gallery .thumbs button:hover{border-color:var(--line-brass)}
 .gallery .thumbs button.on{border-color:var(--brass)}
 .gallery .thumbs img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pdp .info{padding-top:8px;display:flex;flex-direction:column;gap:24px}
-.pdp .info .eyebrow{margin-bottom:0}
 .pdp .info h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(40px,5.5vw,72px);line-height:.98;letter-spacing:-.018em;color:var(--bone)}
 .pdp .info h1 em{font-style:italic;color:var(--brass)}
 .pdp .info .lede{font-family:var(--f-serif);font-style:italic;font-size:19px;line-height:1.5;color:var(--parchment);max-width:46ch}
-.pdp .info .price{display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line-brass);border-bottom:1px solid var(--line);padding:18px 0}
-.pdp .info .price .v{font-family:var(--f-serif);font-size:32px;color:var(--brass-hi);font-weight:300}
-.pdp .info .price small{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.pdp .info .price-row{display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line-brass);border-bottom:1px solid var(--line);padding:18px 0}
+.pdp .info .price-row .v{font-family:var(--f-serif);font-size:32px;color:var(--brass-hi);font-weight:300}
+.pdp .info .price-row small{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
 .pdp .info .specs{display:grid;grid-template-columns:1fr;gap:0}
-.pdp .info .specs .row{display:grid;grid-template-columns:140px 1fr auto;gap:18px;padding:12px 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
+.pdp .info .specs .row{display:grid;grid-template-columns:140px 1fr;gap:18px;padding:12px 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
 .pdp .info .specs .row .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);opacity:.85}
-.pdp .info .specs .row .v{font-family:var(--f-serif);font-size:16px;color:var(--bone)}
-.pdp .info .specs .row .v em{font-style:italic;color:var(--brass-hi)}
-.pdp .info .specs .row .x{font-family:var(--f-mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--oyster)}
+.pdp .info .specs .row .val{font-family:var(--f-serif);font-size:16px;color:var(--bone)}
 .pdp .info .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
 .pdp .info .actions .btn{flex:1;justify-content:center;min-width:140px}
 .pdp .info .promise{font-family:var(--f-serif);font-style:italic;font-size:14px;color:var(--dim);margin-top:8px}
+.pdp .added-msg{font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);padding:12px 0;animation:fadeIn .4s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(max-width:600px){
   .pdp .info .specs .row{grid-template-columns:1fr;gap:4px;padding:14px 0}
-  .pdp .info .specs .row .v{font-size:17px}
-  .pdp .info .specs .row .x{opacity:.75}
-  .pdp .info .price{padding:14px 0}
-  .pdp .info .price .v{font-size:28px}
+  .pdp .info .price-row{padding:14px 0}
+  .pdp .info .price-row .v{font-size:28px}
   .pdp .info h1{font-size:clamp(36px,9vw,52px)}
   .gallery .thumbs{grid-template-columns:repeat(4,1fr);gap:6px}
 }
@@ -55,8 +51,6 @@
 .related .head{display:flex;justify-content:space-between;align-items:end;margin-bottom:32px;gap:18px}
 .related h3{font-family:var(--f-serif);font-weight:300;font-size:clamp(28px,3.5vw,44px);color:var(--bone);letter-spacing:-.01em}
 .related h3 em{font-style:italic;color:var(--brass)}
-.related .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-@media(max-width:1000px){.related{padding:40px 20px 80px}.related .grid{grid-template-columns:repeat(2,1fr);gap:16px}}
 .notfound{padding:200px 48px;text-align:center;color:var(--bone)}
 .notfound h1{font-family:var(--f-serif);font-style:italic;font-size:80px;color:var(--brass);margin-bottom:20px}
 </style>
@@ -64,42 +58,28 @@
 <body>
 <div id="root"></div>
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script src="/products.js"></script>
+<script src="/supabase-client.js"></script>
+<script src="/cart.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 <script type="text/babel" data-presets="react" src="/shared.js"></script>
 
 <script type="text/babel" data-presets="react">
-const CAT_LABEL = {seating:"Seating",light:"Light",wood:"Wood",vessels:"Vessels",tableware:"Tableware"};
-const CAT_LEDE = {
-  seating: "Hide and waxed linen, drawn over an Atlas-cedar carcass. Each piece pierced and stitched by hand at atelier nº 7.",
-  light:   "Hand-hammered brass, perforated against a wooden stencil, then patinated by smoke and beeswax.",
-  wood:    "Atlas cedar, jointed without metal and finished with hand-mixed lacquer; bone and mother-of-pearl set fragment by fragment.",
-  vessels: "Thrown by hand on the wheel at Safi, fired twice — once for the body, once for the glaze drawn under the kiln's eye.",
-  tableware:"Glazed terracotta from the cooperatives of Fez and Safi, painted free-hand with a single sable brush.",
-};
-const CAT_MATTER = {
-  seating: ["Veg-tanned hide", "Tannery Chouara"],
-  light:   ["Hand-hammered brass", "Souk Haddadine"],
-  wood:    ["Cedar of Azrou · bone", "Souk el Khemis"],
-  vessels: ["Glazed terracotta", "Safi cooperative"],
-  tableware:["Hand-painted faïence", "Fez cooperative"],
-};
+const CAT_LABELS = {Poufs:"Poufs",Tables:"Tables",Lighting:"Lighting",Furniture:"Furniture"};
 
 function Gallery({images}) {
   const [i, setI] = useState(0);
-  const main = `/media/products/${images[i]}`;
+  const main = SB.productImageUrl(images[i]);
   return (
     <div className="gallery">
       <div className="main">
         <img src={main} alt="" key={main}/>
-        <div className="lot">Plate {String(i+1).padStart(2,"0")} / {String(images.length).padStart(2,"0")}</div>
       </div>
       <div className="thumbs">
         {images.slice(0,4).map((src, idx) => (
           <button key={src} className={i===idx?"on":""} onClick={()=>setI(idx)}>
-            <img src={`/media/products/${src}`} alt="" loading="lazy"/>
+            <img src={SB.productImageUrl(src)} alt="" loading="lazy"/>
           </button>
         ))}
       </div>
@@ -107,56 +87,74 @@ function Gallery({images}) {
   );
 }
 
-function Info({p}) {
-  const t = useT();
-  const cat = CAT_LABEL[p.category] || p.category;
+function Info({product}) {
+  const [added, setAdded] = useState(false);
+  const cat = CAT_LABELS[product.category] || product.category;
+
+  function handleAdd() {
+    Cart.add(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2500);
+  }
+
   return (
     <div className="info">
       <div className="crumbs">
-        <a href="/">Atlas Perle</a> · <a href="/collection">{t("nav.collection")}</a> · <span>{cat}</span>
+        <a href="/">Perle de l'Atlas</a> · <a href="/collection">Collection</a> · <span>{cat}</span>
       </div>
-      <div className="eyebrow">Catalogue IX · {cat}</div>
-      <h1>{p.name.split(" ")[0]}, <em>nº {String(p.slug.split("-").pop()).padStart(3,"0").slice(-3) || "042"}.</em></h1>
-      <p className="lede">{CAT_LEDE[p.category] || ""}</p>
-      <div className="price">
-        <span className="v">€ {p.price.toLocaleString()}</span>
-        <small>{t("feat.priceL")}</small>
+      <div className="eyebrow">Catalogue · {cat}</div>
+      <h1>{product.title}</h1>
+      {product.description && (
+        <p className="lede">{product.description}</p>
+      )}
+      <div className="price-row">
+        <span className="v">{SB.formatPrice(product.price)}</span>
+        <small>Price — USD</small>
       </div>
       <div className="specs">
-        <div className="row"><span className="k">Matter</span><span className="v">{CAT_MATTER[p.category]?.[0] || "—"}</span><span className="x">{CAT_MATTER[p.category]?.[1] || ""}</span></div>
-        <div className="row"><span className="k">Edition</span><span className="v"><em>12</em> of 24</span><span className="x">Open</span></div>
-        <div className="row"><span className="k">Lead time</span><span className="v">9 days at the bench</span><span className="x">Marrakech</span></div>
-        <div className="row"><span className="k">Delivery</span><span className="v">Worldwide, insured</span><span className="x">Cotton &amp; cedar</span></div>
-        <div className="row"><span className="k">Signature</span><span className="v">Initialled · dated</span><span className="x">Stamp on base</span></div>
+        {product.materials && (
+          <div className="row"><span className="k">Materials</span><span className="val">{product.materials}</span></div>
+        )}
+        {product.dimensions && (
+          <div className="row"><span className="k">Dimensions</span><span className="val">{product.dimensions}</span></div>
+        )}
+        {product.craftsman_name && (
+          <div className="row"><span className="k">Craftsman</span><span className="val">{product.craftsman_name}</span></div>
+        )}
+        <div className="row"><span className="k">Delivery</span><span className="val">Worldwide, insured</span></div>
       </div>
       <div className="actions">
-        <a className="btn solid" href="#">{t("btn.addCart")} <span className="arrow"/></a>
-        <a className="btn ghost" href="mailto:atelier@atlasperle.ma">{t("btn.writeAtelier")}</a>
+        <button className="btn solid" onClick={handleAdd}>Add to cart <span className="arrow"/></button>
+        <a className="btn ghost" href="mailto:atelier@perledelatlas.com">Write to atelier</a>
       </div>
-      <div className="promise">— Made to order. Dispatched within 14 days from Derb el Ferran.</div>
+      {added && (
+        <div className="added-msg">Added to cart</div>
+      )}
+      <div className="promise">— Made to order. Dispatched within 14 days from Marrakech.</div>
     </div>
   );
 }
 
-function Related({current}) {
-  const t = useT();
-  const others = window.PRODUCTS.filter(p => p.category === current.category && p.slug !== current.slug).slice(0, 4);
+function Related({product, allProducts}) {
+  const others = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
   if (others.length === 0) return null;
   return (
     <section className="related">
       <div className="inner">
         <div className="head">
-          <h3>Other <em>{CAT_LABEL[current.category]?.toLowerCase()}</em></h3>
-          <a className="link-u" href={`/collection?cat=${current.category}`}>See all →</a>
+          <h3>Other <em>{(CAT_LABELS[product.category] || "").toLowerCase()}</em></h3>
+          <a className="link-u" href={`/collection?cat=${product.category}`}>See all →</a>
         </div>
-        <div className="grid">
+        <div className="grid-dense">
           {others.map(p => (
-            <a className="pcard" href={`/product?p=${p.slug}`} key={p.slug} style={{display:"block",color:"inherit"}}>
-              <div className="media" style={{position:"relative",aspectRatio:"4/5",background:"var(--espresso)",border:"1px solid var(--line)",overflow:"hidden",marginBottom:12}}>
-                <img src={`/media/products/${p.images[0]}`} alt={p.name} loading="lazy" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>
+            <a className="card" href={`/product?p=${p.slug}`} key={p.id}>
+              <div className="media">
+                <img className="primary" src={SB.productImageUrl(p.images?.[0])} alt={p.title} loading="lazy"/>
               </div>
-              <div style={{fontFamily:"var(--f-serif)",fontSize:17,fontWeight:300,color:"var(--bone)"}}>{p.name}</div>
-              <div style={{fontFamily:"var(--f-mono)",fontSize:10,letterSpacing:".18em",color:"var(--oyster)",marginTop:4}}>€ {p.price.toLocaleString()}</div>
+              <div className="meta">
+                <div className="name">{p.title}</div>
+                <div className="price">{SB.formatPrice(p.price)}</div>
+              </div>
             </a>
           ))}
         </div>
@@ -176,31 +174,53 @@ function NotFound() {
 }
 
 function App() {
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get("p");
-  const product = window.PRODUCTS.find(p => p.slug === slug);
+  const [product, setProduct] = useState(null);
+  const [allProducts, setAllProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const slug = new URLSearchParams(window.location.search).get("p");
+
   useEffect(() => {
-    if (product) document.title = `${product.name} — Atlas Perle`;
-  }, [product]);
+    if (!slug) { setLoading(false); return; }
+    Promise.all([
+      SB.fetchProduct(slug),
+      SB.fetchProducts()
+    ]).then(([p, all]) => {
+      setProduct(p);
+      setAllProducts(all);
+      if (p) document.title = `${p.title} — Perle de l'Atlas`;
+      setLoading(false);
+    }).catch(err => { console.error(err); setLoading(false); });
+  }, [slug]);
+
+  if (loading) return (
+    <LangProvider>
+      <Nav/>
+      <div style={{padding:"200px 48px",textAlign:"center",fontFamily:"var(--f-serif)",fontStyle:"italic",fontSize:22,color:"var(--dim)"}}>
+        Loading...
+      </div>
+    </LangProvider>
+  );
+
   return (
     <LangProvider>
-      <Nav />
+      <Nav/>
       {product ? (
         <>
           <section className="pdp">
             <div className="inner">
-              <Gallery images={product.images}/>
-              <Info p={product}/>
+              <Gallery images={product.images || []}/>
+              <Info product={product}/>
             </div>
           </section>
-          <Related current={product}/>
+          <Related product={product} allProducts={allProducts}/>
         </>
       ) : <NotFound/>}
-      <Footer />
+      <Footer/>
     </LangProvider>
   );
 }
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
 </html>

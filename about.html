@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>About — Perle de l'Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.about-hero{position:relative;min-height:70vh;overflow:hidden;background:var(--ink);display:flex;align-items:flex-end;padding:140px 48px 60px}
+.about-hero .bg{position:absolute;inset:0;background:radial-gradient(60% 60% at 30% 40%, rgba(201,162,74,.12), transparent 60%),linear-gradient(180deg, var(--ink) 0%, var(--night) 100%)}
+.about-hero .inner{position:relative;z-index:2;max-width:1440px;margin:0 auto;width:100%}
+.about-hero h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(48px,8vw,120px);line-height:.92;color:var(--bone);margin-bottom:28px}
+.about-hero h1 em{font-style:italic;color:var(--brass)}
+.about-hero .lede{font-family:var(--f-serif);font-style:italic;font-size:22px;color:var(--parchment);max-width:50ch;line-height:1.55}
+@media(max-width:900px){.about-hero{padding:120px 20px 40px}}
+
+.about-story{padding:100px 48px;background:var(--night);border-top:1px solid var(--line)}
+.about-story .inner{max-width:800px;margin:0 auto}
+.about-story h2{font-family:var(--f-serif);font-weight:300;font-size:clamp(32px,4vw,52px);color:var(--bone);margin-bottom:32px}
+.about-story h2 em{font-style:italic;color:var(--brass)}
+.about-story p{font-size:16px;line-height:1.8;color:var(--parchment);font-weight:300;margin-bottom:20px}
+@media(max-width:900px){.about-story{padding:60px 20px}}
+
+.craftsmen{padding:100px 48px;background:var(--ink);border-top:1px solid var(--line)}
+.craftsmen .inner{max-width:1440px;margin:0 auto}
+.craftsmen h2{font-family:var(--f-serif);font-weight:300;font-size:clamp(32px,4vw,52px);color:var(--bone);margin-bottom:48px}
+.craftsmen h2 em{font-style:italic;color:var(--brass)}
+.craftsmen .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.craftsmen .profile{border:1px solid var(--line);padding:32px;background:var(--night)}
+.craftsmen .profile .name{font-family:var(--f-serif);font-size:28px;font-weight:300;color:var(--bone);margin-bottom:8px}
+.craftsmen .profile .specialty{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);margin-bottom:16px}
+.craftsmen .profile .bio{font-family:var(--f-serif);font-size:16px;line-height:1.6;color:var(--parchment);font-weight:300}
+@media(max-width:900px){.craftsmen{padding:60px 20px}.craftsmen .grid{grid-template-columns:1fr}}
+
+.values{padding:80px 48px;background:var(--night);border-top:1px solid var(--line)}
+.values .inner{max-width:1440px;margin:0 auto}
+.values .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.values .cell{padding:28px 24px;border-right:1px solid var(--line)}
+.values .cell:last-child{border-right:0}
+.values .cell .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);margin-bottom:10px}
+.values .cell .v{font-family:var(--f-serif);font-size:18px;font-weight:300;color:var(--bone);line-height:1.4}
+@media(max-width:900px){.values{padding:40px 20px}.values .grid{grid-template-columns:1fr 1fr}.values .cell:nth-child(2){border-right:0}.values .cell:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="/supabase-client.js"></script>
+<script src="/cart.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="react" src="/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  const [craftsmen, setCraftsmen] = useState([]);
+
+  useEffect(() => {
+    SB.fetchCraftsmen()
+      .then(data => setCraftsmen(data))
+      .catch(err => console.error(err));
+  }, []);
+
+  return (
+    <LangProvider>
+      <Nav/>
+
+      <section className="about-hero">
+        <div className="bg"/>
+        <div className="inner">
+          <Reveal>
+            <div className="eyebrow" style={{marginBottom:24}}>The house</div>
+          </Reveal>
+          <Reveal delay={100}>
+            <h1>Perle de <em>l'Atlas.</em></h1>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="lede">
+              A catalogue of rare objects, released from a courtyard in the old medina of Marrakech — one piece at a time.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="about-story">
+        <div className="inner">
+          <Reveal>
+            <h2>A house since <em>1974.</em></h2>
+          </Reveal>
+          <Reveal delay={100}>
+            <p>
+              Perle de l'Atlas is the catalogue of Atelier no 7 — craftsmen off a narrow street in the old medina of Marrakech. Cedar from Azrou. Bone from Souk el Khemis. Hides from Tannery Chouara, a house we have kept since the first piece was signed.
+            </p>
+            <p>
+              Nothing arrives that we have not touched first; nothing leaves that has not been signed. Each piece is numbered, dated, and released by hand from Derb el Ferran.
+            </p>
+            <p>
+              We work in nine disciplines — brass, bone, leather, cedar, plaster, lacquer, ceramics, textiles, and glass. Each discipline has its own atelier, its own hands, its own pace. The catalogue grows slowly: four releases a year, never more.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="values">
+        <div className="inner">
+          <div className="grid">
+            <Reveal className="cell">
+              <div className="k">Provenance</div>
+              <div className="v">Derb el Ferran, Marrakech medina</div>
+            </Reveal>
+            <Reveal className="cell" delay={100}>
+              <div className="k">Craftsmen</div>
+              <div className="v">Nine hands at the bench</div>
+            </Reveal>
+            <Reveal className="cell" delay={200}>
+              <div className="k">Releases</div>
+              <div className="v">Four editions per year</div>
+            </Reveal>
+            <Reveal className="cell" delay={300}>
+              <div className="k">Delivery</div>
+              <div className="v">Worldwide, in cotton & cedar</div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {craftsmen.length > 0 && (
+        <section className="craftsmen">
+          <div className="inner">
+            <Reveal>
+              <h2>The <em>craftsmen.</em></h2>
+            </Reveal>
+            <div className="grid">
+              {craftsmen.map((c, i) => (
+                <Reveal key={c.id} className="profile" delay={i * 100}>
+                  <div className="name">{c.name}</div>
+                  <div className="specialty">{c.specialty || "Master craftsman"}</div>
+                  <div className="bio">{c.bio || "At the bench since the beginning."}</div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <Footer/>
+    </LangProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

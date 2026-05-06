@@ -3,84 +3,215 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Atlas Perle — Objects of Marrakech</title>
+<title>Perle de l'Atlas — Objects of Marrakech</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
+<style>
+/* Hero — breeze animation styles */
+.hero-breeze{position:relative;height:100vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-breeze .hero-base{position:absolute;inset:0;overflow:hidden}
+.hero-breeze .hero-base img{display:block;width:104%;height:104%;margin:-2% 0 0 -2%;object-fit:cover;will-change:transform;animation:slowDrift 30s ease-in-out infinite alternate;filter:saturate(0.9) brightness(0.78)}
+@keyframes slowDrift{0%{transform:scale(1.00) translate(0,0)}100%{transform:scale(1.02) translate(-8px,4px)}}
+.hero-breeze .hero-curtain{position:absolute;inset:0;overflow:hidden;pointer-events:none;filter:url(#breeze);clip-path:polygon(66% 0%, 96% 0%, 96% 100%, 66% 100%);-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0.0) 0%,rgba(0,0,0,0.15) 20%,rgba(0,0,0,0.5) 50%,rgba(0,0,0,1) 80%);mask-image:linear-gradient(180deg,rgba(0,0,0,0.0) 0%,rgba(0,0,0,0.15) 20%,rgba(0,0,0,0.5) 50%,rgba(0,0,0,1) 80%)}
+.hero-breeze .hero-curtain img{display:block;width:104%;height:104%;margin:-2% 0 0 -2%;object-fit:cover;will-change:transform;animation:slowDrift 30s ease-in-out infinite alternate;filter:saturate(0.9) brightness(0.78)}
+.hero-breeze .hero-ambient{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-breeze .hero-ambient::before{content:"";position:absolute;width:50vw;height:55vh;border-radius:50%;background:radial-gradient(circle,rgba(255,245,220,0.09) 0%,rgba(255,245,220,0.03) 40%,transparent 70%);will-change:transform,opacity;animation:warmDrift 22s ease-in-out infinite alternate}
+@keyframes warmDrift{0%{transform:translate(40vw,10vh);opacity:0.5}40%{opacity:1}70%{transform:translate(55vw,22vh);opacity:0.7}100%{transform:translate(45vw,30vh);opacity:0.85}}
+.hero-breeze .hero-ambient::after{content:"";position:absolute;width:35vw;height:40vh;border-radius:50%;background:radial-gradient(circle,rgba(212,182,94,0.06) 0%,transparent 60%);will-change:transform,opacity;animation:brassGlow 28s ease-in-out infinite alternate}
+@keyframes brassGlow{0%{transform:translate(55vw,20vh);opacity:0.3}100%{transform:translate(35vw,40vh);opacity:0.7}}
+.hero-breeze .hero-dust{position:absolute;inset:0;pointer-events:none}
+.hero-breeze .hero-overlay{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 25%,rgba(10,8,7,0.50) 100%),linear-gradient(180deg,rgba(10,8,7,0.25) 0%,rgba(10,8,7,0.02) 30%,rgba(10,8,7,0.85) 100%)}
+.hero-breeze .hero-content{position:relative;z-index:10;max-width:1440px;width:100%;margin:0 auto;padding:0 48px 72px;display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:end}
+@media(max-width:900px){.hero-breeze .hero-content{grid-template-columns:1fr;gap:24px;padding:0 20px 48px}}
+.hero-breeze h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(48px,8vw,120px);line-height:.9;letter-spacing:-.02em;color:var(--bone)}
+.hero-breeze h1 em{font-style:italic;color:var(--brass)}
+.hero-breeze .hero-sub{font-family:var(--f-serif);font-style:italic;font-size:19px;line-height:1.55;color:var(--parchment);max-width:42ch}
+.hero-breeze .hero-stats{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(201,168,76,0.25);padding-top:16px;margin-top:20px}
+.hero-breeze .stat-k{font-family:var(--f-mono);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass)}
+.hero-breeze .stat-v{font-family:var(--f-serif);font-style:italic;font-size:17px;color:var(--bone);margin-top:4px}
+.hero-breeze .hero-cta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);background:var(--brass);padding:14px 28px;border:1px solid var(--brass);text-decoration:none;transition:all .3s ease}
+.hero-breeze .hero-cta:hover{background:transparent;color:var(--brass)}
+.hero-breeze .hero-cta .arrow{display:inline-block;width:18px;height:1px;background:currentColor;position:relative}
+.hero-breeze .hero-cta .arrow::after{content:"";position:absolute;right:0;top:-3px;width:7px;height:7px;border-right:1px solid currentColor;border-top:1px solid currentColor;transform:rotate(45deg)}
+.scroll-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;align-items:center;gap:6px}
+.scroll-hint span{font-family:var(--f-mono);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+.scroll-line{width:1px;height:24px;background:linear-gradient(180deg,var(--brass),transparent);animation:scrollPulse 2.5s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(0.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* Featured products section */
+.home-featured{padding:120px 0;background:var(--night);border-top:1px solid var(--line)}
+.home-featured .inner{max-width:1440px;margin:0 auto;padding:0 48px}
+.home-featured .head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:24px;flex-wrap:wrap}
+.home-featured h2{font-family:var(--f-serif);font-weight:300;font-size:clamp(36px,5vw,72px);line-height:1;letter-spacing:-.02em;color:var(--bone)}
+.home-featured h2 em{font-style:italic;color:var(--brass)}
+@media(max-width:900px){.home-featured{padding:80px 0}.home-featured .inner{padding:0 20px}}
+
+/* Brand story */
+.brand-story{padding:100px 48px;background:var(--ink);border-top:1px solid var(--line)}
+.brand-story .inner{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.brand-story .copy h2{font-family:var(--f-serif);font-weight:300;font-size:clamp(32px,4vw,56px);line-height:1;color:var(--bone);margin-bottom:24px}
+.brand-story .copy h2 em{font-style:italic;color:var(--brass)}
+.brand-story .copy p{font-size:16px;line-height:1.8;color:var(--parchment);font-weight:300;margin-bottom:16px}
+@media(max-width:900px){.brand-story{padding:60px 20px}.brand-story .inner{grid-template-columns:1fr;gap:32px}}
+
+/* Lifestyle gallery */
+.lifestyle{padding:100px 0;background:var(--night);border-top:1px solid var(--line)}
+.lifestyle .inner{max-width:1440px;margin:0 auto;padding:0 48px}
+.lifestyle .head{margin-bottom:48px}
+.lifestyle h2{font-family:var(--f-serif);font-weight:300;font-size:clamp(32px,4vw,56px);line-height:1;color:var(--bone)}
+.lifestyle h2 em{font-style:italic;color:var(--brass)}
+.lifestyle .mosaic{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:16px}
+.lifestyle .mosaic .tile{position:relative;overflow:hidden;border:1px solid var(--line);background:var(--espresso)}
+.lifestyle .mosaic .tile.wide{grid-column:span 2;aspect-ratio:16/9}
+.lifestyle .mosaic .tile.tall{grid-row:span 2;aspect-ratio:3/5}
+.lifestyle .mosaic .tile.sq{aspect-ratio:1/1}
+.lifestyle .mosaic .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.88) contrast(1.05) saturate(1.05);transition:transform 1.6s var(--ease-in-out)}
+.lifestyle .mosaic .tile:hover img{transform:scale(1.06)}
+.lifestyle .mosaic .tile .cap{position:absolute;bottom:0;left:0;right:0;padding:16px 18px;z-index:2;font-family:var(--f-mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);background:linear-gradient(transparent, rgba(10,8,7,.7))}
+@media(max-width:900px){.lifestyle{padding:60px 0}.lifestyle .inner{padding:0 20px}.lifestyle .mosaic{grid-template-columns:1fr 1fr}.lifestyle .mosaic .tile.wide{grid-column:span 2}.lifestyle .mosaic .tile.tall{grid-row:span 1;aspect-ratio:4/5}}
+
+/* Provenance rail */
+.prov-rail{background:var(--ink);border-top:1px solid var(--line)}
+.prov-rail .row{max-width:1440px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:repeat(4,1fr)}
+.prov-rail .cell{padding:28px 24px;border-right:1px solid var(--line);position:relative;overflow:hidden}
+.prov-rail .cell:last-child{border-right:0}
+.prov-rail .cell .bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;opacity:.32;filter:saturate(.7) brightness(.75)}
+.prov-rail .cell::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,8,7,.45) 0%,rgba(10,8,7,.82) 100%);pointer-events:none}
+.prov-rail .cell h6,.prov-rail .cell p{position:relative;z-index:2}
+.prov-rail .cell h6{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);opacity:.95;margin-bottom:8px}
+.prov-rail .cell p{font-family:var(--f-serif);font-size:18px;font-weight:300;color:var(--bone);line-height:1.3}
+@media(max-width:900px){.prov-rail .row{grid-template-columns:1fr 1fr;padding:0 20px}.prov-rail .cell:nth-child(2){border-right:0}.prov-rail .cell:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+</style>
 </head>
 <body>
+
+<!-- SVG breeze filter -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <filter id="breeze" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence id="turbulence" type="turbulence"
+        baseFrequency="0.012 0.04" numOctaves="3" seed="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise"
+        scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
 <div id="root"></div>
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="/supabase-client.js"></script>
+<script src="/cart.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 <script type="text/babel" data-presets="react" src="/shared.js"></script>
 
 <script type="text/babel" data-presets="react">
-// ============ HERO ============
+// ============ HERO WITH BREEZE ============
 function Hero() {
-  const t = useT();
+  useEffect(() => {
+    // Breeze animation
+    const turb = document.getElementById('turbulence');
+    if (!turb) return;
+    let t = 0;
+    let raf;
+    function animate() {
+      t += 0.003;
+      const fx = 0.012 + Math.sin(t) * 0.005;
+      const fy = 0.04 + Math.sin(t * 0.7) * 0.018;
+      turb.setAttribute('baseFrequency', fx.toFixed(4) + ' ' + fy.toFixed(4));
+      raf = requestAnimationFrame(animate);
+    }
+    animate();
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  useEffect(() => {
+    // Dust particles
+    const canvas = document.getElementById('dustCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    const COUNT = 24;
+    const particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * (W || 1920),
+        y: Math.random() * (H || 1080),
+        r: 1 + Math.random() * 2,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: -(0.1 + Math.random() * 0.25),
+        alpha: 0.1 + Math.random() * 0.2,
+        pulse: Math.random() * Math.PI * 2,
+        pulseSpeed: 0.004 + Math.random() * 0.01,
+      });
+    }
+    let raf;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy; p.pulse += p.pulseSpeed;
+        if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+        if (p.x < -10) p.x = W + 10;
+        if (p.x > W + 10) p.x = -10;
+        const flicker = 0.5 + 0.5 * Math.sin(p.pulse);
+        const a = p.alpha * flicker;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212,182,94,${a})`;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212,182,94,${a * 0.1})`;
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    }
+    draw();
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
+  }, []);
+
   return (
-    <section className="hero" data-screen-label="00 Hero">
-      <div className="bg"/>
-      <div className="top-meta">
-        <span>{t("hero.meta1L")} <span className="sep"/> {t("hero.meta1R")}</span>
-        <span>{t("hero.meta2L")} <span className="sep"/> {t("hero.meta2R")}</span>
+    <section className="hero-breeze">
+      <div className="hero-base">
+        <img src="/media/hero/hero-riad-curtains.webp" alt="Moroccan riad living room"/>
+      </div>
+      <div className="hero-curtain">
+        <img src="/media/hero/hero-riad-curtains.webp" alt=""/>
+      </div>
+      <div className="hero-ambient"></div>
+      <canvas className="hero-dust" id="dustCanvas"></canvas>
+      <div className="hero-overlay"></div>
+
+      <div className="hero-content">
+        <div>
+          <div className="eyebrow">Marrakech — Catalogue</div>
+          <h1>Objects drawn<br/>from <em>the medina.</em></h1>
+        </div>
+        <div>
+          <p className="hero-sub">
+            Hand-forged brass, veg-tanned leather, cedar jointed without metal —
+            each piece signed by the artisan who made it.
+          </p>
+          <div className="hero-stats">
+            <div><div className="stat-k">Collection</div><div className="stat-v">8 objects</div></div>
+            <div><div className="stat-k">Lead time</div><div className="stat-v">9 – 21 days</div></div>
+          </div>
+          <a className="hero-cta" href="/collection">Enter the catalogue <span className="arrow"></span></a>
+        </div>
       </div>
 
-      <div className="hero-grid">
-        <Reveal className="object" speed="reveal-slow">
-          <video autoPlay muted loop playsInline poster={M("media/hero-poster.jpg")}>
-            <source src={M("media/hero-loop.mp4")} type="video/mp4"/>
-          </video>
-          <div className="corners"><i className="tl"/><i className="tr"/><i className="bl"/><i className="br"/></div>
-          <div className="lot">{t("hero.lot")}</div>
-          <div className="spec-band">
-            <div className="row">{t("hero.spec.ed")} <b>24 / 24</b></div>
-            <div className="row">{t("hero.spec.hand")} <b>H. Idrissi</b></div>
-            <div className="row">{t("hero.spec.days")} <b>{t("hero.spec.bench")}</b></div>
-          </div>
-          <div className="caption">
-            <div className="t">{t("hero.caption")}</div>
-            <div className="seq">{t("hero.plate")}</div>
-          </div>
-        </Reveal>
-
-        <div className="right-side">
-          <WordReveal as="h1" text={t("hero.headline")} perWord={120}/>
-          <span className="rule" style={{display:"block",width:80,height:1,background:"var(--brass)",margin:"24px 0"}}/>
-          <Reveal className="tag" delay={300} speed="reveal-slow">
-            {t("hero.tag")}
-          </Reveal>
-          <Reveal className="actions" delay={500}>
-            <a className="btn solid" href="/collection">{t("hero.cta1")} <span className="arrow"/></a>
-            <a className="btn ghost" href="/atelier">{t("hero.cta2")}</a>
-          </Reveal>
-        </div>
-
-        <Reveal className="bot-rail" delay={600}>
-          <div className="cell">
-            <img className="bg" src={M("media/moroccan-living-room-01.webp")} alt=""/>
-            <h6>{t("hero.rail.prov.l")}</h6>
-            <p>{t("hero.rail.prov.t")}</p>
-          </div>
-          <div className="cell">
-            <img className="bg" src={M("media/moroccan-bone-inlay-side-tables-01.webp")} alt=""/>
-            <h6>{t("hero.rail.circ.l")}</h6>
-            <p>{t("hero.rail.circ.t")}</p>
-          </div>
-          <div className="cell">
-            <img className="bg" src={M("media/moroccan-throne-chair-01.webp")} alt=""/>
-            <h6>{t("hero.rail.lead.l")}</h6>
-            <p>{t("hero.rail.lead.t")}</p>
-          </div>
-          <div className="cell">
-            <img className="bg" src={M("media/moroccan-painted-chest-01.webp")} alt=""/>
-            <h6>{t("hero.rail.del.l")}</h6>
-            <p>{t("hero.rail.del.t")}</p>
-          </div>
-        </Reveal>
+      <div className="scroll-hint">
+        <div className="scroll-line"></div>
+        <span>Scroll</span>
       </div>
     </section>
   );
@@ -99,221 +230,53 @@ function Ticker() {
   );
 }
 
-// ============ TOOLBAR ============
-function Toolbar() {
-  const t = useT();
-  const chips = [
-    ["all","tb.all"],["seat","tb.seat"],["light","tb.light"],["vess","tb.vess"],
-    ["text","tb.text"],["lac","tb.lac"],["com","tb.com"]
-  ];
-  const [active, setActive] = useState("all");
-  return (
-    <div className="toolbar floating">
-      <div className="inner">
-        <div className="label">{t("tb.filter")}</div>
-        <div className="chips">
-          {chips.map(([id,key]) => (
-            <button key={id} className={`chip ${active === id ? "on" : ""}`} onClick={() => setActive(id)}>{t(key)}</button>
-          ))}
-        </div>
-        <div className="count"><em>28</em> {t("tb.pieces")} · <em>9</em> {t("tb.editionsOpen")}</div>
-        <div className="sort">{t("tb.sort")} <b>{t("tb.sortV")} ↓</b></div>
-      </div>
-    </div>
-  );
-}
+// ============ FEATURED PRODUCTS ============
+function FeaturedProducts() {
+  const [products, setProducts] = useState([]);
 
-// ============ FEATURED OBJECT ============
-function Featured() {
-  const t = useT();
-  return (
-    <section className="featured" data-screen-label="02 Featured">
-      <div className="inner">
-        <Reveal className="plate" speed="reveal-slow">
-          <img src={M("media/moroccan-octagonal-coffee-table-01.webp")} alt="Tahar nº 042"/>
-          <div className="lot">{t("feat.lot")}</div>
-          <div className="stamp"><em>Tahar</em> — octagonal<br/>cedar, bone inlay.</div>
-          <div className="seq">{t("hero.plate")}</div>
-        </Reveal>
+  useEffect(() => {
+    SB.fetchFeaturedProducts()
+      .then(data => setProducts(data))
+      .catch(() => {
+        // Fallback: show first 4 products
+        SB.fetchProducts().then(all => setProducts(all.slice(0, 4)));
+      });
+  }, []);
 
-        <div className="side">
-          <Reveal className="top">
-            <div>
-              <div className="eyebrow">{t("feat.eyebrow")}</div>
-              <WordReveal as="h3" text={t("feat.headline")} perWord={120}/>
-            </div>
-            <div className="row-lead">
-              <div className="l">
-                <div className="who">{t("feat.byhandPre")} <em>{t("feat.byhandName")}</em></div>
-                <div className="sub">{t("feat.craft")}</div>
-              </div>
-              <div className="r">{t("feat.remainNum")}<br/>{t("feat.remaining")}</div>
-            </div>
-            <div className="specs">
-              <div className="spec"><span className="k">Matter</span><span className="v">Cedar of Azrou · <em>camel bone</em></span><span className="x">Souk el Khemis</span></div>
-              <div className="spec"><span className="k">Measure</span><span className="v">Ø 88 · h 42 cm</span><span className="x">± 4 mm</span></div>
-              <div className="spec"><span className="k">Inlay</span><span className="v">412 · hand-cut</span><span className="x">Bone & MOP</span></div>
-              <div className="spec"><span className="k">Released</span><span className="v">March 2026</span><span className="x">Marrakech</span></div>
-              <div className="spec"><span className="k">Signature</span><span className="v">Initialled · dated</span><span className="x">Stamp on base</span></div>
-            </div>
-          </Reveal>
-          <Reveal className="price-row" delay={200}>
-            <div className="price"><small>{t("feat.priceL")}</small>€ 2,640</div>
-            <div className="actions">
-              <a className="btn solid" href="/product?p=moroccan-octagonal-coffee-table">{t("btn.addCart")} <span className="arrow"/></a>
-              <a className="btn ghost" href="mailto:atelier@atlasperle.ma">{t("btn.writeAtelier")}</a>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
+  if (products.length === 0) return null;
 
-// ============ COLLECTION ============
-function Collection() {
-  const t = useT();
-  const cards = [
-    { lot:"Nº 038", name:"Ghita",  italic:"Throne",      sub:"Seating · Cedar, hide",       price:"€ 2,180",  tag:"8 / 12",   ed:true,  img:"media/moroccan-throne-chair-01.webp",       alt:"media/moroccan-painted-dresser-01.webp" },
-    { lot:"Nº 042", name:"Tahar",  italic:"Octagonal",   sub:"Table · Cedar, bone inlay",   price:"€ 2,640",  tag:"12 / 24",  ed:true,  img:"media/moroccan-octagonal-coffee-table-01.webp", alt:"media/moroccan-octagonal-coffee-table-02.webp" },
-    { lot:"Nº 051", name:"Hannan", italic:"Coffer",      sub:"Storage · Cedar, lacquer",    price:"€ 1,840", tag:"6 / 12",   ed:true,  img:"media/moroccan-painted-chest-01.webp",      alt:"media/moroccan-painted-dresser-01.webp" },
-    { lot:"Nº 061", name:"Aziza",  italic:"Cabinet",     sub:"Storage · Cedar, gilt",       price:"€ 2,420", tag:"11 / 12",  ed:true,  img:"media/moroccan-painted-dresser-01.webp",    alt:"media/moroccan-painted-chest-01.webp" },
-    { lot:"Nº 012", name:"Djebel", italic:"Pendant",     sub:"Light · Brass, glass",        price:"€ 1,640",  tag:"Commission", ed:false, img:"media/kamar-pendant-01.webp",    alt:"media/manar-pendant-01.webp" },
-    { lot:"Nº 017", name:"Oud",    italic:"Suspension",  sub:"Light · Brass, hand-hammered",price:"€ 820",    tag:"Ed. 24",     ed:true,  img:"media/chamss-pendant-01.webp",   alt:"media/diyae-pendant-01.webp" },
-    { lot:"Nº 024", name:"Kasbah", italic:"Pendant",     sub:"Light · Brass, bone",         price:"€ 2,180",  tag:"8 / 12",     ed:true,  img:"media/diyae-pendant-01.webp",    alt:"media/omniya-pendant-01.webp" },
-    { lot:"Nº 031", name:"Zellige",italic:"Side tables", sub:"Table · Cedar, bone inlay",   price:"€ 2,640",  tag:"Archive",    ed:false, img:"media/moroccan-bone-inlay-side-tables-01.webp", alt:"media/moroccan-octagonal-coffee-table-03.webp" },
-  ];
   return (
-    <section className="collection" id="collection" data-screen-label="01 Collection">
+    <section className="home-featured">
       <div className="inner">
         <div className="head">
           <Reveal>
-            <div className="eyebrow">{t("col.eyebrow")}</div>
-            <WordReveal as="h2" text={t("col.headline")} perWord={90}/>
-          </Reveal>
-          <Reveal className="cta" delay={200}>
-            <span className="meta">{t("col.meta")}</span>
-            <a className="link-u" href="/collection">{t("col.cta")}</a>
-          </Reveal>
-        </div>
-
-        <div className="grid-dense">
-          {cards.map((c, i) => (
-            <Reveal className="card" key={c.lot} delay={i * 60}>
-              <div className="media">
-                {c.img ? (
-                  <>
-                    <img className="primary" src={M(c.img)} alt={c.name}/>
-                    <img className="alt"     src={M(c.alt)} alt=""/>
-                  </>
-                ) : (
-                  <Placeholder tone={c.place.tone} label={c.place.label}/>
-                )}
-                <div className="lot">{c.lot}</div>
-                <div className={`tag ${c.ed ? "ed" : ""}`}>{c.tag}</div>
-                <button className="quickadd">{t("card.add")} · {c.price}</button>
-              </div>
-              <div className="meta">
-                <div className="name">{c.name} <em>— {c.italic}</em></div>
-                <div className="price">{c.price}</div>
-                <div className="sub">{c.sub}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Placeholder({ tone, label }) {
-  const tones = {
-    brass:   { bg:"radial-gradient(70% 55% at 50% 40%, #3a2a12 0%, #1a130b 75%)", glow:"radial-gradient(55% 38% at 50% 30%, rgba(232,212,154,.45), transparent 60%)", obj:"radial-gradient(60% 50% at 50% 50%, #c9a24a 0%, #8a6c2d 55%, #3a2a12 100%)" },
-    bone:    { bg:"radial-gradient(70% 55% at 50% 40%, #2a2018 0%, #120d09 75%)", glow:"radial-gradient(55% 38% at 50% 30%, rgba(237,228,207,.2), transparent 60%)",  obj:"radial-gradient(60% 50% at 50% 50%, #ede4cf 0%, #b7a988 55%, #5a4f40 100%)" },
-    lacquer: { bg:"radial-gradient(70% 55% at 50% 40%, #1a0a08 0%, #0a0404 75%)", glow:"radial-gradient(55% 38% at 50% 30%, rgba(201,162,74,.1), transparent 60%)",  obj:"radial-gradient(60% 50% at 50% 50%, #7a1b15 0%, #3a0e0b 55%, #170706 100%)" },
-  };
-  const t = tones[tone] || tones.brass;
-  return (
-    <div style={{position:"absolute",inset:0,background:t.bg}}>
-      <div style={{position:"absolute",inset:0,background:t.glow}}/>
-      <div style={{position:"absolute",left:"30%",top:"40%",width:"40%",aspectRatio:"1.4/1",background:t.obj,borderRadius:"50% 50% 42% 42% / 65% 65% 38% 38%",boxShadow:"0 40px 50px -20px rgba(0,0,0,.6)"}}/>
-      <div style={{position:"absolute",left:20,bottom:16,right:20,color:"var(--oyster)",fontFamily:"var(--f-mono)",fontSize:10,letterSpacing:".22em",textTransform:"uppercase",display:"flex",justifyContent:"space-between",opacity:.75}}>
-        <span>{label}</span><span>[plate forthcoming]</span>
-      </div>
-    </div>
-  );
-}
-
-// ============ MATERIAL ============
-function Material() {
-  const t = useT();
-  return (
-    <section className="material" id="material" data-screen-label="03 Material">
-      <div className="split">
-        <Reveal className="visual" speed="reveal-slow">
-          <img src={M("media/moroccan-octagonal-coffee-table-02.webp")} alt="Close-up of bone inlay"/>
-          <div className="lbl">{t("mat.eyebrow")}</div>
-          <div className="mag">× 3.2 · f/2.8 · 1/60s</div>
-          <div className="stamp">Light falls; <em>the inlay holds.</em></div>
-        </Reveal>
-        <div className="copy">
-          <Reveal>
-            <div className="eyebrow">&nbsp;{t("mat.eyebrow2")}</div>
-            <WordReveal as="h3" text={t("mat.headline")} perWord={80}/>
-          </Reveal>
-          <Reveal delay={150}>
-            <p>{t("mat.body")}</p>
-          </Reveal>
-          <Reveal className="closeups" delay={300}>
-            <div className="c">
-              <img src={M("media/moroccan-bone-inlay-bed-set-01.webp")} alt=""/>
-              <div className="n">i — Bone</div>
-              <div className="t"><em>cut against the grain</em></div>
-            </div>
-            <div className="c">
-              <img src={M("media/moroccan-mother-of-pearl-side-table-01.webp")} alt=""/>
-              <div className="n">ii — Nacre</div>
-              <div className="t"><em>mother-of-pearl</em></div>
-            </div>
-          </Reveal>
-          <Reveal className="foot" delay={400}>
-            <span>{t("mat.foot.who")}</span>
-            <span><b>{t("mat.foot.daysNum")}</b> · {t("mat.foot.daysSuf")}</span>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ============ EDITIONS STRIP ============
-function Editions() {
-  const t = useT();
-  const tiles = [
-    { lot:"Nº 042", name:"Tahar",     italic:"Octagonal",     remaining:12, total:24, tone:"bone",    img:"media/moroccan-octagonal-coffee-table-01.webp" },
-    { lot:"Nº 038", name:"Ghita",     italic:"Throne",        remaining:8,  total:12, tone:"brass",   img:"media/moroccan-throne-chair-01.webp" },
-    { lot:"Nº 051", name:"Hannan",    italic:"Coffer",        remaining:6,  total:12, tone:"lacquer", img:"media/moroccan-painted-chest-01.webp" },
-  ];
-  return (
-    <section className="editions" id="editions" data-screen-label="04 Editions">
-      <div className="inner">
-        <div className="head">
-          <Reveal>
-            <div className="eyebrow">{t("ed.eyebrow")}</div>
-            <WordReveal as="h3" text={t("ed.headline")} perWord={90}/>
+            <div className="eyebrow" style={{marginBottom:16}}>Featured objects</div>
+            <h2>From the <em>catalogue.</em></h2>
           </Reveal>
           <Reveal delay={200}>
-            <p>{t("ed.body")}</p>
+            <a className="link-u" href="/collection">View the full collection →</a>
           </Reveal>
         </div>
-        <div className="grid">
-          {tiles.map((tile, i) => (
-            <Reveal className="tile" key={tile.lot} delay={i * 100}>
-              <img src={M(tile.img)} alt={tile.name} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",filter:"brightness(.78) contrast(1.12) saturate(1.05)",transform:"scale(1.03)",animation:"kenburns 30s var(--ease-in-out) infinite alternate"}}/>
-              <div className="lot">{tile.lot}</div>
-              <div className="name">{tile.name} <em>— {tile.italic}</em></div>
-              <div className="big-no">{String(tile.remaining).padStart(2,"0")}</div>
-              <div className="remain"><b>{tile.remaining}</b> {t("ed.of")} {tile.total}<br/>{t("ed.remain")}</div>
+        <div className="grid-dense">
+          {products.slice(0, 4).map((p, i) => (
+            <Reveal className="card" key={p.id} delay={i * 80}>
+              <a href={`/product?p=${p.slug}`} style={{display:"block",color:"inherit"}}>
+                <div className="media">
+                  <img className="primary" src={SB.productImageUrl(p.images?.[0])} alt={p.title} loading="lazy"/>
+                  {p.images?.[1] && (
+                    <img className="alt" src={SB.productImageUrl(p.images[1])} alt="" loading="lazy"/>
+                  )}
+                  <button className="quickadd" onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    Cart.add(p);
+                  }}>Add to cart</button>
+                </div>
+                <div className="meta">
+                  <div className="name">{p.title}</div>
+                  <div className="price">{SB.formatPrice(p.price)}</div>
+                </div>
+              </a>
             </Reveal>
           ))}
         </div>
@@ -322,57 +285,96 @@ function Editions() {
   );
 }
 
-// ============ PROVENANCE ============
-function Provenance() {
-  const t = useT();
+// ============ LIFESTYLE GALLERY ============
+function LifestyleGallery() {
   return (
-    <section className="provenance" id="provenance" data-screen-label="05 Provenance">
+    <section className="lifestyle">
       <div className="inner">
-        <Reveal className="v" speed="reveal-slow">
-          <video autoPlay muted loop playsInline>
-            <source src={M("media/ryad-entrance.mp4")} type="video/mp4"/>
-          </video>
-          <div className="lbl"><span className="rec"/>{t("prov.live")}</div>
+        <Reveal className="head">
+          <div className="eyebrow" style={{marginBottom:16}}>In the home</div>
+          <h2>Objects in <em>context.</em></h2>
         </Reveal>
-        <div className="t">
-          <Reveal>
-            <div className="eyebrow">{t("prov.eyebrow")}</div>
-            <WordReveal as="h3" text={t("prov.headline")} perWord={100}/>
+        <div className="mosaic">
+          <Reveal className="tile wide">
+            <img src="/media/products/moroccan-living-room-01.webp" alt="Moroccan living room" loading="lazy"/>
+            <div className="cap">Living room — Marrakech</div>
           </Reveal>
-          <Reveal delay={150}>
-            <p>{t("prov.body")}</p>
+          <Reveal className="tile sq" delay={100}>
+            <img src="/media/products/kilim-pouf-lifestyle-01.webp" alt="Kilim pouf in interior" loading="lazy"/>
+            <div className="cap">Kilim pouf</div>
           </Reveal>
-          <Reveal className="certs" delay={300}>
-            <div className="cert">
-              <img className="bg" src={M("media/moroccan-living-room-01.webp")} alt=""/>
-              <div className="k">{t("prov.cert.estK")}</div>
-              <div className="v">{t("prov.cert.estV")}</div>
-            </div>
-            <div className="cert">
-              <img className="bg" src={M("media/moroccan-hammam-fountain-01.webp")} alt=""/>
-              <div className="k">{t("prov.cert.craftK")}</div>
-              <div className="v">{t("prov.cert.craftV")}</div>
-            </div>
-            <div className="cert">
-              <img className="bg" src={M("media/moroccan-octagonal-coffee-table-03.webp")} alt=""/>
-              <div className="k">{t("prov.cert.relK")}</div>
-              <div className="v">{t("prov.cert.relV")}</div>
-            </div>
+          <Reveal className="tile sq" delay={150}>
+            <img src="/media/products/moroccan-bone-inlay-bed-set-01.webp" alt="Bone inlay bed set" loading="lazy"/>
+            <div className="cap">Bone inlay</div>
+          </Reveal>
+          <Reveal className="tile sq" delay={200}>
+            <img src="/media/products/leather-pouf-brown-lifestyle-01.webp" alt="Leather pouf styling" loading="lazy"/>
+            <div className="cap">Leather pouf</div>
+          </Reveal>
+          <Reveal className="tile wide" delay={250}>
+            <img src="/media/products/moroccan-living-room-02.webp" alt="Moroccan salon" loading="lazy"/>
+            <div className="cap">The salon — Derb el Ferran</div>
           </Reveal>
         </div>
       </div>
+    </section>
+  );
+}
+
+// ============ BRAND STORY ============
+function BrandStory() {
+  return (
+    <section className="brand-story">
+      <div className="inner">
+        <Reveal className="copy">
+          <div className="eyebrow" style={{marginBottom:24}}>The house</div>
+          <h2>A house since <em>1974.</em></h2>
+          <p>
+            Perle de l'Atlas is the catalogue of Atelier no 7 — craftsmen off a narrow street in the old medina of Marrakech. Cedar from Azrou. Bone from Souk el Khemis. Hides from Tannery Chouara.
+          </p>
+          <p>
+            Nothing arrives that we have not touched first; nothing leaves that has not been signed.
+          </p>
+          <a className="btn ghost" href="/about" style={{marginTop:12}}>About the atelier <span className="arrow"/></a>
+        </Reveal>
+        <Reveal delay={200} style={{position:"relative",aspectRatio:"4/5",overflow:"hidden",background:"var(--espresso)",border:"1px solid var(--line)"}}>
+          <img src="/media/hero/hero-warm-salon.webp" alt="The atelier" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",filter:"brightness(.85) contrast(1.05) saturate(1.05)"}}/>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ============ PROVENANCE RAIL ============
+function ProvenanceRail() {
+  const cells = [
+    { label:"Provenance", text:"Derb el Ferran, Marrakech medina.", img:"/media/products/moroccan-throne-chair-01.webp" },
+    { label:"Circulation", text:"Numbered editions of 12 or 24.", img:"/media/products/moroccan-mother-of-pearl-side-table-01.webp" },
+    { label:"Lead time", text:"Nine days at the bench, one pair of hands.", img:"/media/products/moroccan-octagonal-coffee-table-01.webp" },
+    { label:"Delivery", text:"Worldwide, in cotton & cedar.", img:"/media/products/moroccan-hammam-fountain-01.webp" },
+  ];
+  return (
+    <section className="prov-rail">
+      <Reveal className="row">
+        {cells.map((c, i) => (
+          <div className="cell" key={i}>
+            <img className="bg" src={c.img} alt="" loading="lazy"/>
+            <h6>— {c.label}</h6>
+            <p>{c.text}</p>
+          </div>
+        ))}
+      </Reveal>
     </section>
   );
 }
 
 // ============ SERVICES ============
 function Services() {
-  const t = useT();
   const rows = [
-    { ic:"i",   tk:"svc.1.t", sk:"svc.1.s" },
-    { ic:"ii",  tk:"svc.2.t", sk:"svc.2.s" },
-    { ic:"iii", tk:"svc.3.t", sk:"svc.3.s" },
-    { ic:"iv",  tk:"svc.4.t", sk:"svc.4.s" },
+    { ic:"i",   t:"Insured worldwide delivery", s:"Cotton & cedar crate" },
+    { ic:"ii",  t:"Certificate of edition", s:"Signed, dated, numbered" },
+    { ic:"iii", t:"Lifetime repair at bench", s:"By the hand that made it" },
+    { ic:"iv",  t:"30-day considered return", s:"No questions asked" },
   ];
   return (
     <section className="services">
@@ -380,34 +382,31 @@ function Services() {
         {rows.map((r, i) => (
           <div className="cell" key={i}>
             <div className="ic">{r.ic}</div>
-            <div className="t">{t(r.tk)}<small>{t(r.sk)}</small></div>
+            <div className="t">{r.t}<small>{r.s}</small></div>
           </div>
         ))}
       </div>
     </section>
   );
 }
-</script>
 
-<script type="text/babel" data-presets="react">
+// ============ APP ============
 function App() {
   return (
     <LangProvider>
-      <Nav />
-      <Hero />
-      <Ticker />
-      <Toolbar />
-      <Collection />
-      <Featured />
-      <Material />
-      <Editions />
-      <Provenance />
-      <Services />
-      <Footer />
+      <Nav/>
+      <Hero/>
+      <Ticker/>
+      <FeaturedProducts/>
+      <LifestyleGallery/>
+      <BrandStory/>
+      <ProvenanceRail/>
+      <Services/>
+      <Footer/>
     </LangProvider>
   );
 }
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
 </html>

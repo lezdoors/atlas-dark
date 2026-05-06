@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Order Confirmed — Perle de l'Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.success-page{padding:200px 48px 160px;background:var(--ink);text-align:center;min-height:70vh}
+.success-page .inner{max-width:640px;margin:0 auto}
+.success-page .check{width:64px;height:64px;border:2px solid var(--brass);border-radius:50%;display:grid;place-items:center;margin:0 auto 32px;color:var(--brass);font-size:28px}
+.success-page h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(40px,6vw,72px);line-height:.98;color:var(--bone);margin-bottom:20px}
+.success-page h1 em{font-style:italic;color:var(--brass)}
+.success-page p{font-family:var(--f-serif);font-style:italic;font-size:19px;color:var(--parchment);line-height:1.6;margin-bottom:12px}
+.success-page .order-id{font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);margin-bottom:40px;display:block}
+.success-page .actions{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center}
+@media(max-width:600px){.success-page{padding:140px 20px 100px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="/supabase-client.js"></script>
+<script src="/cart.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="react" src="/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  const [order, setOrder] = useState(null);
+
+  useEffect(() => {
+    // Clear cart on successful checkout
+    Cart.clear();
+
+    // Fetch order via get-order edge function
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    if (sessionId) {
+      SB.fetchOrderBySession(sessionId)
+        .then(data => { if (data) setOrder(data); })
+        .catch(() => {});
+    }
+  }, []);
+
+  return (
+    <LangProvider>
+      <Nav/>
+      <section className="success-page">
+        <div className="inner">
+          <Reveal>
+            <div className="check">&#10003;</div>
+            <h1>Thank <em>you.</em></h1>
+            <p>Your order has been placed. Each piece is made to order at the atelier in Marrakech and dispatched within 14 days.</p>
+            {order && (
+              <span className="order-id">Order {order.order_number}</span>
+            )}
+            <div className="actions">
+              <a className="btn solid" href="/collection">Continue shopping <span className="arrow"/></a>
+              <a className="btn ghost" href="/">Return home</a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+      <Footer/>
+    </LangProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

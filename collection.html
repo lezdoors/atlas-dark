@@ -3,137 +3,131 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Collection — Atlas Perle</title>
+<title>Collection — Perle de l'Atlas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<style>
-.page-head{padding:160px 48px 60px;border-bottom:1px solid var(--line);background:var(--night)}
-.page-head .inner{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end}
-.page-head h1{font-family:var(--f-serif);font-weight:300;font-size:clamp(56px,9vw,140px);line-height:.92;letter-spacing:-.02em;color:var(--bone)}
-.page-head h1 em{font-style:italic;color:var(--brass)}
-.page-head .meta{font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--oyster);text-align:right;line-height:1.8}
-.page-head .meta b{color:var(--brass);font-weight:400}
-@media(max-width:900px){.page-head{padding:130px 20px 40px}.page-head .inner{grid-template-columns:1fr;gap:24px}.page-head .meta{text-align:left}}
-.cat-bar{position:sticky;top:62px;z-index:50;background:rgba(10,8,7,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 48px}
-.cat-bar .inner{max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.cat-bar .lbl{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-right:6px}
-.cat-bar button{font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--line);color:var(--oyster);transition:all .3s var(--ease)}
-.cat-bar button:hover{color:var(--brass);border-color:var(--line-brass)}
-.cat-bar button.on{background:var(--brass);color:var(--ink);border-color:var(--brass)}
-.cat-bar .count{margin-left:auto;font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
-@media(max-width:900px){.cat-bar{padding:12px 20px;top:54px}.cat-bar .count{width:100%;margin-left:0;margin-top:6px}}
-.cat-grid{padding:60px 48px 120px;background:var(--ink)}
-.cat-grid .inner{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px 24px}
-@media(max-width:1100px){.cat-grid .inner{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:780px){.cat-grid .inner{grid-template-columns:repeat(2,1fr)}.cat-grid{padding:40px 20px 80px}}
-@media(max-width:420px){.cat-grid .inner{grid-template-columns:1fr}}
-.pcard{display:block;color:inherit;position:relative;transition:transform .4s var(--ease)}
-.pcard:hover{transform:translateY(-4px)}
-.pcard .media{position:relative;aspect-ratio:4/5;background:var(--espresso);border:1px solid var(--line);overflow:hidden;margin-bottom:14px}
-.pcard .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .5s var(--ease),transform .8s var(--ease)}
-.pcard .media .alt{opacity:0}
-.pcard:hover .media .alt{opacity:1}
-.pcard:hover .media img{transform:scale(1.04)}
-.pcard .media .cat{position:absolute;top:12px;left:12px;z-index:2;font-family:var(--f-mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);background:rgba(10,8,7,.6);padding:4px 8px;backdrop-filter:blur(4px)}
-.pcard .name{font-family:var(--f-serif);font-size:19px;font-weight:300;color:var(--bone);line-height:1.25}
-.pcard .name em{font-style:italic;color:var(--brass-hi)}
-.pcard .price{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;color:var(--oyster);margin-top:4px}
-.empty{padding:80px 0;text-align:center;font-family:var(--f-serif);font-style:italic;font-size:22px;color:var(--dim);grid-column:1/-1}
-</style>
 </head>
 <body>
 <div id="root"></div>
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script src="/products.js"></script>
+<script src="/supabase-client.js"></script>
+<script src="/cart.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 <script type="text/babel" data-presets="react" src="/shared.js"></script>
 
 <script type="text/babel" data-presets="react">
-function PageHead() {
-  const t = useT();
-  return (
-    <section className="page-head">
-      <div className="inner">
-        <Reveal speed="reveal-slow">
-          <div className="eyebrow" style={{marginBottom:18}}>II · {t("col.eyebrow").replace(/^II · /,"")}</div>
-          <WordReveal as="h1" text={t("col.headline")} perWord={90}/>
-        </Reveal>
-        <Reveal className="meta" delay={200}>
-          {t("col.meta")}<br/>
-          <b>{window.PRODUCTS.length}</b> objects · <b>5</b> disciplines
-        </Reveal>
-      </div>
-    </section>
-  );
-}
+const CATEGORIES = [
+  {id: "all", label: "All"},
+  {id: "Poufs", label: "Poufs"},
+  {id: "Tables", label: "Tables"},
+  {id: "Lighting", label: "Lighting"},
+  {id: "Furniture", label: "Furniture"},
+];
 
-function CatBar({active, setActive, total}) {
-  const t = useT();
-  const cats = [["all","tb.all"],["seating","tb.seat"],["light","tb.light"],["wood","feat.spec.matter"],["vessels","tb.vess"],["tableware","tb.text"]];
-  return (
-    <div className="cat-bar">
-      <div className="inner">
-        <span className="lbl">{t("tb.filter")}</span>
-        {cats.map(([id,key]) => (
-          <button key={id} className={active===id?"on":""} onClick={()=>setActive(id)}>
-            {id==="wood" ? "Wood" : t(key)}
-          </button>
-        ))}
-        <span className="count">{total} {t("tb.pieces")}</span>
-      </div>
-    </div>
-  );
-}
+const CAT_LABELS = {Poufs:"Poufs",Tables:"Tables",Lighting:"Lighting",Furniture:"Furniture"};
 
-function ProductCard({p}) {
-  const img1 = `/media/products/${p.images[0]}`;
-  const img2 = p.images[1] ? `/media/products/${p.images[1]}` : img1;
-  const catLabel = {seating:"Seating",light:"Light",wood:"Wood",vessels:"Vessels",tableware:"Tableware"}[p.category] || p.category;
+function ProductCard({product}) {
+  const img1 = SB.productImageUrl(product.images?.[0]);
+  const img2 = product.images?.[1] ? SB.productImageUrl(product.images[1]) : img1;
   return (
-    <a className="pcard" href={`/product?p=${p.slug}`}>
+    <a className="card" href={`/product?p=${product.slug}`}>
       <div className="media">
-        <img src={img1} alt={p.name} loading="lazy"/>
+        <img className="primary" src={img1} alt={product.title} loading="lazy"/>
         <img className="alt" src={img2} alt="" loading="lazy"/>
-        <div className="cat">{catLabel}</div>
+        <div className="lot">{CAT_LABELS[product.category] || product.category}</div>
+        <button className="quickadd" onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          Cart.add(product);
+        }}>Add to cart</button>
       </div>
-      <div className="name">{p.name}</div>
-      <div className="price">€ {p.price.toLocaleString()}</div>
+      <div className="meta">
+        <div className="name">{product.title}</div>
+        <div className="price">{SB.formatPrice(product.price)}</div>
+      </div>
     </a>
   );
 }
 
-function Catalogue() {
-  const [active, setActive] = useState("all");
-  const list = active === "all" ? window.PRODUCTS : window.PRODUCTS.filter(p => p.category === active);
-  return (
-    <>
-      <CatBar active={active} setActive={setActive} total={list.length}/>
-      <section className="cat-grid">
-        <div className="inner">
-          {list.length === 0 ? <div className="empty">No objects in this discipline yet.</div> :
-            list.map(p => <ProductCard key={p.slug} p={p}/>)
-          }
-        </div>
-      </section>
-    </>
-  );
-}
-
 function App() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [active, setActive] = useState("all");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get("cat");
+    if (cat && CATEGORIES.find(c => c.id === cat)) {
+      setActive(cat);
+    }
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    SB.fetchProducts(active === "all" ? null : active)
+      .then(data => { setProducts(data); setLoading(false); })
+      .catch(err => { console.error(err); setLoading(false); });
+  }, [active]);
+
   return (
     <LangProvider>
-      <Nav />
-      <PageHead />
-      <Catalogue />
-      <Footer />
+      <Nav/>
+
+      <section style={{padding:"140px 0 40px",background:"var(--night)",borderBottom:"1px solid var(--line)"}}>
+        <div style={{maxWidth:1440,margin:"0 auto",padding:"0 48px"}}>
+          <Reveal>
+            <div className="eyebrow" style={{marginBottom:24}}>The catalogue</div>
+          </Reveal>
+          <Reveal delay={100}>
+            <h1 style={{fontFamily:"var(--f-serif)",fontWeight:300,fontSize:"clamp(56px,9vw,120px)",lineHeight:.92,letterSpacing:"-.02em",color:"var(--bone)"}}>
+              The full <em style={{fontStyle:"italic",color:"var(--brass)"}}>collection.</em>
+            </h1>
+          </Reveal>
+        </div>
+      </section>
+
+      <div className="toolbar floating">
+        <div className="inner">
+          <span className="label">Filter —</span>
+          <div className="chips">
+            {CATEGORIES.map(cat => (
+              <button key={cat.id} className={`chip ${active===cat.id?"on":""}`}
+                onClick={() => setActive(cat.id)}>
+                {cat.label}
+              </button>
+            ))}
+          </div>
+          <span className="count">{loading ? "..." : `${products.length} pieces`}</span>
+        </div>
+      </div>
+
+      <section className="collection" style={{paddingTop:60}}>
+        <div className="inner">
+          {loading ? (
+            <div style={{textAlign:"center",padding:"80px 0",fontFamily:"var(--f-serif)",fontStyle:"italic",fontSize:22,color:"var(--dim)"}}>
+              Loading the catalogue...
+            </div>
+          ) : products.length === 0 ? (
+            <div style={{textAlign:"center",padding:"80px 0",fontFamily:"var(--f-serif)",fontStyle:"italic",fontSize:22,color:"var(--dim)"}}>
+              No pieces in this category yet.
+            </div>
+          ) : (
+            <div className="grid-dense">
+              {products.map(p => <ProductCard key={p.id} product={p}/>)}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <Footer/>
     </LangProvider>
   );
 }
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
 </html>

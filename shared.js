@@ -243,6 +243,22 @@ function LangSwitch(){
   );
 }
 Object.assign(window, { Reveal, WordReveal, M, useInView, I18N, LangCtx, LangProvider, useT, LangSwitch });
+// ============ CART BADGE ============
+function CartBadge() {
+  const [count, setCount] = useState(() => window.Cart ? window.Cart.count() : 0);
+  useEffect(() => {
+    const update = () => setCount(window.Cart ? window.Cart.count() : 0);
+    window.addEventListener("cart-updated", update);
+    window.addEventListener("storage", update);
+    return () => {
+      window.removeEventListener("cart-updated", update);
+      window.removeEventListener("storage", update);
+    };
+  }, []);
+  if (count === 0) return null;
+  return <span className="n">{count}</span>;
+}
+
 // ============ NAV ============
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -259,13 +275,7 @@ function Nav() {
   }, [open]);
   const links = [
     ["/collection", "nav.collection"],
-    ["/poufs",      "nav.poufs"],
-    ["/lights",     "nav.lights"],
-    ["/editions",   "nav.editions"],
-    ["/matter",     "nav.matter"],
-    ["/atelier",    "nav.atelier"],
-    ["/journal",    "nav.journal"],
-    ["/commissions","nav.commissions"],
+    ["/about",      "nav.atelier"],
   ];
   return (
     <>
@@ -279,9 +289,7 @@ function Nav() {
       </div>
       <div className="right">
         <LangSwitch/>
-        <a href="/search">{t("nav.search")}</a>
-        <a href="/account">{t("nav.account")}</a>
-        <a className="cart" href="/cart">{t("nav.cart")} <span className="n">2</span></a>
+        <a className="cart" href="/cart">{t("nav.cart")} <CartBadge/></a>
         <button className="nav-burger" aria-expanded={open} aria-label="Menu" onClick={()=>setOpen(o=>!o)}>
           <span/>
         </button>
@@ -299,8 +307,6 @@ function Nav() {
       <div className="right">
         <LangSwitch/>
         <div className="actions">
-          <a href="/search">{t("nav.search")}</a>
-          <a href="/account">{t("nav.account")}</a>
           <a href="/cart">{t("nav.cart")}</a>
         </div>
       </div>
@@ -332,22 +338,22 @@ function Footer() {
           <Reveal delay={100}>
             <h5>{t("ft.h.cat")}</h5>
             <div className="list">{cat.map((x,i)=>{
-              const links = ["/poufs","/lights","/collection","/collection","/commissions"];
+              const links = ["/collection","/collection","/collection","/collection","/collection"];
               return <a href={links[i] || "/collection"} key={i}>{x}</a>;
             })}</div>
           </Reveal>
           <Reveal delay={200}>
             <h5>{t("ft.h.atelier")}</h5>
             <div className="list">{at.map((x,i)=>{
-              const links = ["/atelier","/matter","/commissions","/atelier"];
-              return <a href={links[i] || "/atelier"} key={i}>{x}</a>;
+              const links = ["/about","/about","/about","/about"];
+              return <a href={links[i] || "/about"} key={i}>{x}</a>;
             })}</div>
           </Reveal>
           <Reveal delay={300}>
             <h5>{t("ft.h.house")}</h5>
             <div className="list">{ho.map((x,i)=>{
-              const links = ["/atelier","/journal","/atelier","mailto:atelier@atlasperle.ma"];
-              return <a href={links[i] || "/atelier"} key={i}>{x}</a>;
+              const links = ["/about","/about","/about","mailto:atelier@atlasperle.ma"];
+              return <a href={links[i] || "/about"} key={i}>{x}</a>;
             })}</div>
           </Reveal>
           <Reveal delay={400}>
@@ -364,4 +370,4 @@ function Footer() {
   );
 }
 
-Object.assign(window, { Nav, Footer });
+Object.assign(window, { Nav, Footer, CartBadge });
