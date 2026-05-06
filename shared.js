@@ -242,7 +242,7 @@ function LangSwitch(){
     </div>
   );
 }
-Object.assign(window, { Reveal, WordReveal, M, useInView, I18N, LangCtx, LangProvider, useT, LangSwitch });
+// Components and hooks exported to window at end of file
 // ============ CART BADGE ============
 function CartBadge() {
   const [count, setCount] = useState(() => window.Cart ? window.Cart.count() : 0);
@@ -370,4 +370,4 @@ function Footer() {
   );
 }
 
-Object.assign(window, { Nav, Footer, CartBadge });
+Object.assign(window, { Nav, Footer, CartBadge, useState, useEffect, useRef, useInView, Reveal, WordReveal, LangProvider, useT, LangSwitch, LangCtx, I18N, M });
