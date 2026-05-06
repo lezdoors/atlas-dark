@@ -114,10 +114,10 @@ function Info({product}) {
       </div>
       <div className="specs">
         {product.materials && (
-          <div className="row"><span className="k">Materials</span><span className="val">{product.materials}</span></div>
+          <div className="row"><span className="k">Materials</span><span className="val">{Array.isArray(product.materials) ? product.materials.join(", ") : product.materials}</span></div>
         )}
         {product.dimensions && (
-          <div className="row"><span className="k">Dimensions</span><span className="val">{product.dimensions}</span></div>
+          <div className="row"><span className="k">Dimensions</span><span className="val">{typeof product.dimensions === "object" ? Object.values(product.dimensions).join(" × ") : product.dimensions}</span></div>
         )}
         {product.craftsman_name && (
           <div className="row"><span className="k">Craftsman</span><span className="val">{product.craftsman_name}</span></div>
