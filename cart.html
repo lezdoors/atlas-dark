@@ -52,6 +52,7 @@
 <script type="text/babel" data-presets="react" src="/shared.js"></script>
 
 <script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef } = React;
 function CartItem({item, onUpdate, onRemove}) {
   return (
     <div className="cart-item">
